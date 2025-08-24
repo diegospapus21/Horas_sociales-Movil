@@ -1,0 +1,68 @@
+.status-card {
+    background-color: #6c757d;
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 100px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.status-message {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+}
+
+.btn-recargar {
+    background-color: #0d6efd;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.btn-recargar:hover {
+    background-color: #0b5ed7;
+    transform: translateY(-2px);
+}
+
+/* Mejoras para la versión actualizada */
+.status-card {
+    background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.status-message {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: 300;
+}
+
+.loading-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.btn-recargar {
+    background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+}
+
+.btn-recargar:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
+}

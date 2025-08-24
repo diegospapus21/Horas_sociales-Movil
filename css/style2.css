@@ -1,0 +1,674 @@
+.logo {
+    width: 80%;
+    height: 80%;
+    top: 0;
+    left: 0;
+}
+
+header {
+    background-color: black !important;
+}
+
+.navbar {
+    background-color: black !important;
+    padding: 0.5rem 1rem;
+}
+
+.navbar-brand {
+    padding: 0;
+}
+
+/* Offcanvas styles */
+.offcanvas {
+    background-color: rgb(238, 233, 233) !important;
+    color: white;
+}
+
+.nav-link, .offcanvas-title {
+    color: rgb(0, 0, 0) !important;
+}
+
+/* Card styles */
+.card {
+    width: 100%;
+    min-height: 250px;
+    background-color: #BDC2CF;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    border-radius: 4px;
+    
+}
+
+.card-Body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    border-radius: 4px;
+    
+}
+
+.card img {
+    max-width: 80px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.btn-primary {
+    margin-top: auto;
+    width: 100%;
+    max-width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 45px;
+}
+
+/* Navbar items alignment */
+.navbar-nav {
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Container spacing */
+.container {
+    padding: 20px;
+}
+
+.dashboard-title {
+    text-align: left;
+    margin-left: 4px;
+    margin-top: 20px;
+    margin-bottom: 60px;
+    font-size: 2rem;
+    color: #ffffff; 
+}  
+
+.dashboard-Title {
+    text-align: left;
+    margin-left: 4px;
+    margin-top: 20px;
+    margin-bottom: 60px;
+    font-size: 2rem;
+    color: #000000; 
+} 
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+} 
+
+.bodys {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url("../img/Captura de pantalla 2025-06-12 120018.png") no-repeat center center fixed;
+    background-size: cover;
+    background-color: #CDD4E8; /* Color de respaldo */
+} 
+
+
+.wrapper {
+    width: 420px;
+    background: #CDD4E8;
+    color: #000000;
+    border-radius: 30px;
+    padding: 30px 40px;
+} 
+
+.wrapper h1{
+    font-size: 36px;
+    text-align: center;
+}
+
+.wrapper .input-box{
+    position: relative;
+    width: 100%;
+    height: 50px;
+    background: #fafafa;
+    margin: 30px 0;
+    border-radius: 24px;
+} 
+
+.input-box input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 40px;
+    font-size: 16px;
+    color: #000000;
+    padding: 20px 45px 20px 20px;
+}
+
+.input-box input::placeholder{
+    color: #000000;
+}
+
+.input-box i{
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translate(-50%);
+    font-size: 20px;
+}
+
+.wrapper .remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14.5px;
+    margin: -15px 0 15px;
+}
+
+.remember-forgot label input{
+    accent-color: #ddd;
+    margin-right: 3px;
+}
+
+.remember-forgot a{
+    color: #000000;
+    text-decoration: none;
+}
+
+.remember-forgot a:hover{
+    text-decoration: underline;
+}
+
+.wrapper .btn {
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.wrapper .register-link {
+    font-size: 14.4px;
+    text-align: center;
+    margin: 20px 0 15px;
+}
+
+.register-link p a {
+    color: #000000;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-link p a:hover {
+    text-decoration: underline;
+}
+
+body.dashboard-coordinador {
+    background-color: #9b9696 !important; /* Gris oscuro */
+    min-height: 100vh;
+}
+
+.dashboard-coordinador .card {
+    background-color: white !important;
+    border: none;
+}
+
+.dashboard-coordinador .card img {
+    max-width: 100px !important; /* Imágenes más grandes */
+    height: auto;
+    margin: 0 auto;
+}
+
+.dashboard-coordinador .btn-primary {
+    background-color: #ffffff !important; /* Gris claro */
+    border: 3px solid hsl(236, 75%, 70%) !important; /* Naranja fuerte */
+    color: #333 !important;
+    font-weight: bold;
+}
+
+.dashboard-coordinador .btn-primary:hover {
+    background-color: #d0d0d0 !important;
+}
+
+/* Estilos para Dashboard de Estudiantes */
+body.dashboard-estudiante {
+    background-color: #f5f5f5 !important; /* Gris claro */
+    min-height: 100vh;
+}
+
+.dashboard-estudiante .btn-primary {
+    background-color: #f5f5f5 !important; /* Mismo color que el fondo */
+    border: 2px solid #1976d2 !important; /* Azul */
+    color: #333 !important;
+    font-weight: bold;
+}
+
+.dashboard-estudiante .btn-primary:hover {
+    background-color: #e0e0e0 !important;
+} 
+
+/* Estilos para el gráfico semicircular */
+/* Semicírculo más grande y grueso */
+.progress-pie {
+    width: 180px; /* Aumentado de 140px */
+    height: 90px; /* Aumentado de 70px */
+    margin: 0 auto 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-pie-fill {
+    width: 100%;
+    height: 200%;
+    border-radius: 50%;
+    border: 18px solid #f0f0f0; /* Aumentado de 12px */
+    position: absolute;
+    top: 0;
+    left: 0;
+    clip: rect(0, 180px, 180px, 0); /* Ajustado al nuevo tamaño */
+}
+
+/* Color para el texto "Porcentaje" */
+.percentage-text {
+    color: #b4c7e0 !important; /* Mismo color que el porcentaje */
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+/* Asegurar que las dos tarjetas derechas tengan la misma altura */
+.col-md-8 .row {
+    height: 100%;
+}
+
+.col-md-8 .col-md-6 {
+    display: flex;
+    flex-direction: column;
+} 
+
+.actividad-card {
+  max-width: 350px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+}
+
+.actividad-card .card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.actividad-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.actividad-detalle p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.actividad-hora .badge {
+  font-size: 0.9rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 20px;
+}
+
+/* Estilos para el ícono de perfil */
+.profile-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    overflow: hidden;
+    margin-left: 5px;
+    transition: all 0.3s ease;
+}
+
+.profile-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Ajustar alineación de elementos del navbar */
+.navbar-nav {
+    align-items: center;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+} 
+
+/* Semicírculo más grande y grueso */
+.progress-pie {
+    width: 180px;
+    height: 90px;
+    margin-bottom: 0.8rem !important;
+}
+
+.progress-pie-fill {
+    width: 100%;
+    height: 200%;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    clip: rect(0, 180px, 180px, 0);
+}
+
+.progress-pie-fill.progress-fill-completed {
+    border: 20px solid #4fc3f7 !important; /* Más grueso y color celeste */
+    border-bottom-color: transparent !important;
+    border-left-color: transparent !important;
+    transform: rotate(2126deg); /* Ajusta según el porcentaje (60% de 180° = 108°) */
+}
+
+/* Eliminar el semicírculo base */
+.progress-pie-fill:not(.progress-fill-completed) {
+    display: none;
+}
+
+/* Ajustes de texto */
+.percentage-text {
+    color: #000000 !important;
+    font-size: 2rem !important;
+    font-weight: bold;
+}
+
+.percentage-label {
+    color: #020202 !important;
+    font-size: 1.2rem !important;
+}
+
+/* Ajuste de espaciado */
+.card-Body {
+    padding: 1.5rem !important;
+} 
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px 8px 16px; /* Más padding a la derecha */
+  border: 2px solid #1976d2;
+  background-color: #f5f5f5;
+  color: #333;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn-primarys {
+  position: relative;
+  padding-right: 50px !important; /* Espacio para el círculo */
+  transition: all 0.3s ease;
+  border-radius: 45px;
+}
+
+/* Círculo morado */
+.btn-primary span {
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover span {
+  background-color: #673ab7 !important; /* Morado más oscuro al hacer hover */
+}
+
+.aviso-card {
+ border-radius: 15px;
+ border: none;
+ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ padding: 25px;
+ text-align: center;
+ background-color: white;
+ max-width: 350px;
+ margin: 0 auto;
+}
+
+.aviso-title {
+ font-weight: bold;
+ margin-bottom: 20px;
+ font-size: 1.25rem;
+ color: #333;
+}
+       
+.aviso-text {
+ margin-bottom: 25px;
+ line-height: 1.6;
+ color: #555;
+ font-size: 1rem;
+}
+
+.aviso-hora {
+ background-color: #f8f9fa;
+ color: #000;
+ padding: 8px 25px;
+ border-radius: 20px;
+ font-weight: bold;
+ display: inline-block;
+ border: 1px solid #dee2e6;
+ font-size: 1rem;
+}
+
+/* Ajustes para la tarjeta compacta */
+.compact-card {
+    width: 100%;
+    min-height: auto;
+    background-color: #BDC2CF;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+/* Asegurar que todas las tarjetas tengan el mismo ancho */
+.col-md-6 {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 540px; /* Mismo ancho que las otras tarjetas */
+}
+
+/* Ajustes para el contenido interno */
+.inner-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-top: 10px;
+}
+
+.event-text {
+    flex-grow: 1;
+}
+
+.time-text {
+    white-space: nowrap;
+}
+.divider-line {
+ border-left: 1px solid #e0e0e0;
+ height: 40px;
+ margin: 0 12px;
+}
+
+
+.event-text h6 {
+ font-size: 0.95rem;
+ margin-bottom: 2px;
+ font-weight: 600;
+}
+
+.event-text p {
+ font-size: 0.85rem;
+ margin-bottom: 0;
+ color: #6c757d;
+} 
+
+.cardd-Bodyd {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    border-radius: 4px;
+    
+} 
+
+.cards {
+    width: 100%;
+    min-height: 150px;
+    background-color: #BDC2CF;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+@media (max-width: 991.98px) { /* Aplica estos estilos solo en pantallas de hasta 991.98px de ancho (típicamente tabletas y móviles) */
+    .offcanvas {
+        max-width: 80%; /* Establece el ancho máximo del menú al 80% del ancho de la pantalla. Puedes ajustarlo a, por ejemplo, 320px si quieres un ancho fijo. */
+        width: 100%; /* Asegura que ocupe el 100% del espacio disponible hasta el max-width */
+        /* Las siguientes dos líneas son importantes para asegurar que el menú se alinee a la derecha y no ocupe todo el ancho */
+        left: unset; /* Deshace cualquier posicionamiento 'left' por defecto de Bootstrap */
+        right: 0; /* Asegura que el menú se desplace desde el lado derecho de la pantalla */
+    }
+}
+
+/*
+NAVBAR
+*/
+/* Estilos para el Offcanvas (Menú desplegable móvil) */
+.offcanvas-body .nav-link-custom {
+    display: flex; /* Para alinear icono y texto */
+    align-items: center; /* Centrar verticalmente */
+    justify-content: flex-start; /* Alinear a la izquierda */
+    width: 100%; /* Ocupar todo el ancho disponible */
+    padding: 10px 15px; /* Más padding para una mejor área de clic */
+    margin-bottom: 5px; /* Espacio entre botones */
+    border: none; /* Quitar bordes si los hay por defecto de .btn */
+    border-radius: 8px; /* Bordes redondeados */
+    background-color: transparent; /* Fondo transparente por defecto */
+    color: #212529; /* Color de texto predeterminado */
+    text-align: left; /* Asegurar que el texto se alinee a la izquierda */
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.offcanvas-body .nav-link-custom:hover,
+.offcanvas-body .nav-link-custom:focus {
+    background-color: #e9ecef; /* Color de fondo al pasar el ratón/enfocar */
+    color: #0056b3; /* Un color de texto que contraste */
+    text-decoration: none; /* Eliminar subrayado si aplica */
+}
+
+.offcanvas-body .nav-link-custom svg {
+    width: 24px; /* Iconos más pequeños */
+    height: 24px;
+    margin-right: 10px; /* Espacio entre icono y texto */
+    color: #6c757d; /* Color por defecto para los iconos */
+}
+
+.offcanvas-body .nav-link-custom:hover svg,
+.offcanvas-body .nav-link-custom:focus svg {
+    color: #007bff; /* Cambia el color del icono al pasar el ratón/enfocar */
+}
+
+
+.offcanvas-body .nav-link-custom h4 {
+    font-size: 1rem; /* Texto más pequeño */
+    margin-bottom: 0; /* Eliminar margen inferior por defecto de h4 */
+    flex-grow: 1; /* Permite que el h4 ocupe el espacio restante */
+    color: inherit; /* Hereda el color del botón padre */
+}
+
+/* Ajuste para el logo si fuera necesario en móviles */
+@media (max-width: 991.98px) {
+    .navbar-brand img {
+        max-width: 150px; /* Tamaño del logo más pequeño en móviles */
+        height: auto;
+    }
+    .navbar-toggler {
+        /* Asegurar que el toggler tenga un buen tamaño en móviles */
+        padding: .25rem .75rem;
+        font-size: 1.25rem;
+        line-height: 1;
+        background-color: transparent;
+        border: 1px solid rgba(255,255,255,.1); /* Un borde sutil si lo quieres */
+        border-radius: .25rem;
+    }
+}
+
+/* Estilo para el icono de usuario si el color original es blanco */
+.nav-link svg[class*="lucide-user"] {
+    color: #ffffff; /* Asegura que el icono de usuario sea blanco */
+}
+
+/*
+calendario
+*/
+
+.calendar {
+  max-width: 100%;
+}
+
+.calendar-grid,
+.calendar-days {
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.calendar-days div {
+  padding: 15px 0;
+  background-color: #f0f4ff;
+  border-radius: 10px;
+  min-height: 60px;
+  position: relative;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.calendar-days div.event-day {
+  background-color: #d1e7dd;
+  font-weight: bold;
+  color: #0f5132;
+}
+
+.calendar-days div small {
+  font-size: 11px;
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  right: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
