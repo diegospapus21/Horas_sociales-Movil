@@ -1,4 +1,4 @@
-import { authService, chatService, usuariosService } from './services.js';
+import { authService, chatService, usuariosService } from '../service/services.js';
 import { setupProtectedPage } from './authMiddleware.js';
 
 let user = null;

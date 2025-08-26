@@ -1,5 +1,5 @@
 // dashboardCController.js - Dashboard Coordinador
-import { authService, proyectosService, estudiantesService, eventosService } from './services.js';
+import { authService, proyectosService, estudiantesService, eventosService } from '../service/services.js';
 import { setupProtectedPage } from './authMiddleware.js';
 
 let user = null;

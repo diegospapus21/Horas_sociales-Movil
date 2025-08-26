@@ -1,5 +1,5 @@
-import { authService, eventosService } from './services.js';
-import { setupProtectedPage } from './authMiddleware.js';
+import { authService, eventosService } from '../service/services.js';
+import { setupProtectedPage } from '../authMiddleware.js';
 
 let user = null;
 
@@ -23,14 +23,7 @@ function setupEventListeners() {
 
 async function loadActividades() {
     try {
-        let eventos = [];
-        
-        if (user.proyectoId) {
-            eventos = await eventosService.obtenerEventosPorProyecto(user.proyectoId);
-        } else {
-            eventos = await eventosService.obtenerEventos();
-        }
-        
+        const eventos = await eventosService.obtenerEventos();
         displayActividades(eventos);
     } catch (error) {
         console.error('Error loading activities:', error);
@@ -51,27 +44,16 @@ function displayActividades(eventos) {
         return;
     }
     
-    // Filtrar y ordenar eventos futuros
-    const ahora = new Date();
-    const eventosFuturos = eventos
-        .filter(evento => new Date(evento.fecha_hora_actividad) > ahora)
-        .sort((a, b) => new Date(a.fecha_hora_actividad) - new Date(b.fecha_hora_actividad));
+    // Ordenar eventos por fecha
+    eventos.sort((a, b) => new Date(a.fecha_hora_actividad) - new Date(b.fecha_hora_actividad));
     
-    if (eventosFuturos.length === 0) {
-        container.innerHTML = `
-            <div class="text-center py-5 text-muted">
-                <i class="bi bi-calendar-check" style="font-size: 3rem;"></i>
-                <p class="mt-3">No hay actividades próximas</p>
-            </div>
-        `;
-        return;
-    }
-    
-    container.innerHTML = eventosFuturos.map(evento => {
+    container.innerHTML = eventos.map(evento => {
         const fechaEvento = new Date(evento.fecha_hora_actividad);
+        const ahora = new Date();
+        const esPasado = fechaEvento < ahora;
         
         return `
-            <div class="actividad-card">
+            <div class="actividad-card ${esPasado ? 'bg-light' : ''}">
                 <div class="actividad-header" onclick="toggleActividad(this)">
                     <div class="flex-grow-1">
                         <h6 class="actividad-title">${evento.nombre_evento || 'Evento'}</h6>
@@ -85,7 +67,9 @@ function displayActividades(eventos) {
                             <i class="bi bi-geo-alt me-1"></i>${evento.lugar || 'Por definir'}
                         </small>
                     </div>
-                    <i class="bi bi-chevron-down"></i>
+                    <button class="btn btn-sm btn-outline-danger" onclick="eliminarEvento('${evento.id}', event)">
+                        <i class="bi bi-trash"></i>
+                    </button>
                 </div>
                 <div class="actividad-contenido">
                     <div class="actividad-descripcion">
@@ -95,8 +79,8 @@ function displayActividades(eventos) {
                                 <i class="bi bi-clock me-1"></i>
                                 Duración: ${evento.horas_ganadas || 0} horas
                             </small>
-                            <span class="badge bg-primary">
-                                <i class="bi bi-award me-1"></i>+${evento.horas_ganadas || 0}h
+                            <span class="badge ${esPasado ? 'bg-secondary' : 'bg-success'}">
+                                ${esPasado ? 'Completado' : 'Pendiente'}
                             </span>
                         </div>
                     </div>
@@ -111,6 +95,21 @@ window.toggleActividad = function(element) {
     card.classList.toggle('abierta');
 };
 
+window.eliminarEvento = async function(eventoId, event) {
+    event.stopPropagation();
+    
+    if (!confirm('¿Estás seguro de que quieres eliminar este evento?')) return;
+    
+    try {
+        await eventosService.eliminarEvento(eventoId);
+        showNotification('Evento eliminado correctamente', 'success');
+        await loadActividades();
+    } catch (error) {
+        console.error('Error deleting event:', error);
+        showNotification('Error al eliminar evento', 'error');
+    }
+};
+
 function showError(message) {
     const container = document.getElementById('actividades-container');
     container.innerHTML = `
@@ -122,6 +121,11 @@ function showError(message) {
             </button>
         </div>
     `;
+}
+
+function showNotification(message, type) {
+    // Implementar sistema de notificaciones
+    alert(message);
 }
 
 // Inicializar cuando el DOM esté listo

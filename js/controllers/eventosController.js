@@ -1,4 +1,4 @@
-import { authService, eventosService, proyectosService } from './services.js';
+import { authService, eventosService, proyectosService } from '../service/services.js';
 import { setupProtectedPage } from './authMiddleware.js';
 
 let user = null;

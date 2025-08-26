@@ -1,5 +1,5 @@
 // dashboardController.js - Controlador del Dashboard
-import { authService, horasService, eventosService, calendarioService } from './services.js';
+import { authService, horasService, eventosService, calendarioService } from '../service/services.js';
 
 // Elementos DOM
 let user = null;

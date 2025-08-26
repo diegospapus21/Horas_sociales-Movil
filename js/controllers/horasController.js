@@ -1,4 +1,4 @@
-import { authService, horasService, calendarioService } from './services.js';
+import { authService, horasService, calendarioService } from '../service/services.js';
 import { setupProtectedPage } from './authMiddleware.js';
 
 let user = null;

@@ -67,7 +67,115 @@
   <div id="siguienteActividad" class="alert alert-info text-center mt-4 d-none"></div>
 </main>
 
+<!-- Modal para ver/editar eventos -->
+<div class="modal fade" id="eventModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Eventos del Día</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Los eventos se cargarán aquí -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para agregar evento -->
+<div class="modal fade" id="addEventModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Agregar Nuevo Evento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="eventForm">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre del Evento *</label>
+                        <input type="text" class="form-control" name="eventName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-control" name="eventDescription" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Fecha *</label>
+                        <input type="date" class="form-control" name="eventDate" id="eventDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Hora</label>
+                        <input type="time" class="form-control" name="eventTime">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Lugar</label>
+                        <input type="text" class="form-control" name="eventLocation">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tipo de Evento</label>
+                        <select class="form-select" name="eventType">
+                            <option value="general">General</option>
+                            <option value="actividad">Actividad</option>
+                            <option value="reunion">Reunión</option>
+                            <option value="evento-especial">Evento Especial</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar Evento</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para editar evento -->
+<div class="modal fade" id="editEventModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Evento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editEventForm" onsubmit="handleEditEvent(event)">
+                    <input type="hidden" name="eventId" id="editEventId">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre del Evento *</label>
+                        <input type="text" class="form-control" name="eventName" id="editEventName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-control" name="eventDescription" id="editEventDescription" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Fecha *</label>
+                        <input type="date" class="form-control" name="eventDate" id="editEventDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Hora</label>
+                        <input type="time" class="form-control" name="eventTime" id="editEventTime">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Lugar</label>
+                        <input type="text" class="form-control" name="eventLocation" id="editEventLocation">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tipo de Evento</label>
+                        <select class="form-select" name="eventType" id="editEventType">
+                            <option value="general">General</option>
+                            <option value="actividad">Actividad</option>
+                            <option value="reunion">Reunión</option>
+                            <option value="evento-especial">Evento Especial</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Actualizar Evento</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
-   <script type="module" src="js/calendarioController.js"></script>
+   <script type="module" src="js/controllers/calendarioController.js"></script>
 </body>
 </html>
