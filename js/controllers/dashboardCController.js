@@ -1,113 +1,146 @@
-// dashboardCController.js - Dashboard Coordinador
-import { authService, proyectosService, estudiantesService, eventosService } from '../service/services.js';
-import { setupProtectedPage } from './authMiddleware.js';
+// js/dashboardCController.js
+import { traerEstudiantes } from '../services/EstudiantesService.js';
+import { obtenerEventos } from '../services/EventosService.js';
+import { traerProyectosActivos } from '../services/ProyectosService.js';
+import { getAllPendient } from '../services/SolicitudService.js';
+import { buscarHoras } from '../services/HorasSocialesService.js';
 
-let user = null;
+document.addEventListener('DOMContentLoaded', function() {
+    // Elementos del DOM
+    const totalEstudiantesElement = document.getElementById('total-estudiantes');
+    const totalEventosElement = document.getElementById('total-eventos');
+    const solicitudesPendientesElement = document.getElementById('solicitudes-pendientes');
+    const horasTotalesElement = document.getElementById('horas-totales');
+    const proyectosContainer = document.getElementById('proyectos-container');
+    const welcomeMessage = document.getElementById('welcome-message');
+    const userNameElement = document.getElementById('user-name');
+    const userRoleElement = document.getElementById('user-role');
 
-export async function initializeDashboard() {
-    user = setupProtectedPage();
-    if (!user) return;
-    
-    setupEventListeners();
-    await loadDashboardData();
-}
-
-function setupEventListeners() {
-    const logoutBtn = document.getElementById('logout-btn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            authService.logout();
-        });
-    }
-}
-
-async function loadDashboardData() {
-    try {
-        await Promise.all([
-            loadProyectos(),
-            loadEstadisticas()
-        ]);
-    } catch (error) {
-        console.error('Error loading dashboard data:', error);
-        showError('Error al cargar el dashboard');
-    }
-}
-
-async function loadProyectos() {
-    try {
-        const proyectos = await proyectosService.obtenerProyectosActivos();
-        displayProyectos(proyectos);
-    } catch (error) {
-        console.error('Error loading projects:', error);
-        document.getElementById('proyectos-container').innerHTML = `
-            <div class="text-center text-danger py-4">
-                <i class="bi bi-exclamation-triangle"></i>
-                <p>Error al cargar proyectos</p>
-            </div>
-        `;
-    }
-}
-
-function displayProyectos(proyectos) {
-    const container = document.getElementById('proyectos-container');
-    
-    if (!proyectos || proyectos.length === 0) {
-        container.innerHTML = `
-            <div class="text-center text-muted py-4">
-                <i class="bi bi-inbox"></i>
-                <p>No hay proyectos activos</p>
-            </div>
-        `;
+    // Verificar autenticación
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    if (!userData || !userData.tipo || (userData.tipo !== 'COORDINADOR' && userData.tipo !== 'ADMINISTRADOR')) {
+        window.location.href = 'index2.html';
         return;
     }
-    
-    container.innerHTML = proyectos.map(proyecto => `
-        <div class="card mb-3">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <h5 class="card-title">${proyecto.nombre_Proyecto}</h5>
-                        <p class="card-text">${proyecto.concepto_Proyecto}</p>
-                        <div class="d-flex gap-3 text-muted small">
-                            <span><i class="bi bi-people"></i> ${proyecto.cupos_Proyectos} cupos</span>
-                            <span><i class="bi ${proyecto.vigencia_Proyecto ? 'bi-check-circle text-success' : 'bi-x-circle text-danger'}"></i> 
-                                ${proyecto.vigencia_Proyecto ? 'Activo' : 'Inactivo'}
-                            </span>
+
+    // Cargar datos del dashboard
+    async function cargarDashboard() {
+        try {
+            userNameElement.textContent = userData.nombre || 'Usuario';
+            userRoleElement.textContent = userData.tipo === 'ADMINISTRADOR' ? 'Administrador' : 'Coordinador';
+            welcomeMessage.textContent = `Panel de Control - ${userData.nombre || 'Usuario'}`;
+
+            // Cargar estadísticas
+            await cargarEstadisticas();
+            
+            // Cargar proyectos activos
+            await cargarProyectosActivos();
+        } catch (error) {
+            console.error('Error al cargar el dashboard:', error);
+        }
+    }
+
+    // Cargar estadísticas
+    async function cargarEstadisticas() {
+        try {
+            // Obtener total de estudiantes
+            const estudiantesResponse = await traerEstudiantes(0, 1);
+            totalEstudiantesElement.textContent = estudiantesResponse.totalElements || 0;
+
+            // Obtener total de eventos
+            const eventosResponse = await obtenerEventos(0, 1);
+            totalEventosElement.textContent = eventosResponse.totalElements || 0;
+
+            // Obtener solicitudes pendientes
+            const solicitudesResponse = await getAllPendient(0, 1);
+            solicitudesPendientesElement.textContent = solicitudesResponse.totalElements || 0;
+
+            // Calcular horas totales
+            horasTotalesElement.textContent = await calcularHorasTotales();
+        } catch (error) {
+            console.error('Error al cargar estadísticas:', error);
+            totalEstudiantesElement.textContent = '0';
+            totalEventosElement.textContent = '0';
+            solicitudesPendientesElement.textContent = '0';
+            horasTotalesElement.textContent = '0';
+        }
+    }
+
+    // Función para calcular horas totales
+    async function calcularHorasTotales() {
+        try {
+            const estudiantesResponse = await traerEstudiantes(0, 100);
+            let totalHoras = 0;
+            
+            if (estudiantesResponse.content) {
+                for (const estudiante of estudiantesResponse.content) {
+                    try {
+                        const horasResponse = await buscarHoras(estudiante.codigo);
+                        if (horasResponse && horasResponse.horasActuales) {
+                            totalHoras += horasResponse.horasActuales;
+                        }
+                    } catch (error) {
+                        console.error(`Error al buscar horas para estudiante ${estudiante.codigo}:`, error);
+                    }
+                }
+            }
+            
+            return totalHoras;
+        } catch (error) {
+            console.error('Error al calcular horas totales:', error);
+            return 0;
+        }
+    }
+
+    // Cargar proyectos activos
+    async function cargarProyectosActivos() {
+        try {
+            const response = await traerProyectosActivos(0, 5);
+            
+            if (response.content && response.content.length > 0) {
+                proyectosContainer.innerHTML = '';
+                
+                response.content.forEach(proyecto => {
+                    const proyectoElement = document.createElement('div');
+                    proyectoElement.className = 'card mb-3';
+                    proyectoElement.innerHTML = `
+                        <div class="card-body">
+                            <h5 class="card-title">${proyecto.nombre}</h5>
+                            <p class="card-text">${proyecto.descripcion || 'Sin descripción'}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">Estado: ${proyecto.estado || 'Activo'}</small>
+                                <span class="badge bg-primary">${proyecto.horasRequeridas || 0} horas</span>
+                            </div>
                         </div>
+                    `;
+                    
+                    proyectosContainer.appendChild(proyectoElement);
+                });
+            } else {
+                proyectosContainer.innerHTML = `
+                    <div class="text-center py-4 text-muted">
+                        <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+                        <p class="mt-2">No hay proyectos activos</p>
                     </div>
-                    <div class="btn-group">
-                        <button class="btn btn-outline-primary btn-sm">
-                            <i class="bi bi-eye"></i> Ver
-                        </button>
-                        <button class="btn btn-outline-secondary btn-sm">
-                            <i class="bi bi-pencil"></i> Editar
-                        </button>
-                    </div>
+                `;
+            }
+        } catch (error) {
+            console.error('Error al cargar proyectos:', error);
+            proyectosContainer.innerHTML = `
+                <div class="text-center py-4 text-danger">
+                    <p>Error al cargar proyectos. Intente nuevamente.</p>
                 </div>
-            </div>
-        </div>
-    `).join('');
-}
+            `;
+        }
+    }
 
-async function loadEstadisticas() {
-    // Datos de ejemplo - deberías implementar endpoints reales
-    document.getElementById('total-estudiantes').textContent = '45';
-    document.getElementById('total-eventos').textContent = '12';
-    document.getElementById('solicitudes-pendientes').textContent = '8';
-    document.getElementById('horas-totales').textContent = '1,250';
-}
+    // Manejar cierre de sesión
+    document.getElementById('logout-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        localStorage.removeItem('userData');
+        window.location.href = 'index2.html';
+    });
 
-function showError(message) {
-    const alertDiv = document.createElement('div');
-    alertDiv.className = 'alert alert-danger alert-dismissible fade show';
-    alertDiv.innerHTML = `
-        <i class="bi bi-exclamation-triangle me-2"></i>
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    `;
-    document.querySelector('.container').prepend(alertDiv);
-}
-
-// Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', initializeDashboard);
+    // Inicializar dashboard
+    cargarDashboard();
+});

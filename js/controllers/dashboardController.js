@@ -1,196 +1,163 @@
-// dashboardController.js - Controlador del Dashboard
-import { authService, horasService, eventosService, calendarioService } from '../service/services.js';
+// js/dashboardController.js
+import { buscarHoras } from '../services/HorasSocialesService.js';
+import { getByCodigoEstudiante } from '../services/SolicitudService.js';
+import { obtenerEventos } from '../services/EventosService.js';
 
-// Elementos DOM
-let user = null;
+document.addEventListener('DOMContentLoaded', function() {
+    // Elementos del DOM
+    const progressPie = document.getElementById('progress-pie');
+    const percentageText = document.getElementById('percentage-text');
+    const progressBar = document.getElementById('progress-bar');
+    const horasCompletadas = document.getElementById('horas-completadas');
+    const horasFaltantes = document.getElementById('horas-faltantes');
+    const proximaActividadContent = document.getElementById('proxima-actividad-content');
+    const proximosEventosContent = document.getElementById('proximos-eventos-content');
+    const welcomeMessage = document.getElementById('welcome-message');
+    const userNameElement = document.getElementById('user-name');
+    const userRoleElement = document.getElementById('user-role');
 
-// Inicializar dashboard
-export async function initializeDashboard() {
     // Verificar autenticación
-    if (!authService.isAuthenticated()) {
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    if (!userData || userData.tipo !== 'ESTUDIANTE') {
         window.location.href = 'index2.html';
         return;
     }
 
-    user = authService.getCurrentUser();
-    setupUserInfo();
-    setupEventListeners();
-    
-    // Cargar datos
-    await Promise.all([
-        loadHorasSociales(),
-        loadProximaActividad(),
-        loadProximosEventos()
-    ]);
-}
+    // Cargar dashboard del estudiante
+    async function cargarDashboard() {
+        try {
+            userNameElement.textContent = userData.nombre || 'Estudiante';
+            userRoleElement.textContent = 'Estudiante';
+            welcomeMessage.textContent = `Bienvenido ${userData.nombre || 'Estudiante'} al sistema de horas sociales`;
 
-// Configurar información del usuario
-function setupUserInfo() {
-    if (user) {
-        document.getElementById('user-name').textContent = `${user.nombre || 'Usuario'} ${user.apellido || ''}`;
-        document.getElementById('user-role').textContent = user.id_rol === 2 ? 'Coordinador' : 'Estudiante';
-        document.getElementById('welcome-message').textContent = `Bienvenido${user.nombre ? ', ' + user.nombre : ''} al Sistema de Horas Sociales`;
-        
-        if (user.foto) {
-            document.getElementById('user-avatar').src = user.foto;
-        }
-    }
-}
-
-// Configurar event listeners
-function setupEventListeners() {
-    // Logout
-    const logoutBtn = document.getElementById('logout-btn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            authService.logout();
-        });
-    }
-}
-
-// Cargar horas sociales
-async function loadHorasSociales() {
-    try {
-        if (!user.codigo) return;
-
-        const horasData = await horasService.obtenerHorasPorEstudiante(user.codigo);
-        const horas = horasData.horas || 0;
-        const porcentaje = horasData.porcentaje || 0;
-        const horasFaltantes = 150 - horas;
-
-        // Actualizar UI
-        document.getElementById('horas-completadas').textContent = horas;
-        document.getElementById('horas-faltantes').textContent = horasFaltantes;
-        document.getElementById('percentage-text').textContent = `${porcentaje.toFixed(1)}%`;
-        
-        const progressBar = document.getElementById('progress-bar');
-        progressBar.style.width = `${porcentaje}%`;
-        progressBar.setAttribute('aria-valuenow', porcentaje);
-        progressBar.textContent = `${porcentaje.toFixed(1)}%`;
-        
-        document.getElementById('progress-pie').style.setProperty('--percentage', `${porcentaje}%`);
-
-    } catch (error) {
-        console.error('Error al cargar horas sociales:', error);
-        showError('horas-completadas', 'Error al cargar horas');
-    }
-}
-
-// Cargar próxima actividad
-async function loadProximaActividad() {
-    try {
-        const actividades = await calendarioService.obtenerActividadesPorEstudiante(user.codigo);
-        const container = document.getElementById('proxima-actividad-content');
-        
-        if (actividades && actividades.length > 0) {
-            actividades.sort((a, b) => new Date(a.fecha_hora_actividad) - new Date(b.fecha_hora_actividad));
-            const proximaActividad = actividades[0];
-            const fechaEvento = new Date(proximaActividad.fecha_hora_actividad);
+            // Cargar progreso de horas sociales
+            await cargarProgresoHoras(userData.codigo);
             
-            container.innerHTML = `
-                <div class="inner-card">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="evento-text text-start">
-                            <h6 class="mb-1 fw-bold">${proximaActividad.nombre_evento || 'Actividad'}</h6>
-                            <p class="mb-1">${proximaActividad.lugar || 'Por definir'}</p>
-                            <small class="text-muted">
-                                <i class="bi bi-calendar me-1"></i>
-                                ${fechaEvento.toLocaleDateString()} 
-                                <i class="bi bi-clock ms-2 me-1"></i>
-                                ${fechaEvento.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-                            </small>
-                        </div>
-                        <div class="divider-line"></div>
-                        <div class="time-text text-center">
-                            <div class="fw-bold text-primary">${fechaEvento.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
-                            <small>Hora</small>
-                        </div>
-                    </div>
-                </div>
-            `;
-        } else {
-            container.innerHTML = `
-                <div class="text-center py-3">
-                    <i class="bi bi-calendar-x text-muted" style="font-size: 2rem;"></i>
-                    <p class="mt-2 text-muted">No hay actividades próximas</p>
-                </div>
-            `;
+            // Cargar próxima actividad
+            await cargarProximaActividad(userData.codigo);
+            
+            // Cargar próximos eventos
+            await cargarProximosEventos();
+        } catch (error) {
+            console.error('Error al cargar el dashboard:', error);
         }
-    } catch (error) {
-        console.error('Error al cargar próxima actividad:', error);
-        showError('proxima-actividad-content', 'Error al cargar actividades');
     }
-}
 
-// Cargar próximos eventos
-async function loadProximosEventos() {
-    try {
-        let eventos = [];
-        
-        if (user.proyectoId) {
-            eventos = await eventosService.obtenerEventosPorProyecto(user.proyectoId);
-        } else {
-            eventos = await eventosService.obtenerEventos();
+    // Cargar progreso de horas sociales
+    async function cargarProgresoHoras(codigoEstudiante) {
+        try {
+            const response = await buscarHoras(codigoEstudiante);
+            
+            if (response) {
+                const horasActuales = response.horasActuales || 0;
+                const horasRequeridas = 150;
+                const porcentaje = Math.min(100, Math.round((horasActuales / horasRequeridas) * 100));
+                
+                // Actualizar UI
+                progressPie.style.setProperty('--percentage', `${porcentaje}%`);
+                percentageText.textContent = `${porcentaje}%`;
+                progressBar.style.width = `${porcentaje}%`;
+                progressBar.setAttribute('aria-valuenow', porcentaje);
+                horasCompletadas.textContent = horasActuales;
+                horasFaltantes.textContent = Math.max(0, horasRequeridas - horasActuales);
+            } else {
+                // Si no hay registro de horas, crear uno
+                horasCompletadas.textContent = '0';
+                horasFaltantes.textContent = '150';
+                percentageText.textContent = '0%';
+                progressBar.style.width = '0%';
+            }
+        } catch (error) {
+            console.error('Error al cargar progreso de horas:', error);
         }
+    }
 
-        const ahora = new Date();
-        const eventosFuturos = eventos
-            .filter(evento => new Date(evento.fecha_hora_actividad) > ahora)
-            .sort((a, b) => new Date(a.fecha_hora_actividad) - new Date(b.fecha_hora_actividad))
-            .slice(0, 5);
-
-        const container = document.getElementById('proximos-eventos-content');
-        
-        if (eventosFuturos.length > 0) {
-            container.innerHTML = eventosFuturos.map(evento => {
-                const fechaEvento = new Date(evento.fecha_hora_actividad);
-                return `
-                    <div class="evento-card card mb-2">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div class="flex-grow-1">
-                                    <h6 class="card-title mb-1">${evento.nombre_evento || 'Evento'}</h6>
-                                    <p class="card-text mb-1 small">${evento.descripcion ? evento.descripcion.substring(0, 100) + '...' : 'Sin descripción'}</p>
-                                    <div class="d-flex align-items-center text-muted small">
-                                        <i class="bi bi-geo-alt me-1"></i>
-                                        <span class="me-3">${evento.lugar || 'Por definir'}</span>
-                                        <i class="bi bi-clock me-1"></i>
-                                        <span>${fechaEvento.toLocaleDateString()} ${fechaEvento.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
-                                    </div>
-                                </div>
-                                <span class="badge bg-primary ms-2">${evento.horas_ganadas || 0}h</span>
-                            </div>
+    // Cargar próxima actividad
+    async function cargarProximaActividad(codigoEstudiante) {
+        try {
+            const response = await getByCodigoEstudiante(codigoEstudiante);
+            
+            if (response && response.length > 0) {
+                // Encontrar la solicitud más reciente
+                const solicitud = response[0];
+                
+                proximaActividadContent.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5>${solicitud.nombreActividad || 'Actividad sin nombre'}</h5>
+                            <p class="mb-1">${solicitud.descripcion || 'Sin descripción'}</p>
+                            <small class="text-muted">Estado: ${solicitud.estado || 'Pendiente'}</small>
                         </div>
+                        <span class="badge bg-primary">${solicitud.horasGanadas || 0} horas</span>
                     </div>
                 `;
-            }).join('');
-        } else {
-            container.innerHTML = `
-                <div class="text-center py-3">
-                    <i class="bi bi-calendar-event text-muted" style="font-size: 2rem;"></i>
-                    <p class="mt-2 text-muted">No hay eventos próximos</p>
+            } else {
+                proximaActividadContent.innerHTML = `
+                    <div class="text-center text-muted">
+                        <i class="bi bi-calendar-x" style="font-size: 2rem;"></i>
+                        <p class="mt-2">No tienes actividades próximas</p>
+                    </div>
+                `;
+            }
+        } catch (error) {
+            console.error('Error al cargar próxima actividad:', error);
+            proximaActividadContent.innerHTML = `
+                <div class="text-center text-danger">
+                    <p>Error al cargar actividades. Intente nuevamente.</p>
                 </div>
             `;
         }
-    } catch (error) {
-        console.error('Error al cargar eventos:', error);
-        showError('proximos-eventos-content', 'Error al cargar eventos');
     }
-}
 
-// Mostrar error
-function showError(elementId, message) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        element.innerHTML = `
-            <div class="text-center py-3 text-danger">
-                <i class="bi bi-exclamation-triangle"></i>
-                <p class="mt-2">${message}</p>
-            </div>
-        `;
+    // Cargar próximos eventos
+    async function cargarProximosEventos() {
+        try {
+            const response = await obtenerEventos(0, 3);
+            
+            if (response.content && response.content.length > 0) {
+                proximosEventosContent.innerHTML = '';
+                
+                response.content.forEach(evento => {
+                    const eventoElement = document.createElement('div');
+                    eventoElement.className = 'card mb-2';
+                    eventoElement.innerHTML = `
+                        <div class="card-body">
+                            <h6 class="card-title">${evento.nombre}</h6>
+                            <p class="card-text mb-1">${evento.descripcion || 'Sin descripción'}</p>
+                            <div class="d-flex justify-content-between">
+                                <small class="text-muted">${new Date(evento.fecha).toLocaleDateString()}</small>
+                                <span class="badge bg-info">${evento.horasGanadas || 0} horas</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    proximosEventosContent.appendChild(eventoElement);
+                });
+            } else {
+                proximosEventosContent.innerHTML = `
+                    <div class="text-center text-muted">
+                        <i class="bi bi-calendar-event" style="font-size: 2rem;"></i>
+                        <p class="mt-2">No hay eventos próximos</p>
+                    </div>
+                `;
+            }
+        } catch (error) {
+            console.error('Error al cargar eventos:', error);
+            proximosEventosContent.innerHTML = `
+                <div class="text-center text-danger">
+                    <p>Error al cargar eventos. Intente nuevamente.</p>
+                </div>
+            `;
+        }
     }
-}
 
-// Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', initializeDashboard);
+    // Manejar cierre de sesión
+    document.getElementById('logout-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        localStorage.removeItem('userData');
+        window.location.href = 'index2.html';
+    });
+
+    // Inicializar dashboard
+    cargarDashboard();
+});

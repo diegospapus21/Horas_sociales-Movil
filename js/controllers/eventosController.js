@@ -1,112 +1,88 @@
-import { authService, eventosService, proyectosService } from '../service/services.js';
-import { setupProtectedPage } from './authMiddleware.js';
+// js/eventosController.js
+import { agregarEvento } from '../services/EventosService.js';
+import { traerProyectosActivos } from '../services/ProyectosService.js';
 
-let user = null;
+document.addEventListener('DOMContentLoaded', function() {
+    const eventForm = document.getElementById('event-form');
+    const proyectoSelect = document.getElementById('proyecto');
+    const submitBtn = document.getElementById('submit-btn');
 
-export async function initializeEventos() {
-    user = setupProtectedPage();
-    if (!user || !authService.isCoordinador()) {
-        alert('Solo los coordinadores pueden crear eventos');
-        window.location.href = 'DashboardE.html';
+    // Verificar autenticación (solo coordinadores/administradores)
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    if (!userData || (userData.tipo !== 'COORDINADOR' && userData.tipo !== 'ADMINISTRADOR')) {
+        window.location.href = 'index2.html';
         return;
     }
-    
-    setupEventListeners();
-    await loadProyectos();
-}
 
-function setupEventListeners() {
-    const eventForm = document.getElementById('event-form');
-    if (eventForm) {
-        eventForm.addEventListener('submit', handleEventSubmit);
-    }
-    
-    const logoutBtn = document.getElementById('logout-btn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            authService.logout();
-        });
-    }
-}
-
-async function loadProyectos() {
-    try {
-        const proyectos = await proyectosService.obtenerProyectosActivos();
-        const select = document.getElementById('proyecto');
-        
-        if (proyectos && proyectos.length > 0) {
-            select.innerHTML = proyectos.map(proyecto => 
-                `<option value="${proyecto.id_Proyecto}">${proyecto.nombre_Proyecto}</option>`
-            ).join('');
-        } else {
-            select.innerHTML = '<option value="">No hay proyectos disponibles</option>';
+    // Cargar proyectos en el select
+    async function cargarProyectos() {
+        try {
+            const response = await traerProyectosActivos(0, 50);
+            
+            if (response.content && response.content.length > 0) {
+                proyectoSelect.innerHTML = '<option value="">Seleccione un proyecto</option>';
+                
+                response.content.forEach(proyecto => {
+                    const option = document.createElement('option');
+                    option.value = proyecto.id;
+                    option.textContent = proyecto.nombre;
+                    proyectoSelect.appendChild(option);
+                });
+            } else {
+                proyectoSelect.innerHTML = '<option value="">No hay proyectos disponibles</option>';
+            }
+        } catch (error) {
+            console.error('Error al cargar proyectos:', error);
+            proyectoSelect.innerHTML = '<option value="">Error al cargar proyectos</option>';
         }
-    } catch (error) {
-        console.error('Error loading projects:', error);
-        document.getElementById('proyecto').innerHTML = '<option value="">Error al cargar proyectos</option>';
     }
-}
 
-async function handleEventSubmit(e) {
-    e.preventDefault();
-    
-    const submitBtn = document.getElementById('submit-btn');
-    const originalText = submitBtn.innerHTML;
-    
-    try {
-        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Creando evento...';
-        submitBtn.disabled = true;
+    // Manejar envío del formulario
+    eventForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
         
-        const formData = new FormData(e.target);
+        // Validar formulario
+        if (!eventForm.checkValidity()) {
+            eventForm.reportValidity();
+            return;
+        }
+        
+        // Recoger datos del formulario
+        const formData = new FormData(eventForm);
         const eventoData = {
-            nombre_evento: formData.get('nombre'),
-            descripcion: formData.get('descripcion'),
-            id_proyecto: formData.get('proyecto'),
+            nombre: formData.get('nombre'),
+            proyecto: { id: parseInt(formData.get('proyecto')) },
+            fecha: formData.get('fecha'),
+            hora: formData.get('hora'),
             lugar: formData.get('lugar'),
-            horas_ganadas: parseInt(formData.get('horas_ganadas')),
-            fecha_hora_actividad: `${formData.get('fecha')}T${formData.get('hora')}:00`,
-            id_coordinador: user.id,
-            fecha_creacion: new Date().toISOString().split('T')[0],
-            estado: true
+            horasGanadas: parseInt(formData.get('horas_ganadas')),
+            descripcion: formData.get('descripcion'),
+            creadoPor: userData.id // Agregar ID del usuario que crea el evento
         };
         
-        await eventosService.crearEvento(eventoData);
+        // Deshabilitar botón durante el envío
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="bi bi-hourglass me-2"></i>Agregando...';
         
-        showNotification('Evento creado exitosamente', 'success');
-        e.target.reset();
-        
-    } catch (error) {
-        console.error('Error creating event:', error);
-        showNotification('Error al crear evento: ' + error.message, 'error');
-    } finally {
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-    }
-}
-
-function showNotification(message, type) {
-    // Crear notificación
-    const notification = document.createElement('div');
-    notification.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show`;
-    notification.innerHTML = `
-        <i class="bi ${type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'} me-2"></i>
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    `;
-    
-    // Insertar después del formulario
-    const formSection = document.querySelector('.form-section');
-    formSection.insertBefore(notification, formSection.firstChild);
-    
-    // Auto-remover después de 5 segundos
-    setTimeout(() => {
-        if (notification.parentNode) {
-            notification.classList.remove('show');
-            setTimeout(() => notification.parentNode.removeChild(notification), 500);
+        try {
+            // Enviar datos a la API
+            await agregarEvento(eventoData);
+            
+            // Mostrar mensaje de éxito
+            alert('Evento agregado correctamente');
+            
+            // Limpiar formulario
+            eventForm.reset();
+        } catch (error) {
+            console.error('Error al agregar evento:', error);
+            alert('Error al agregar evento. Por favor, intente nuevamente.');
+        } finally {
+            // Rehabilitar botón
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="bi bi-check-circle me-2"></i>Agregar evento';
         }
-    }, 5000);
-}
+    });
 
-// Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', initializeEventos);
+    // Cargar proyectos al iniciar
+    cargarProyectos();
+});
