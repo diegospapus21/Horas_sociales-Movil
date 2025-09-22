@@ -1,5 +1,6 @@
 // js/chatCController.js
 import { traerEstudiantes, getByNombre } from '../services/EstudiantesService.js';
+import { enviarMensaje as enviarMensajeAPI, obtenerMensajes as obtenerMensajesAPI } from '../services/MensajesService.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const contactsList = document.getElementById('contactsList');
@@ -7,106 +8,127 @@ document.addEventListener('DOMContentLoaded', function() {
     const chatHeader = document.getElementById('chatHeader');
     const messageInput = document.getElementById('messageInput');
     const sendButton = document.getElementById('sendButton');
-    
-    // Verificar autenticación (solo coordinadores/administradores)
-    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const chatMessages = document.getElementById('chatMessages');
+
+    // Parse seguro de userData
+    let userData = {};
+    try {
+        userData = JSON.parse(localStorage.getItem('userData') || '{}') || {};
+    } catch (err) {
+        userData = {};
+    }
+
+    // Validación de rol
     if (!userData || (userData.tipo !== 'COORDINADOR' && userData.tipo !== 'ADMINISTRADOR')) {
         window.location.href = 'index2.html';
         return;
     }
-    
+
     let estudiantes = [];
     let estudianteSeleccionado = null;
 
-    // Cargar lista de estudiantes
+    // ---- Debounce helper ----
+    function debounce(fn, wait = 300) {
+        let t;
+        return (...args) => {
+            clearTimeout(t);
+            t = setTimeout(() => fn(...args), wait);
+        };
+    }
+
+    // ---- Cargar estudiantes ----
     async function cargarEstudiantes() {
+        contactsList.innerHTML = <div class="text-center p-3">Cargando...</div>;
         try {
             const response = await traerEstudiantes(0, 50);
-            estudiantes = response.content || [];
+            estudiantes = response?.content || [];
             mostrarEstudiantes(estudiantes);
         } catch (error) {
-            console.error('Error al cargar estudiantes:', error);
-            contactsList.innerHTML = `
-                <div class="text-center p-3 text-danger">
-                    <p>Error al cargar estudiantes. Intente nuevamente.</p>
-                </div>
-            `;
+            contactsList.innerHTML = <div class="text-center p-3 text-danger">Error al cargar estudiantes</div>;
         }
     }
 
-    // Mostrar estudiantes en la lista
-    function mostrarEstudiantes(listaEstudiantes) {
-        if (listaEstudiantes.length === 0) {
-            contactsList.innerHTML = `
-                <div class="text-center p-3 text-muted">
-                    <p>No se encontraron estudiantes.</p>
-                </div>
-            `;
+    function mostrarEstudiantes(lista = []) {
+        if (lista.length === 0) {
+            contactsList.innerHTML = <div class="text-center p-3">No se encontraron estudiantes</div>;
             return;
         }
-
         contactsList.innerHTML = '';
-        listaEstudiantes.forEach(estudiante => {
-            const estudianteElement = document.createElement('div');
-            estudianteElement.className = 'contact-item';
-            estudianteElement.innerHTML = `
+        lista.forEach(estudiante => {
+            const item = document.createElement('div');
+            item.className = 'contact-item';
+            item.innerHTML = `
                 <div class="d-flex align-items-center p-3">
-                    <div class="flex-shrink-0">
-                        <img src="img/default-avatar.png" alt="Avatar" class="avatar-sm rounded-circle">
-                    </div>
-                    <div class="flex-grow-1 ms-3">
-                        <h6 class="mb-0">${estudiante.nombre} ${estudiante.apellido}</h6>
-                        <small class="text-muted">${estudiante.codigo}</small>
+                    <img src="img/default-avatar.png" class="avatar-sm rounded-circle">
+                    <div class="ms-3">
+                        <h6 class="mb-0">${estudiante.nombre || ''} ${estudiante.apellido || ''}</h6>
+                        <small class="text-muted">${estudiante.codigo || ''}</small>
                     </div>
                 </div>
             `;
-            
-            estudianteElement.addEventListener('click', () => {
-                seleccionarEstudiante(estudiante);
-            });
-            
-            contactsList.appendChild(estudianteElement);
+            item.addEventListener('click', () => seleccionarEstudiante(estudiante));
+            contactsList.appendChild(item);
         });
     }
 
-    // Seleccionar estudiante para chatear
-    function seleccionarEstudiante(estudiante) {
+    // ---- Seleccionar estudiante ----
+    async function seleccionarEstudiante(estudiante) {
         estudianteSeleccionado = estudiante;
         chatHeader.innerHTML = `
             <div class="d-flex align-items-center">
-                <img src="img/default-avatar.png" alt="Avatar" class="avatar-sm rounded-circle me-2">
+                <img src="img/default-avatar.png" class="avatar-sm rounded-circle me-2">
                 <div>
-                    <h5 class="mb-0">${estudiante.nombre} ${estudiante.apellido}</h5>
-                    <small class="text-muted">${estudiante.codigo}</small>
+                    <h5 class="mb-0">${estudiante.nombre || ''} ${estudiante.apellido || ''}</h5>
+                    <small class="text-muted">${estudiante.codigo || ''}</small>
                 </div>
             </div>
         `;
-        
         messageInput.disabled = false;
         sendButton.disabled = false;
-        
-        // Cargar historial de mensajes
-        cargarMensajes(estudiante.codigo);
+        await cargarMensajes(estudiante.codigo);
     }
 
-    // Buscar estudiantes
-    searchInput.addEventListener('input', async (e) => {
-        const searchTerm = e.target.value.trim();
-        
-        if (searchTerm.length === 0) {
+    // ---- Buscar estudiante ----
+    const buscarDebounced = debounce(async (term) => {
+        if (!term) {
             mostrarEstudiantes(estudiantes);
             return;
         }
-        
         try {
-            const response = await getByNombre(searchTerm, 0, 20);
-            mostrarEstudiantes(response.content || []);
+            const response = await getByNombre(term, 0, 20);
+            mostrarEstudiantes(response?.content || []);
         } catch (error) {
-            console.error('Error al buscar estudiantes:', error);
+            console.error('Error en búsqueda:', error);
         }
+    }, 250);
+
+    searchInput.addEventListener('input', (e) => {
+        buscarDebounced(e.target.value.trim());
     });
 
-    // Enviar mensaje
+    // ---- Enviar mensaje ----
+    async function enviarMensaje() {
+        if (!estudianteSeleccionado) return;
+        const texto = messageInput.value.trim();
+        if (!texto) return;
+
+        sendButton.disabled = true;
+        try {
+            await enviarMensajeAPI({
+                destinoCodigo: estudianteSeleccionado.codigo,
+                texto,
+                enviadoPorId: userData.id
+            });
+            messageInput.value = '';
+            await cargarMensajes(estudianteSeleccionado.codigo);
+        } catch (error) {
+            alert('No se pudo enviar el mensaje');
+        } finally {
+            sendButton.disabled = false;
+            messageInput.focus();
+        }
+    }
+
     sendButton.addEventListener('click', enviarMensaje);
     messageInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -115,27 +137,38 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    function enviarMensaje() {
-        const mensaje = messageInput.value.trim();
-        if (!mensaje || !estudianteSeleccionado) return;
-        
-        // Aquí implementarías el envío del mensaje a tu API
-        console.log(`Enviando mensaje a ${estudianteSeleccionado.codigo}: ${mensaje}`);
-        
-        // Limpiar campo de entrada
-        messageInput.value = '';
+    // ---- Cargar mensajes ----
+    async function cargarMensajes(codigoEstudiante) {
+        chatMessages.innerHTML = <div class="text-center p-3">Cargando mensajes...</div>;
+        try {
+            const mensajes = await obtenerMensajesAPI(codigoEstudiante);
+            if (!Array.isArray(mensajes) || mensajes.length === 0) {
+                chatMessages.innerHTML = <div class="text-center p-3">No hay mensajes aún</div>;
+                return;
+            }
+            chatMessages.innerHTML = mensajes.map(msg => {
+                const esMio = String(msg.enviadoPorId) === String(userData.id);
+                return `
+                    <div class="message ${esMio ? 'sent' : 'received'}">
+                        <div class="card ${esMio ? 'bg-primary text-white' : ''}">
+                            <div class="card-body p-2">
+                                <p class="mb-1 small">${escapeHtml(msg.texto || '')}</p>
+                                <small>${msg.fecha ? new Date(msg.fecha).toLocaleString() : ''}</small>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        } catch (error) {
+            chatMessages.innerHTML = <div class="text-center p-3 text-danger">Error al cargar mensajes</div>;
+        }
     }
 
-    // Cargar mensajes del chat
-    function cargarMensajes(codigoEstudiante) {
-        // Implementar según tu API de mensajes
-        const chatMessages = document.getElementById('chatMessages');
-        chatMessages.innerHTML = `
-            <div class="text-center p-5 text-muted">
-                <i class="bi bi-chat-dots" style="font-size: 3rem;"></i>
-                <p class="mt-3">No hay mensajes aún. Inicia una conversación.</p>
-            </div>
-        `;
+    function escapeHtml(text = '') {
+        return text.replace(/[&<>"']/g, m => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;',
+            '"': '&quot;', "'": '&#039;'
+        }[m]));
     }
 
     // Inicializar

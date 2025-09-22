@@ -1,146 +1,63 @@
 // js/dashboardCController.js
-import { traerEstudiantes } from '../services/EstudiantesService.js';
-import { obtenerEventos } from '../services/EventosService.js';
-import { traerProyectosActivos } from '../services/ProyectosService.js';
-import { getAllPendient } from '../services/SolicitudService.js';
-import { buscarHoras } from '../services/HorasSocialesService.js';
+import { getTotalHorasSociales, getTotalHorasPracticas, getEstudiantesActivos, getEstudiantesInactivos } from '../services/DashboardService.js';
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Elementos del DOM
-    const totalEstudiantesElement = document.getElementById('total-estudiantes');
-    const totalEventosElement = document.getElementById('total-eventos');
-    const solicitudesPendientesElement = document.getElementById('solicitudes-pendientes');
-    const horasTotalesElement = document.getElementById('horas-totales');
-    const proyectosContainer = document.getElementById('proyectos-container');
-    const welcomeMessage = document.getElementById('welcome-message');
-    const userNameElement = document.getElementById('user-name');
-    const userRoleElement = document.getElementById('user-role');
+document.addEventListener('DOMContentLoaded', async function() {
+    const horasSocialesElement = document.getElementById('horasSociales');
+    const horasPracticasElement = document.getElementById('horasPracticas');
+    const estudiantesActivosElement = document.getElementById('estudiantesActivos');
+    const estudiantesInactivosElement = document.getElementById('estudiantesInactivos');
 
-    // Verificar autenticación
-    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    if (!userData || !userData.tipo || (userData.tipo !== 'COORDINADOR' && userData.tipo !== 'ADMINISTRADOR')) {
+    // Parse seguro de userData
+    let userData = {};
+    try {
+        userData = JSON.parse(localStorage.getItem('userData') || '{}') || {};
+    } catch (err) {
+        userData = {};
+    }
+
+    // Validación de rol
+    if (!userData || (userData.tipo !== 'COORDINADOR' && userData.tipo !== 'ADMINISTRADOR')) {
         window.location.href = 'index2.html';
         return;
     }
 
-    // Cargar datos del dashboard
-    async function cargarDashboard() {
-        try {
-            userNameElement.textContent = userData.nombre || 'Usuario';
-            userRoleElement.textContent = userData.tipo === 'ADMINISTRADOR' ? 'Administrador' : 'Coordinador';
-            welcomeMessage.textContent = `Panel de Control - ${userData.nombre || 'Usuario'}`;
-
-            // Cargar estadísticas
-            await cargarEstadisticas();
-            
-            // Cargar proyectos activos
-            await cargarProyectosActivos();
-        } catch (error) {
-            console.error('Error al cargar el dashboard:', error);
-        }
+    // Helper para mostrar valores en la UI
+    function setValue(el, value, fallback = '0') {
+        if (!el) return;
+        el.textContent = value != null ? value : fallback;
     }
 
-    // Cargar estadísticas
-    async function cargarEstadisticas() {
-        try {
-            // Obtener total de estudiantes
-            const estudiantesResponse = await traerEstudiantes(0, 1);
-            totalEstudiantesElement.textContent = estudiantesResponse.totalElements || 0;
+    // Mostrar loader inicial
+    setValue(horasSocialesElement, '...');
+    setValue(horasPracticasElement, '...');
+    setValue(estudiantesActivosElement, '...');
+    setValue(estudiantesInactivosElement, '...');
 
-            // Obtener total de eventos
-            const eventosResponse = await obtenerEventos(0, 1);
-            totalEventosElement.textContent = eventosResponse.totalElements || 0;
+    try {
+        // Llamadas en paralelo
+        const [
+            totalHorasSociales,
+            totalHorasPracticas,
+            totalEstudiantesActivos,
+            totalEstudiantesInactivos
+        ] = await Promise.all([
+            getTotalHorasSociales(),
+            getTotalHorasPracticas(),
+            getEstudiantesActivos(),
+            getEstudiantesInactivos()
+        ]);
 
-            // Obtener solicitudes pendientes
-            const solicitudesResponse = await getAllPendient(0, 1);
-            solicitudesPendientesElement.textContent = solicitudesResponse.totalElements || 0;
+        // Actualizar UI
+        setValue(horasSocialesElement, totalHorasSociales);
+        setValue(horasPracticasElement, totalHorasPracticas);
+        setValue(estudiantesActivosElement, totalEstudiantesActivos);
+        setValue(estudiantesInactivosElement, totalEstudiantesInactivos);
 
-            // Calcular horas totales
-            horasTotalesElement.textContent = await calcularHorasTotales();
-        } catch (error) {
-            console.error('Error al cargar estadísticas:', error);
-            totalEstudiantesElement.textContent = '0';
-            totalEventosElement.textContent = '0';
-            solicitudesPendientesElement.textContent = '0';
-            horasTotalesElement.textContent = '0';
-        }
+    } catch (error) {
+        console.error('Error al cargar datos del dashboard:', error);
+        if (horasSocialesElement) horasSocialesElement.textContent = 'Error';
+        if (horasPracticasElement) horasPracticasElement.textContent = 'Error';
+        if (estudiantesActivosElement) estudiantesActivosElement.textContent = 'Error';
+        if (estudiantesInactivosElement) estudiantesInactivosElement.textContent = 'Error';
     }
-
-    // Función para calcular horas totales
-    async function calcularHorasTotales() {
-        try {
-            const estudiantesResponse = await traerEstudiantes(0, 100);
-            let totalHoras = 0;
-            
-            if (estudiantesResponse.content) {
-                for (const estudiante of estudiantesResponse.content) {
-                    try {
-                        const horasResponse = await buscarHoras(estudiante.codigo);
-                        if (horasResponse && horasResponse.horasActuales) {
-                            totalHoras += horasResponse.horasActuales;
-                        }
-                    } catch (error) {
-                        console.error(`Error al buscar horas para estudiante ${estudiante.codigo}:`, error);
-                    }
-                }
-            }
-            
-            return totalHoras;
-        } catch (error) {
-            console.error('Error al calcular horas totales:', error);
-            return 0;
-        }
-    }
-
-    // Cargar proyectos activos
-    async function cargarProyectosActivos() {
-        try {
-            const response = await traerProyectosActivos(0, 5);
-            
-            if (response.content && response.content.length > 0) {
-                proyectosContainer.innerHTML = '';
-                
-                response.content.forEach(proyecto => {
-                    const proyectoElement = document.createElement('div');
-                    proyectoElement.className = 'card mb-3';
-                    proyectoElement.innerHTML = `
-                        <div class="card-body">
-                            <h5 class="card-title">${proyecto.nombre}</h5>
-                            <p class="card-text">${proyecto.descripcion || 'Sin descripción'}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted">Estado: ${proyecto.estado || 'Activo'}</small>
-                                <span class="badge bg-primary">${proyecto.horasRequeridas || 0} horas</span>
-                            </div>
-                        </div>
-                    `;
-                    
-                    proyectosContainer.appendChild(proyectoElement);
-                });
-            } else {
-                proyectosContainer.innerHTML = `
-                    <div class="text-center py-4 text-muted">
-                        <i class="bi bi-inbox" style="font-size: 3rem;"></i>
-                        <p class="mt-2">No hay proyectos activos</p>
-                    </div>
-                `;
-            }
-        } catch (error) {
-            console.error('Error al cargar proyectos:', error);
-            proyectosContainer.innerHTML = `
-                <div class="text-center py-4 text-danger">
-                    <p>Error al cargar proyectos. Intente nuevamente.</p>
-                </div>
-            `;
-        }
-    }
-
-    // Manejar cierre de sesión
-    document.getElementById('logout-btn').addEventListener('click', function(e) {
-        e.preventDefault();
-        localStorage.removeItem('userData');
-        window.location.href = 'index2.html';
-    });
-
-    // Inicializar dashboard
-    cargarDashboard();
 });
