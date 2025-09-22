@@ -1,0 +1,282 @@
+:root {
+    --rojo-principal: #dc3545;
+    --rojo-oscuro: #c82333;
+    --rojo-claro: #e4606d;
+    --rojo-suave: #f8d7da;
+    
+    --azul-principal: #007bff;
+    --azul-oscuro: #0056b3;
+    --azul-claro: #4dabf7;
+    --azul-suave: #d1ecf1;
+    
+    --blanco: #ffffff;
+    --blanco-hueso: #f8f9fa;
+    --gris-claro: #e9ecef;
+    --gris-medio: #6c757d;
+    --gris-oscuro: #343a40;
+}
+
+/* Estilos generales */
+.dashboard-coordinador {
+    background-color: var(--blanco-hueso);
+    min-height: 100vh;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Header y navegación */
+.navbar-dark {
+    background: linear-gradient(135deg, #304457 0%, #1e2b38 100%);
+    box-shadow: 0 2px 10px rgba(48, 68, 87, 0.3);
+}
+
+.navbar-brand img {
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover img {
+    transform: scale(1.05);
+}
+
+.nav-link {
+    color: var(--blanco) !important;
+    font-weight: 500;
+    padding: 0.75rem 1rem !important;
+    border-radius: 8px;
+    margin: 0.1rem 0;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateX(5px);
+}
+
+.offcanvas {
+    background: linear-gradient(135deg, #304457 0%, #1e2b38 100%);
+}
+
+.offcanvas-title {
+    color: var(--blanco);
+    font-weight: 600;
+}
+
+/* Alert de bienvenida */
+.alert-info {
+    background-color: var(--azul-suave);
+    border: 1px solid var(--azul-claro);
+    color: var(--azul-oscuro);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+}
+
+/* Tarjetas de estadísticas */
+.stat-card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    background: var(--blanco);
+    border-top: 4px solid transparent;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.stat-card:nth-child(1) { border-top-color: var(--azul-principal); }
+.stat-card:nth-child(2) { border-top-color: var(--rojo-principal); }
+.stat-card:nth-child(3) { border-top-color: var(--azul-claro); }
+.stat-card:nth-child(4) { border-top-color: var(--rojo-claro); }
+
+.stat-card h5 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+    color: var(--gris-oscuro);
+}
+
+.stat-card .text-primary { color: var(--azul-principal) !important; }
+.stat-card .text-success { color: var(--rojo-principal) !important; }
+.stat-card .text-info { color: var(--azul-claro) !important; }
+.stat-card .text-warning { color: var(--rojo-claro) !important; }
+
+/* Botones de acción rápida */
+.quick-action-btn {
+    border: 2px solid;
+    border-radius: 12px;
+    padding: 1.5rem 0.5rem;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    background: var(--blanco);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 120px;
+    justify-content: center;
+}
+
+.quick-action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.btn-outline-primary { 
+    border-color: var(--azul-principal); 
+    color: var(--azul-principal);
+}
+.btn-outline-primary:hover {
+    background-color: var(--azul-principal);
+    color: var(--blanco);
+}
+
+.btn-outline-success { 
+    border-color: var(--rojo-principal); 
+    color: var(--rojo-principal);
+}
+.btn-outline-success:hover {
+    background-color: var(--rojo-principal);
+    color: var(--blanco);
+}
+
+.btn-outline-info { 
+    border-color: var(--azul-claro); 
+    color: var(--azul-claro);
+}
+.btn-outline-info:hover {
+    background-color: var(--azul-claro);
+    color: var(--blanco);
+}
+
+.btn-outline-warning { 
+    border-color: var(--rojo-claro); 
+    color: var(--rojo-claro);
+}
+.btn-outline-warning:hover {
+    background-color: var(--rojo-claro);
+    color: var(--blanco);
+}
+
+/* Tarjetas de proyectos */
+.card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 1.5rem;
+    background: var(--blanco);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--azul-principal) 0%, var(--azul-oscuro) 100%);
+    color: var(--blanco);
+    border-radius: 16px 16px 0 0 !important;
+    padding: 1.25rem;
+    border-bottom: none;
+}
+
+.card-title {
+    font-weight: 600;
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+/* Spinner de carga */
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--gris-claro);
+    border-left: 4px solid var(--rojo-principal);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .navbar-brand img {
+        width: 180px;
+        height: auto;
+    }
+    
+    .stat-card {
+        margin-bottom: 1rem;
+    }
+    
+    .stat-card h5 {
+        font-size: 1.5rem;
+    }
+    
+    .quick-action-btn {
+        min-height: 100px;
+        padding: 1rem 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .quick-action-btn span {
+        font-size: 0.85rem;
+    }
+    
+    .card-header {
+        padding: 1rem;
+    }
+    
+    .card-title {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .row.g-3 {
+        margin: 0 -5px;
+    }
+    
+    .col-6 {
+        padding: 0 5px;
+    }
+    
+    .quick-action-btn {
+        padding: 0.75rem 0.25rem;
+        min-height: 90px;
+    }
+    
+    .quick-action-btn .fs-2 {
+        font-size: 1.5rem !important;
+    }
+    
+    .stat-card .fs-1 {
+        font-size: 2rem !important;
+    }
+}
+
+/* Efectos hover mejorados */
+.nav-link, .stat-card, .quick-action-btn, .card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Scroll personalizado */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--gris-claro);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--rojo-principal);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--rojo-oscuro);
+}
