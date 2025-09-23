@@ -1,0 +1,299 @@
+/* ===== ESTILOS GENERALES PARA AMBAS PÁGINAS ===== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: #e6e1e1;
+}
+
+header {
+    background-color: black !important;
+}
+
+.navbar {
+    background-color: black !important;
+    padding: 0.5rem 1rem;
+}
+
+.navbar-brand {
+    padding: 0;
+}
+
+/* Offcanvas styles */
+.offcanvas {
+    background-color: black !important;
+    color: white;
+}
+
+.nav-link, .offcanvas-title {
+    color: white !important;
+}
+
+/* Contenedor principal */
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Título de la comisión */
+.titulo {
+    margin-bottom: 30px;
+}
+
+.comision-title {
+    background-color: #d8aeb1;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #000;
+}
+
+.comision-title span {
+    display: block;
+    font-size: 1.1rem;
+    color: darkred;
+    margin-top: 5px;
+}
+
+/* Título de sección */
+.titulo-seccion {
+    margin: 20px 0 15px;
+    font-size: 1.5rem;
+    color: #343a40;
+    font-weight: 600;
+}
+
+/* Contenedor de actividades */
+#actividades-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+}
+
+/* ===== TARJETAS DE ACTIVIDADES ===== */
+.actividad-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+.actividad-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.actividad-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #f8f9fa;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.actividad-header:hover {
+    background-color: #f0f0f0;
+}
+
+.actividad-title {
+    font-weight: 500;
+    margin: 0;
+    flex-grow: 1;
+    font-size: 1.1rem;
+}
+
+.actividad-fecha {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.actividad-contenido {
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.actividad-descripcion {
+    padding: 15px;
+    border-top: 1px solid #eee;
+    line-height: 1.5;
+}
+
+.actividad-card.abierta .actividad-contenido {
+    max-height: 300px;
+}
+
+/* Botón para expirar actividad (solo para coordinador) */
+.btn-expirar {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-left: 10px;
+    white-space: nowrap;
+    transition: all 0.3s;
+}
+
+.btn-expirar:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+}
+
+/* Botón nueva actividad (solo para coordinador) */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+/* ===== ESTADOS ESPECIALES ===== */
+.sin-actividades {
+    text-align: center;
+    color: #6c757d;
+    padding: 40px 20px;
+    grid-column: 1 / -1;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ===== ESTILOS ESPECÍFICOS PARA COORDINADOR ===== */
+/* Se aplican automáticamente a actividades.html */
+body:has(.btn-expirar) .actividad-card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* ===== ESTILOS ESPECÍFICOS PARA ESTUDIANTE ===== */
+/* Se aplican automáticamente a actividadesE.html */
+body:not(:has(.btn-expirar)) .actividad-card:hover {
+    transform: translateY(-2px);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    #actividades-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .comision-title {
+        font-size: 1.3rem;
+        padding: 12px;
+    }
+    
+    .comision-title span {
+        font-size: 1rem;
+    }
+    
+    .titulo-seccion {
+        font-size: 1.3rem;
+    }
+    
+    .actividad-header {
+        padding: 12px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .actividad-title {
+        margin-bottom: 5px;
+    }
+    
+    .btn-expirar {
+        margin-left: 0;
+        margin-top: 5px;
+        align-self: flex-end;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .comision-title {
+        font-size: 1.1rem;
+        padding: 10px;
+    }
+    
+    .titulo-seccion {
+        font-size: 1.1rem;
+        text-align: center;
+    }
+    
+    .actividad-card {
+        margin-bottom: 10px;
+    }
+}
+
+/* ===== FOOTER ===== */
+footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    color: #555;
+    margin-top: 40px;
+    border-top: 1px solid #ddd;
+}
+
+/* ===== ESTILOS PARA EL HEADER Y NAVEGACIÓN ===== */
+.d-flex.align-items-center {
+    margin-left: auto;
+}
+
+.text-white.small {
+    margin-left: 10px;
+}
+
+.navbar-nav {
+    align-items: center;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+}
+
+.nav-link.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/* Ajustes para el ícono de usuario */
+.lucide-user {
+    color: white;
+}
