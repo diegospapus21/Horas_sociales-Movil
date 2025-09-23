@@ -7,64 +7,42 @@
     <link rel="stylesheet" href="css/Perfil de Estudiantes.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <img src="https://via.placeholder.com/120" alt="Foto del estudiante" class="profile-pic">
+    <div class="profile-container">
+        <!-- Header con gradiente -->
+        <header class="profile-header">
+            <div class="decorative-circle circle-1"></div>
+            <div class="decorative-circle circle-2"></div>
+            
+            <img src="img/foto de perfil.jpg" alt="Foto del estudiante" class="profile-avatar">
             <h1 class="student-name">María González Pérez</h1>
-            <p class="student-id">Código: EST-2023-0456</p>
-        </div>
-        
-        <div class="profile-content">
-            <div class="info-section">
+            <p class="student-code">Código: EST-2025-0456</p>
+        </header>
+
+        <!-- Contenido principal -->
+        <main class="profile-content">
+            <!-- Sección Información Académica -->
+            <section class="section">
                 <h2 class="section-title">Información Académica</h2>
-                
-                <div class="info-item">
-                    <div class="info-icon">📚</div>
-                    <div class="info-text">
-                        <div class="info-label">Curso</div>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <span class="info-label">Curso</span>
                         <div class="info-value">Matemáticas Avanzadas</div>
                     </div>
-                </div>
-                
-                <div class="info-item">
-                    <div class="info-icon">🎓</div>
-                    <div class="info-text">
-                        <div class="info-label">Año Académico</div>
+                    
+                    <div class="info-card">
+                        <span class="info-label">Año Académico</span>
                         <div class="info-value">2024 - 2025</div>
                     </div>
-                </div>
-                
-                <div class="info-item">
-                    <div class="info-icon">🔬</div>
-                    <div class="info-text">
-                        <div class="info-label">Especialidad</div>
-                        <div class="info-value">Ingeniería de Software
-                            <span class="specialty-badge">Tecnología</span>
-                        </div>
+                    
+                    <div class="info-card">
+                        <span class="info-label">Especialidad</span>
+                        <div class="info-value">Ingeniería de Software</div>
+                        <span class="info-subvalue">Tecnología</span>
+                        <span class="specialty-badge">Especialidad</span>
                     </div>
                 </div>
-            </div>
-            
-            <div class="info-section">
-                <h2 class="section-title">Información Adicional</h2>
-                
-                <div class="info-item">
-                    <div class="info-icon">📅</div>
-                    <div class="info-text">
-                        <div class="info-label">Fecha de Ingreso</div>
-                        <div class="info-value">15 de Agosto, 2023</div>
-                    </div>
-                </div>
-                
-                <div class="info-item">
-                    <div class="info-icon">⭐</div>
-                    <div class="info-text">
-                        <div class="info-label">Promedio Académico</div>
-                        <div class="info-value">4.2 / 5.0</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+            </section>
+        </main>
     </div>
 </body>
 </html>

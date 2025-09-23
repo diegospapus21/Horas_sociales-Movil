@@ -1,162 +1,407 @@
+/* Perfil de Estudiantes.css - Diseño Full Screen Moderno */
+
+:root {
+    --rojo-principal: #dc3545;
+    --rojo-oscuro: #c82333;
+    --rojo-claro: #e4606d;
+    --rojo-suave: #f8d7da;
+    
+    --azul-principal: #007bff;
+    --azul-oscuro: #0056b3;
+    --azul-claro: #4dabf7;
+    --azul-suave: #d1ecf1;
+    
+    --blanco: #ffffff;
+    --blanco-hueso: #f8f9fa;
+    --gris-claro: #e9ecef;
+    --gris-medio: #6c757d;
+    --gris-oscuro: #343a40;
+}
+
+/* Reset y estilos base */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    background-color: #f5f5f5;
-    color: #333;
-    line-height: 1.6;
-    padding: 20px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: linear-gradient(135deg, var(--rojo-principal) 0%, var(--azul-principal) 100%);
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    color: var(--gris-oscuro);
+    line-height: 1.6;
 }
 
-.container {
-    max-width: 500px;
-    width: 100%;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+/* Layout principal */
+.profile-container {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+}
+
+/* Header con gradiente */
+.profile-header {
+    background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul-principal) 100%);
+    color: var(--blanco);
+    padding: 3rem 2rem 4rem 2rem;
+    text-align: center;
+    position: relative;
     overflow: hidden;
 }
 
-.header {
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-    color: white;
-    padding: 30px 20px;
-    text-align: center;
-    position: relative;
+.profile-header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Q50,80 0,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+    background-size: 100% 100%;
 }
 
-.profile-pic {
-    width: 120px;
-    height: 120px;
+/* Avatar y información principal */
+.profile-avatar {
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
-    border: 5px solid rgba(255, 255, 255, 0.3);
+    border: 5px solid var(--blanco);
     object-fit: cover;
-    margin: 0 auto 15px;
-    display: block;
-    background-color: #ddd;
+    margin: 0 auto 1.5rem auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.profile-avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
 }
 
 .student-name {
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin-bottom: 5px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-.student-id {
-    font-size: 1rem;
+.student-code {
+    font-size: 1.2rem;
+    color: var(--rojo-suave);
+    font-weight: 500;
     opacity: 0.9;
+    position: relative;
+    z-index: 2;
 }
 
+/* Contenido principal */
 .profile-content {
-    padding: 25px;
+    background: var(--blanco);
+    border-radius: 40px 40px 0 0;
+    margin-top: -30px;
+    padding: 3rem 2rem;
+    position: relative;
+    z-index: 3;
+    min-height: calc(100vh - 300px);
 }
 
-.info-section {
-    margin-bottom: 25px;
+/* Secciones */
+.section {
+    margin-bottom: 3rem;
+}
+
+.section:last-child {
+    margin-bottom: 0;
 }
 
 .section-title {
-    font-size: 1.2rem;
-    color: #6a11cb;
-    margin-bottom: 10px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid #eee;
-    font-weight: 600;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--azul-oscuro);
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid var(--rojo-suave);
+    position: relative;
 }
 
-.info-item {
-    display: flex;
-    margin-bottom: 15px;
-    align-items: center;
+.section-title::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 80px;
+    height: 3px;
+    background: var(--rojo-principal);
 }
 
-.info-icon {
-    width: 40px;
-    height: 40px;
-    background: #f0f4ff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 15px;
-    color: #6a11cb;
-    font-size: 1.2rem;
+/* Grid de información */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
 }
 
-.info-text {
-    flex: 1;
+.info-card {
+    background: var(--blanco-hueso);
+    padding: 2rem;
+    border-radius: 20px;
+    border-left: 5px solid var(--rojo-principal);
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border-left-color: var(--azul-principal);
+}
+
+.info-card:nth-child(even) {
+    border-left-color: var(--azul-principal);
+}
+
+.info-card:nth-child(even):hover {
+    border-left-color: var(--rojo-principal);
 }
 
 .info-label {
-    font-size: 0.85rem;
-    color: #777;
-    margin-bottom: 3px;
+    font-size: 0.9rem;
+    color: var(--gris-medio);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+    display: block;
 }
 
 .info-value {
-    font-size: 1.1rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--gris-oscuro);
+    margin-bottom: 0.5rem;
+}
+
+.info-subvalue {
+    font-size: 1rem;
+    color: var(--gris-medio);
     font-weight: 500;
 }
 
+/* Badge de especialidad */
 .specialty-badge {
     display: inline-block;
-    background: #eef7ff;
-    color: #2575fc;
-    padding: 5px 12px;
+    background: linear-gradient(135deg, var(--rojo-principal) 0%, var(--rojo-claro) 100%);
+    color: var(--blanco);
+    padding: 0.5rem 1rem;
     border-radius: 20px;
     font-size: 0.9rem;
-    margin-top: 5px;
-    font-weight: 500;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Promedio académico con estilo especial */
+.grade-card {
+    background: linear-gradient(135deg, var(--azul-principal) 0%, var(--azul-claro) 100%);
+    color: var(--blanco);
+    border-left-color: transparent !important;
+}
+
+.grade-card .info-label {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.grade-card .info-value {
+    color: var(--blanco);
+    font-size: 2rem;
+}
+
+.grade-card .info-subvalue {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Efectos decorativos */
+.decorative-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 1;
+}
+
+.circle-1 {
+    width: 200px;
+    height: 200px;
+    top: -50px;
+    right: -50px;
+}
+
+.circle-2 {
+    width: 150px;
+    height: 150px;
+    bottom: -30px;
+    left: -30px;
+}
+
+/* Responsive para tablets */
+@media (max-width: 1024px) {
+    .profile-header {
+        padding: 2.5rem 1.5rem 3.5rem 1.5rem;
+    }
+    
+    .profile-avatar {
+        width: 130px;
+        height: 130px;
+    }
+    
+    .student-name {
+        font-size: 2.2rem;
+    }
+    
+    .profile-content {
+        padding: 2.5rem 1.5rem;
+        border-radius: 30px 30px 0 0;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .profile-header {
+        padding: 2rem 1rem 3rem 1rem;
+    }
+    
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border-width: 4px;
+    }
+    
+    .student-name {
+        font-size: 2rem;
+    }
+    
+    .student-code {
+        font-size: 1.1rem;
+    }
+    
+    .profile-content {
+        padding: 2rem 1rem;
+        border-radius: 25px 25px 0 0;
+        margin-top: -25px;
+    }
+    
+    .section-title {
+        font-size: 1.6rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .info-card {
+        padding: 1.5rem;
+    }
+    
+    .info-value {
+        font-size: 1.3rem;
+    }
 }
 
 @media (max-width: 480px) {
-    body {
-        padding: 10px;
+    .profile-header {
+        padding: 1.5rem 1rem 2.5rem 1rem;
     }
     
-    .header {
-        padding: 25px 15px;
-    }
-    
-    .profile-pic {
+    .profile-avatar {
         width: 100px;
         height: 100px;
     }
     
     .student-name {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
     }
     
     .profile-content {
-        padding: 20px 15px;
+        padding: 1.5rem 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.4rem;
+    }
+    
+    .info-card {
+        padding: 1.25rem;
+    }
+    
+    .info-value {
+        font-size: 1.2rem;
+    }
+    
+    .grade-card .info-value {
+        font-size: 1.6rem;
     }
 }
 
-@media (max-width: 360px) {
-    .profile-pic {
-        width: 90px;
-        height: 90px;
+/* Animaciones */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
     }
-    
-    .student-name {
-        font-size: 1.3rem;
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
-    
-    .info-item {
-        flex-direction: column;
-        text-align: center;
+}
+
+.info-card {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.info-card:nth-child(1) { animation-delay: 0.1s; }
+.info-card:nth-child(2) { animation-delay: 0.2s; }
+.info-card:nth-child(3) { animation-delay: 0.3s; }
+.info-card:nth-child(4) { animation-delay: 0.4s; }
+.info-card:nth-child(5) { animation-delay: 0.5s; }
+
+/* Scroll personalizado */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--gris-claro);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--rojo-principal);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--rojo-oscuro);
+}
+
+/* Mejoras de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+    .profile-avatar,
+    .info-card {
+        transition: none;
+        animation: none;
     }
-    
-    .info-icon {
-        margin-right: 0;
-        margin-bottom: 10px;
-    }
+}
+
+/* Estados de carga */
+.info-value:empty::before {
+    content: "Cargando...";
+    color: var(--gris-medio);
+    font-style: italic;
+    font-weight: normal;
 }
