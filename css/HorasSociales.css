@@ -1,0 +1,413 @@
+:root {
+--rojo-principal: #dc3545;
+--rojo-oscuro: #c82333;
+--rojo-claro: #e4606d;
+--rojo-suave: #f8d7da;
+
+--azul-principal: #007bff;
+--azul-oscuro: #0056b3;
+--azul-claro: #4dabf7;
+--azul-suave: #d1ecf1;
+
+--blanco: #ffffff;
+--blanco-hueso: #f8f9fa;
+--gris-claro: #e9ecef;
+--gris-medio: #6c757d;
+--gris-oscuro: #343a40;
+
+--header-color: #2A3B4C;
+}
+
+/* Estilos generales */
+body {
+background-color: var(--blanco-hueso);
+min-height: 100vh;
+font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Header */
+.navbar-dark {
+background-color: var(--header-color) !important;
+box-shadow: 0 2px 10px rgba(42, 59, 76, 0.3);
+}
+
+.navbar-brand img {
+transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover img {
+transform: scale(1.05);
+}
+
+.nav-link {
+color: var(--blanco) !important;
+font-weight: 500;
+padding: 0.75rem 1rem !important;
+border-radius: 8px;
+margin: 0.1rem 0;
+transition: all 0.3s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+background-color: rgba(255, 255, 255, 0.15);
+transform: translateX(5px);
+}
+
+.offcanvas {
+background-color: var(--header-color);
+}
+
+.offcanvas-title {
+color: var(--blanco);
+font-weight: 600;
+}
+
+/* Contenedor principal */
+.container {
+max-width: 1200px;
+padding: 0 1rem;
+}
+
+/* Sección de título */
+.titulo {
+background: linear-gradient(135deg, var(--azul-principal) 0%, var(--azul-oscuro) 100%);
+color: var(--blanco);
+padding: 2rem 1rem;
+margin: -1.5rem -1rem 2rem -1rem;
+text-align: center;
+border-radius: 0 0 20px 20px;
+}
+
+.comision-title {
+font-size: 1.5rem;
+font-weight: 600;
+line-height: 1.4;
+}
+
+.comision-title i {
+color: var(--rojo-suave);
+}
+
+#nombre-comision {
+font-size: 1.8rem;
+font-weight: 700;
+color: var(--rojo-suave);
+text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Grid de estadísticas */
+.estadisticas-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 1rem;
+margin-bottom: 2rem;
+padding: 15px;
+}
+
+.estadistica-card {
+background: var(--blanco);
+padding: 1.5rem;
+border-radius: 12px;
+text-align: center;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+transition: all 0.3s ease;
+border-top: 4px solid transparent;
+}
+
+.estadistica-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.estadistica-card:nth-child(1) { border-top-color: var(--rojo-principal); }
+.estadistica-card:nth-child(2) { border-top-color: var(--azul-principal); }
+.estadistica-card:nth-child(3) { border-top-color: var(--rojo-claro); }
+.estadistica-card:nth-child(4) { border-top-color: var(--azul-claro); }
+
+.numero-estadistica {
+font-size: 2.5rem;
+font-weight: 700;
+margin: 0.5rem 0;
+color: var(--gris-oscuro);
+}
+
+.estadistica-card div:last-child {
+color: var(--gris-medio);
+font-weight: 500;
+}
+
+/* Colores de iconos */
+.text-success { color: var(--rojo-principal) !important; }
+.text-primary { color: var(--azul-principal) !important; }
+.text-warning { color: var(--rojo-claro) !important; }
+.text-info { color: var(--azul-claro) !important; }
+
+/* Sección de progreso */
+.resumen-horas {
+background: var(--blanco);
+padding: 1.5rem;
+border-radius: 12px;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+margin-bottom: 2rem;
+}
+
+.resumen-horas h3 {
+color: var(--header-color);
+font-weight: 600;
+margin-bottom: 1rem;
+}
+
+.resumen-horas h3 i {
+color: var(--rojo-principal);
+}
+
+.progreso-container {
+background: var(--gris-claro);
+border-radius: 10px;
+height: 25px;
+overflow: hidden;
+position: relative;
+}
+
+.progreso-bar {
+background: linear-gradient(135deg, var(--rojo-principal) 0%, var(--rojo-claro) 100%);
+height: 100%;
+border-radius: 10px;
+transition: width 1s ease-in-out;
+display: flex;
+align-items: center;
+justify-content: center;
+color: var(--blanco);
+font-weight: 600;
+font-size: 0.8rem;
+text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Lista de actividades */
+section h4 {
+color: var(--header-color);
+font-weight: 600;
+margin-bottom: 1rem;
+}
+
+section h4 i {
+color: var(--azul-principal);
+}
+
+#lista-actividades {
+min-height: 200px;
+}
+
+.actividad-item {
+background: var(--blanco);
+padding: 1rem;
+border-radius: 8px;
+margin-bottom: 0.75rem;
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+border-left: 4px solid var(--azul-principal);
+transition: all 0.3s ease;
+}
+
+.actividad-item:hover {
+transform: translateX(5px);
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.actividad-header {
+display: flex;
+justify-content: space-between;
+align-items: flex-start;
+margin-bottom: 0.5rem;
+flex-wrap: wrap;
+gap: 0.5rem;
+}
+
+.actividad-nombre {
+font-weight: 600;
+color: var(--gris-oscuro);
+margin: 0;
+flex: 1;
+}
+
+.actividad-horas {
+background: var(--rojo-suave);
+color: var(--rojo-oscuro);
+padding: 0.25rem 0.75rem;
+border-radius: 15px;
+font-size: 0.9rem;
+font-weight: 600;
+}
+
+.actividad-detalles {
+color: var(--gris-medio);
+font-size: 0.9rem;
+margin-bottom: 0.5rem;
+}
+
+.actividad-fecha {
+color: var(--gris-medio);
+font-size: 0.8rem;
+font-style: italic;
+}
+
+/* Spinner de carga */
+.loading-spinner {
+width: 40px;
+height: 40px;
+border: 4px solid var(--gris-claro);
+border-left: 4px solid var(--rojo-principal);
+border-radius: 50%;
+animation: spin 1s linear infinite;
+margin: 0 auto;
+}
+
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+
+/* Footer */
+footer {
+background-color: var(--header-color);
+color: var(--blanco);
+padding: 2rem 1rem;
+margin-top: 3rem;
+}
+
+footer p {
+margin: 0;
+opacity: 0.8;
+}
+
+/* Estados vacíos */
+#lista-actividades:empty::before {
+content: "No hay actividades registradas";
+display: block;
+text-align: center;
+color: var(--gris-medio);
+font-style: italic;
+padding: 3rem;
+font-size: 1.1rem;
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+.container {
+    padding: 0 0.5rem;
+}
+
+.titulo {
+    padding: 1.5rem 1rem;
+    margin: -1rem -0.5rem 1.5rem -0.5rem;
+    border-radius: 0 0 15px 15px;
+}
+
+.comision-title {
+    font-size: 1.3rem;
+}
+
+#nombre-comision {
+    font-size: 1.5rem;
+}
+
+.estadisticas-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+
+.estadistica-card {
+    padding: 1rem;
+}
+
+.numero-estadistica {
+    font-size: 2rem;
+}
+
+.resumen-horas {
+    padding: 1rem;
+}
+
+.actividad-item {
+    padding: 0.75rem;
+}
+
+.actividad-header {
+    flex-direction: column;
+    gap: 0.5rem;
+}
+}
+
+@media (max-width: 576px) {
+.estadisticas-grid {
+    grid-template-columns: 1fr;
+}
+
+.titulo {
+    padding: 1rem;
+}
+
+.comision-title {
+    font-size: 1.1rem;
+}
+
+#nombre-comision {
+    font-size: 1.3rem;
+}
+
+.numero-estadistica {
+    font-size: 1.8rem;
+}
+
+.progreso-bar {
+    font-size: 0.7rem;
+}
+}
+
+/* Efectos hover mejorados */
+.estadistica-card, .actividad-item, .nav-link {
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Scroll personalizado */
+::-webkit-scrollbar {
+width: 6px;
+}
+
+::-webkit-scrollbar-track {
+background: var(--gris-claro);
+}
+
+::-webkit-scrollbar-thumb {
+background: var(--rojo-principal);
+border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+background: var(--rojo-oscuro);
+}
+
+/* Animaciones para la barra de progreso */
+@keyframes progressFill {
+from { width: 0%; }
+to { width: var(--progress-width); }
+}
+
+.progreso-bar {
+animation: progressFill 1.5s ease-out;
+}
+
+/* Mejoras de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+.estadistica-card,
+.actividad-item,
+.nav-link,
+.progreso-bar,
+.loading-spinner {
+    transition: none;
+    animation: none;
+}
+
+.progreso-bar {
+    transition: width 0.1s ease-out;
+}
+}

@@ -1,0 +1,552 @@
+/* Reset básico */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--body-bg);
+    line-height: 1.6;
+    color: var(--gray-800);
+    overflow-x: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+/* CONTENEDOR PRINCIPAL */
+.container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+/* ENCABEZADO DEL CALENDARIO */
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.calendar-header h1 {
+    font-size: var(--font-size-2xl);
+    color: var(--secondary);
+    font-weight: 600;
+    margin: 0;
+}
+
+.clock {
+    font-size: var(--font-size-lg);
+    color: var(--gray-600);
+    font-weight: 500;
+    background: var(--light);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+}
+
+/* NAVEGACIÓN DEL CALENDARIO */
+.calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--light);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+}
+
+.month-year {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--secondary);
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.nav-buttons button {
+    background: var(--primary);
+    color: var(--light);
+    border: none;
+    border-radius: 6px;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    min-width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-buttons button:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.nav-buttons button#today {
+    background: var(--accent);
+}
+
+.nav-buttons button#today:hover {
+    background: var(--accent-light);
+}
+
+/* CABECERA DE DÍAS DE LA SEMANA */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.day-header {
+    text-align: center;
+    padding: 1rem 0.5rem;
+    font-weight: 600;
+    color: var(--secondary);
+    background: var(--light);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-sm);
+}
+
+/* DÍAS DEL CALENDARIO */
+#calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+}
+
+.calendar-day {
+    background: var(--light);
+    border-radius: var(--border-radius);
+    padding: 0.8rem;
+    min-height: 100px;
+    border: 2px solid transparent;
+    transition: var(--transition);
+    cursor: pointer;
+    position: relative;
+}
+
+.calendar-day:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow);
+}
+
+.calendar-day.other-month {
+    background: var(--gray-100);
+    color: var(--gray-500);
+}
+
+.calendar-day.today {
+    border-color: var(--primary);
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+    color: var(--light);
+}
+
+.day-number {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.event-indicator {
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    margin-top: 0.3rem;
+}
+
+.event-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 1px;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    overflow-y: auto;
+}
+
+.modal-content {
+    background: var(--light);
+    margin: 2% auto;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    width: 95%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--gray-600);
+    background: none;
+    border: none;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-btn:hover {
+    color: var(--primary);
+}
+
+.modal-content h2 {
+    margin-bottom: 1.5rem;
+    color: var(--secondary);
+    font-size: var(--font-size-xl);
+}
+
+/* FORMULARIO */
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--secondary);
+    font-size: var(--font-size-sm);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--gray-300);
+    border-radius: 6px;
+    font-size: var(--font-size-base);
+    transition: var(--transition);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(179, 51, 53, 0.1);
+}
+
+.time-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.char-counter {
+    text-align: right;
+    font-size: var(--font-size-xs);
+    color: var(--gray-600);
+    margin-top: 0.3rem;
+}
+
+/* BOTONES DEL FORMULARIO */
+.form-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.form-buttons button {
+    padding: 0.8rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 600;
+    font-size: var(--font-size-base);
+}
+
+.save-btn {
+    background: var(--primary);
+    color: var(--light);
+    grid-column: 1 / -1;
+}
+
+.save-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.delete-btn {
+    background: var(--gray-300);
+    color: var(--gray-800);
+}
+
+.delete-btn:hover {
+    background: var(--gray-400);
+}
+
+.cancel-btn {
+    background: var(--gray-200);
+    color: var(--gray-700);
+}
+
+.cancel-btn:hover {
+    background: var(--gray-300);
+}
+
+/* RESPONSIVE DESIGN - BREAKPOINTS */
+
+/* Móviles pequeños (≤360px) */
+@media (max-width: 360px) {
+    .container {
+        padding: 0.5rem;
+    }
+    
+    .calendar-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .calendar-header h1 {
+        font-size: var(--font-size-xl);
+    }
+    
+    .clock {
+        font-size: var(--font-size-base);
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .calendar-nav {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+    
+    .month-year {
+        font-size: var(--font-size-lg);
+    }
+    
+    .nav-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .calendar-grid {
+        gap: 0.3rem;
+    }
+    
+    .day-header {
+        padding: 0.8rem 0.3rem;
+        font-size: var(--font-size-xs);
+    }
+    
+    .calendar-day {
+        min-height: 80px;
+        padding: 0.6rem;
+    }
+    
+    .day-number {
+        font-size: var(--font-size-xs);
+    }
+    
+    .modal-content {
+        padding: 1.5rem;
+        margin: 5% auto;
+    }
+    
+    .time-group {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+    
+    .form-buttons {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Tabletas (≥768px) */
+@media (min-width: 768px) {
+    .Menu-center a {
+        display: flex;
+        padding: 0.5rem 0.8rem;
+    }
+    
+    .container {
+        padding: 2rem;
+    }
+    
+    .calendar-header h1 {
+        font-size: var(--font-size-3xl);
+    }
+    
+    .month-year {
+        font-size: var(--font-size-2xl);
+    }
+    
+    .calendar-day {
+        min-height: 120px;
+    }
+    
+    .modal-content {
+        width: 85%;
+    }
+    
+    .time-group {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Desktop (≥1024px) */
+@media (min-width: 1024px) {
+    .container {
+        padding: 2rem 3rem;
+    }
+    
+    .calendar-grid {
+        gap: 0.8rem;
+    }
+    
+    .calendar-day {
+        min-height: 140px;
+    }
+    
+    .modal-content {
+        width: 70%;
+    }
+}
+
+/* Desktop grande (≥1200px) */
+@media (min-width: 1200px) {
+    .container {
+        padding: 3rem 4rem;
+    }
+    
+    .calendar-day {
+        min-height: 160px;
+    }
+    
+    .modal-content {
+        width: 60%;
+        max-width: 600px;
+    }
+}
+
+/* Landscape para móviles */
+@media (max-height: 500px) and (orientation: landscape) {
+    .calendar-day {
+        min-height: 80px;
+    }
+    
+    .modal-content {
+        margin: 1% auto;
+        max-height: 98vh;
+    }
+}
+
+/* Optimización para touch */
+@media (hover: none) and (pointer: coarse) {
+    .calendar-day:active {
+        border-color: var(--primary);
+        transform: translateY(-1px);
+    }
+    
+    .nav-buttons button:active {
+        transform: translateY(-1px);
+    }
+    
+    /* Mejorar área de touch */
+    .nav-buttons button,
+    .form-buttons button {
+        min-height: 44px;
+    }
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--gray-200);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-light);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-content {
+    animation: fadeIn 0.3s ease;
+}
+
+/* Estados de focus para accesibilidad */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Soporte para dark mode */
+@media (prefers-color-scheme: dark) {
+    .calendar-day {
+        background: var(--gray-800);
+        color: var(--light);
+    }
+    
+    .calendar-day.other-month {
+        background: var(--gray-900);
+        color: var(--gray-500);
+    }
+    
+    .day-header {
+        background: var(--gray-800);
+        color: var(--light);
+    }
+    
+    .calendar-nav {
+        background: var(--gray-800);
+    }
+    
+    .month-year {
+        color: var(--light);
+    }
+}
