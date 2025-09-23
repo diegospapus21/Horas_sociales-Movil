@@ -1,0 +1,463 @@
+/* Dashboard.css - Optimizado para móvil con rojo, azul y blanco */
+
+:root {
+    --rojo-principal: #dc3545;
+    --rojo-oscuro: #c82333;
+    --rojo-claro: #e4606d;
+    --rojo-suave: #f8d7da;
+    
+    --azul-principal: #007bff;
+    --azul-oscuro: #0056b3;
+    --azul-claro: #4dabf7;
+    --azul-suave: #d1ecf1;
+    
+    --blanco: #ffffff;
+    --blanco-hueso: #f8f9fa;
+    --gris-claro: #e9ecef;
+    --gris-medio: #6c757d;
+    --gris-oscuro: #343a40;
+    
+    --header-color: #2A3B4C;
+}
+
+/* Estilos generales */
+.dashboard-estudiante {
+    background-color: var(--blanco-hueso);
+    min-height: 100vh;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Header */
+.navbar-dark {
+    background-color: var(--header-color) !important;
+    box-shadow: 0 2px 10px rgba(42, 59, 76, 0.3);
+}
+
+.navbar-brand img {
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover img {
+    transform: scale(1.05);
+}
+
+.nav-link {
+    color: var(--blanco) !important;
+    font-weight: 500;
+    padding: 0.75rem 1rem !important;
+    border-radius: 8px;
+    margin: 0.1rem 0;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateX(5px);
+}
+
+.offcanvas {
+    background-color: var(--header-color);
+}
+
+.offcanvas-title {
+    color: var(--blanco);
+    font-weight: 600;
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 1200px;
+    padding: 0 1rem;
+}
+
+/* Alert de bienvenida */
+.alert-info {
+    background-color: var(--azul-suave);
+    border: 1px solid var(--azul-claro);
+    color: var(--azul-oscuro);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+}
+
+.alert-info i {
+    color: var(--azul-principal);
+}
+
+/* Tarjetas principales */
+.card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    background: var(--blanco);
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--azul-principal) 0%, var(--azul-oscuro) 100%) !important;
+    color: var(--blanco);
+    border-radius: 16px 16px 0 0 !important;
+    padding: 1.25rem;
+    border-bottom: none;
+}
+
+.card-header h5 {
+    font-weight: 600;
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.card-header h5 i {
+    color: var(--rojo-suave);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Próxima actividad */
+#proxima-actividad-content {
+    min-height: 120px;
+}
+
+.actividad-destacada {
+    background: linear-gradient(135deg, var(--rojo-suave) 0%, var(--blanco) 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border-left: 4px solid var(--rojo-principal);
+}
+
+.actividad-titulo {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--gris-oscuro);
+    margin-bottom: 0.5rem;
+}
+
+.actividad-fecha {
+    color: var(--rojo-principal);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.actividad-descripcion {
+    color: var(--gris-medio);
+    line-height: 1.5;
+}
+
+/* Progreso de horas sociales */
+.progress-pie {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: conic-gradient(var(--rojo-principal) var(--percentage), var(--gris-claro) 0%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.2);
+}
+
+.progress-pie::before {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: var(--blanco);
+    border-radius: 50%;
+}
+
+.percentage-text {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--rojo-principal);
+    z-index: 1;
+    position: relative;
+}
+
+.percentage-label {
+    color: var(--gris-oscuro);
+    font-weight: 600;
+    margin-top: 1rem;
+}
+
+.progress {
+    background-color: var(--gris-claro);
+    border-radius: 10px;
+    overflow: hidden;
+    height: 12px !important;
+}
+
+.progress-bar {
+    background: linear-gradient(135deg, var(--rojo-principal) 0%, var(--rojo-claro) 100%);
+    border-radius: 10px;
+    transition: width 1s ease-in-out;
+}
+
+/* Accesos rápidos */
+.btn {
+    border-radius: 12px;
+    padding: 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-width: 2px;
+    font-weight: 600;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-outline-primary {
+    border-color: var(--azul-principal);
+    color: var(--azul-principal);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--azul-principal);
+    color: var(--blanco);
+    transform: translateY(-3px);
+}
+
+.btn-outline-info {
+    border-color: var(--azul-claro);
+    color: var(--azul-claro);
+}
+
+.btn-outline-info:hover {
+    background-color: var(--azul-claro);
+    color: var(--blanco);
+    transform: translateY(-3px);
+}
+
+.btn-outline-success {
+    border-color: var(--rojo-principal);
+    color: var(--rojo-principal);
+}
+
+.btn-outline-success:hover {
+    background-color: var(--rojo-principal);
+    color: var(--blanco);
+    transform: translateY(-3px);
+}
+
+.btn-outline-warning {
+    border-color: var(--rojo-claro);
+    color: var(--rojo-claro);
+}
+
+.btn-outline-warning:hover {
+    background-color: var(--rojo-claro);
+    color: var(--blanco);
+    transform: translateY(-3px);
+}
+
+.btn i {
+    font-size: 2rem !important;
+    margin-bottom: 0.5rem;
+}
+
+/* Próximos eventos */
+#proximos-eventos-content {
+    min-height: 200px;
+}
+
+.evento-item {
+    background: var(--blanco-hueso);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid var(--azul-principal);
+    transition: all 0.3s ease;
+}
+
+.evento-item:hover {
+    background: var(--blanco);
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.evento-fecha {
+    background: var(--azul-suave);
+    color: var(--azul-oscuro);
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+.evento-titulo {
+    font-weight: 600;
+    color: var(--gris-oscuro);
+    margin-bottom: 0.25rem;
+}
+
+.evento-descripcion {
+    color: var(--gris-medio);
+    font-size: 0.9rem;
+}
+
+/* Spinner de carga */
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--gris-claro);
+    border-left: 4px solid var(--rojo-principal);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Estados vacíos */
+#proxima-actividad-content:empty::before,
+#proximos-eventos-content:empty::before {
+    content: "No hay información disponible";
+    display: block;
+    text-align: center;
+    color: var(--gris-medio);
+    font-style: italic;
+    padding: 2rem;
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 0.5rem;
+    }
+    
+    .card-header {
+        padding: 1rem;
+    }
+    
+    .card-header h5 {
+        font-size: 1.1rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .progress-pie {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .progress-pie::before {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .percentage-text {
+        font-size: 1.5rem;
+    }
+    
+    .btn {
+        min-height: 80px;
+        padding: 0.75rem;
+    }
+    
+    .btn i {
+        font-size: 1.5rem !important;
+    }
+    
+    .actividad-destacada {
+        padding: 1rem;
+    }
+    
+    .actividad-titulo {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .row.g-3 {
+        margin: 0 -5px;
+    }
+    
+    .col-6 {
+        padding: 0 5px;
+    }
+    
+    .btn {
+        min-height: 70px;
+        padding: 0.5rem;
+    }
+    
+    .btn span {
+        font-size: 0.9rem;
+    }
+    
+    .progress-pie {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .progress-pie::before {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .percentage-text {
+        font-size: 1.2rem;
+    }
+}
+
+/* Efectos hover mejorados */
+.card, .btn, .evento-item, .nav-link {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Scroll personalizado */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--gris-claro);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--rojo-principal);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--rojo-oscuro);
+}
+
+/* Animaciones para la gráfica de progreso */
+@keyframes progressFill {
+    from { --percentage: 0%; }
+    to { --percentage: var(--target-percentage); }
+}
+
+.progress-pie {
+    animation: progressFill 1.5s ease-out;
+}
+
+.progress-bar {
+    animation: progressFill 1.5s ease-out;
+}
+
+/* Mejoras de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+    .card, .btn, .evento-item, .nav-link,
+    .progress-pie, .progress-bar, .loading-spinner {
+        transition: none;
+        animation: none;
+    }
+}
