@@ -316,7 +316,7 @@
         </div>
         
         <div class="dropdown">
-            <div class="option" onclick="selectOption('opcion1', 'Opción 1')">Opción 1</div>
+            <div class="option" onclick="selectOption('opcion1', 'Opción 1')">arquitectura</div>
             <div class="option" onclick="selectOption('opcion2', 'Opción 2')">Opción 2</div>
             <div class="option" onclick="selectOption('opcion3', 'Opción 3')">Opción 3</div>
             <div class="option" onclick="selectOption('opcion4', 'Opción 4')">Opción 4</div>
@@ -427,7 +427,6 @@
             errorElement.style.display = 'block';
         }
 
-        // Función para limpiar errores
         function clearError(fieldId) {
             const field = document.getElementById(fieldId);
             const errorElement = document.getElementById(fieldId + 'Error');
@@ -436,17 +435,23 @@
             errorElement.style.display = 'none';
         }
 
-        // Validación del formulario
         function validateForm() {
             let isValid = true;
 
-            // Validar nombre completo
-            const fullName = document.getElementById('fullName').value.trim();
+            const Nombre = document.getElementById('Nombre').value.trim();
             if (fullName === '') {
-                showError('fullName', 'Por favor ingresa tu nombre completo');
+                showError('Nombre', 'Por favor ingresa tu nombre completo');
                 isValid = false;
             } else {
-                clearError('fullName');
+                clearError('Nombre');
+            }
+
+            const Apellidos = document.getElementById('Apellidos').value.trim();
+            if (fullName === '') {
+                showError('Apellidos', 'Por favor ingresa tu nombre completo');
+                isValid = false;
+            } else {
+                clearError('Apellidos');
             }
 
             // Validar email institucional
@@ -529,7 +534,7 @@
             submitBtn.disabled = true;
 
             try {
-                // Preparar datos para el registro
+                //Colocar los datos de la api en este apartado
                 const formData = {
                     nombre: document.getElementById('fullName').value.trim(),
                     email: document.getElementById('email').value.trim(),
@@ -598,5 +603,6 @@
             });
         }
     </script>
+    <script type="module" src="js/controllers/Registro_Controller.js"></script>
 </body>
 </html>
