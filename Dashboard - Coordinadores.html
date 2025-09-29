@@ -54,41 +54,56 @@
 
         <!-- Estadísticas Rápidas -->
         <div class="row mb-4">
+            <!-- Tarjeta de Estudiantes -->
             <div class="col-md-3 mb-3">
-                <div class="card stat-card text-center">
-                    <div class="card-body">
-                        <i class="bi bi-people fs-1 text-primary"></i>
-                        <h5 id="total-estudiantes">0</h5>
-                        <p class="text-muted">Estudiantes</p>
+                <a href="estudiantes.html" class="clickable-card">
+                    <div class="card stat-card text-center">
+                        <div class="card-body">
+                            <i class="bi bi-people fs-1 text-primary"></i>
+                            <h5 id="total-estudiantes">0</h5>
+                            <p class="text-muted">Estudiantes</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
+            
+            <!-- Tarjeta de Eventos -->
             <div class="col-md-3 mb-3">
-                <div class="card stat-card text-center">
-                    <div class="card-body">
-                        <i class="bi bi-calendar-event fs-1 text-success"></i>
-                        <h5 id="total-eventos">0</h5>
-                        <p class="text-muted">Eventos Activos</p>
+                <a href="eventos.html" class="clickable-card">
+                    <div class="card stat-card text-center">
+                        <div class="card-body">
+                            <i class="bi bi-calendar-event fs-1 text-success"></i>
+                            <h5 id="total-eventos">0</h5>
+                            <p class="text-muted">Eventos Activos</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
+            
+            <!-- Tarjeta de Solicitudes -->
             <div class="col-md-3 mb-3">
-                <div class="card stat-card text-center">
-                    <div class="card-body">
-                        <i class="bi bi-chat fs-1 text-info"></i>
-                        <h5 id="solicitudes-pendientes">0</h5>
-                        <p class="text-muted">Solicitudes</p>
+                <a href="solicitudes.html" class="clickable-card">
+                    <div class="card stat-card text-center">
+                        <div class="card-body">
+                            <i class="bi bi-chat fs-1 text-info"></i>
+                            <h5 id="solicitudes-pendientes">0</h5>
+                            <p class="text-muted">Solicitudes</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
+            
+            <!-- Tarjeta de Horas -->
             <div class="col-md-3 mb-3">
-                <div class="card stat-card text-center">
-                    <div class="card-body">
-                        <i class="bi bi-clock fs-1 text-warning"></i>
-                        <h5 id="horas-totales">0</h5>
-                        <p class="text-muted">Horas Registradas</p>
+                <a href="horas.html" class="clickable-card">
+                    <div class="card stat-card text-center">
+                        <div class="card-body">
+                            <i class="bi bi-clock fs-1 text-warning"></i>
+                            <h5 id="horas-totales">0</h5>
+                            <p class="text-muted">Horas Registradas</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
 
@@ -118,8 +133,10 @@
                 </div>
             </div>
         </div>
+   </div>
+   
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
-   <script type="module" src="js/controllers/dashboardCController.js"></script>
-
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module" src="js/controllers/CoordinadoresController.js"></script>
 </body>
 </html>

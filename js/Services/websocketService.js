@@ -10,7 +10,7 @@ class WebSocketService {
         return new Promise((resolve, reject) => {
             try {
                 // Conectar al servidor WebSocket (ajusta la URL según tu configuración)
-                this.socket = new WebSocket('ws://localhost:8080/ws');
+                this.socket = new WebSocket('ws://shmsapi-9871bf53b299.herokuapp.com/ws');
                 
                 this.socket.onopen = () => {
                     this.connected = true;

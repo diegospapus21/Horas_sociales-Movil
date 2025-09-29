@@ -1,22 +1,29 @@
-const API_URL_Tablero = "http://localhost:8080/apiTablero";
+const API_URL_Tablero = "https://shmsapi-9871bf53b299.herokuapp.com/apiTablero";
 
 export async function getAllPublicaciones(page = 0, size = 5) {
-    const res = await fetch(`${API_URL_Tablero}/getAllPublicaciones?page=${page}&size=${size}`);
+    const res = await fetch(`${API_URL_Tablero}/getAllPublicaciones?page=${page}&size=${size}`, {
+        credentials: "include"
+    });
     return res.json();
 }
 
 export async function obtenerPorId(id) {
-    const res = await fetch(`${API_URL_Tablero}/getByID/${id}`);
+    const res = await fetch(`${API_URL_Tablero}/getByID/${id}`, {
+        credentials: "include"
+    });
     return res.json();
 }
 
 export async function getAllByProyecto(idProyecto, page = 0, size = 5) {
-    const res = await fetch(`${API_URL_Tablero}/getByProyecto/${idProyecto}?page=${page}&size=${size}`);
+    const res = await fetch(`${API_URL_Tablero}/getByProyecto/${idProyecto}?page=${page}&size=${size}`, {
+        credentials: "include"
+    });
     return res.json();
 }
 
 export async function crearPublicacion(data) {
     await fetch(`${API_URL_Tablero}/postPublicacion`, {
+        credentials: "include",
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data),
@@ -25,6 +32,7 @@ export async function crearPublicacion(data) {
 
 export async function actualizarPublicacion(id, data) {
     await fetch(`${API_URL_Tablero}/putPublicacion/${id}`, {
+        credentials: "include",
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data),
@@ -32,5 +40,8 @@ export async function actualizarPublicacion(id, data) {
 }
 
 export async function eliminarPublicacion(id) {
-    await fetch(`${API_URL_Tablero}/deletePublicacion/${id}`, { method: 'DELETE' });
+    await fetch(`${API_URL_Tablero}/deletePublicacion/${id}`, { 
+        credentials: "include",
+        method: 'DELETE'
+    });
 }

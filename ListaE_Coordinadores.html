@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Personas con Paginación</title>
+    <link rel="stylesheet" href="css/Dashboard - Coordinadores.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .personas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .persona-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .persona-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .persona-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            margin-right: 15px;
+        }
+
+        .persona-info h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .persona-info .email {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .persona-details {
+            border-top: 1px solid #f0f0f0;
+            padding-top: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .detail-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .detail-value {
+            color: #333;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .pagination button {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-numbers {
+            display: flex;
+            gap: 5px;
+        }
+
+        .page-number {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .page-number.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .page-number:hover:not(.active) {
+            background: #f8f9fa;
+        }
+
+        .info-paginacion {
+            text-align: center;
+            color: #666;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .personas-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pagination {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+    <header>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand me-auto" href="#">
+                <img src="img/logo-ricaldone.png" alt="Logo" width="220" height="60" style="padding-bottom: 10px; padding-top: 10px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title">Menú</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link active" href="Dashboard - Coordinadores.html"><i class="bi bi-house me-2"></i>Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="Chat - Coordinadores.html"><i class="bi bi-chat me-2"></i>Chats</a></li>
+                        <li class="nav-item"><a class="nav-link" href="calendario.html"><i class="bi bi-calendar me-2"></i>Calendario</a></li>
+                        <li class="nav-item"><a class="nav-link" href="Actividades - Coordinadores.html"><i class="bi bi-list-task me-2"></i>Actividades</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" id="logout-btn"><i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="d-flex align-items-center">
+                <div style="padding-left: 7px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.6875" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+                <div class="d-none d-md-block">
+                    <div id="user-name" class="text-white small">Cargando...</div>
+                    <div id="user-role" class="text-white-50 small">Coordinador</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+</head>
+<body>
+    <div class="container">
+        <h1>Estudiantes del proyecto</h1>
+        
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar Estudiantes...">
+        </div>
+
+        <div id="personasContainer" class="personas-grid">
+        </div>
+
+        <div class="pagination">
+            <button id="prevPage" disabled>Anterior</button>
+            
+            <div class="page-numbers" id="pageNumbers">
+            </div>
+            
+            <button id="nextPage">Siguiente</button>
+        </div>
+
+        <div class="info-paginacion" id="pageInfo">
+            Mostrando 0 de 0 personas
+        </div>
+    </div>
+
+    <script>
+        const personas = Array.from({ length: 50 }, (_, i) => ({
+            id: i + 1,
+            nombre: `Persona ${i + 1}`,
+            email: `persona${i + 1}@ejemplo.com`,
+            telefono: `+34 ${600000000 + i}`,
+            ciudad: ['Madrid', 'Barcelona', 'Valencia', 'Sevilla', 'Bilbao'][i % 5],
+            edad: Math.floor(Math.random() * 50) + 20,
+            profesion: ['Desarrollador', 'Diseñador', 'Gerente', 'Analista', 'Consultor'][i % 5]
+        }));
+
+        // Configuración de paginación
+        let currentPage = 1;
+        const itemsPerPage = 6;
+        let filteredPersonas = [...personas];
+
+        // Elementos del DOM
+        const personasContainer = document.getElementById('personasContainer');
+        const prevPageBtn = document.getElementById('prevPage');
+        const nextPageBtn = document.getElementById('nextPage');
+        const pageNumbers = document.getElementById('pageNumbers');
+        const pageInfo = document.getElementById('pageInfo');
+        const searchInput = document.getElementById('searchInput');
+
+        // Función para renderizar las tarjetas de personas
+        function renderPersonas() {
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const currentPersonas = filteredPersonas.slice(startIndex, endIndex);
+
+            personasContainer.innerHTML = '';
+
+            currentPersonas.forEach(persona => {
+                const card = document.createElement('div');
+                card.className = 'persona-card';
+                
+                const initials = persona.nombre.split(' ').map(n => n[0]).join('').toUpperCase();
+                
+                card.innerHTML = `
+                    <div class="persona-header">
+                        <div class="avatar">${initials}</div>
+                        <div class="persona-info">
+                            <h3>${persona.nombre}</h3>
+                            <div class="email">${persona.email}</div>
+                        </div>
+                    </div>
+                    <div class="persona-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Teléfono:</span>
+                            <span class="detail-value">${persona.telefono}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Ciudad:</span>
+                            <span class="detail-value">${persona.ciudad}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Edad:</span>
+                            <span class="detail-value">${persona.edad} años</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Profesión:</span>
+                            <span class="detail-value">${persona.profesion}</span>
+                        </div>
+                    </div>
+                `;
+                
+                personasContainer.appendChild(card);
+            });
+
+            updatePagination();
+        }
+
+        // Función para actualizar la paginación
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredPersonas.length / itemsPerPage);
+            
+            // Actualizar botones anterior/siguiente
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages || totalPages === 0;
+
+            // Actualizar números de página
+            pageNumbers.innerHTML = '';
+            const maxPagesToShow = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+            let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+            if (endPage - startPage + 1 < maxPagesToShow) {
+                startPage = Math.max(1, endPage - maxPagesToShow + 1);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.className = `page-number ${i === currentPage ? 'active' : ''}`;
+                pageBtn.textContent = i;
+                pageBtn.onclick = () => goToPage(i);
+                pageNumbers.appendChild(pageBtn);
+            }
+
+            // Actualizar información de la página
+            const startItem = (currentPage - 1) * itemsPerPage + 1;
+            const endItem = Math.min(currentPage * itemsPerPage, filteredPersonas.length);
+            pageInfo.textContent = `Mostrando ${startItem}-${endItem} de ${filteredPersonas.length} personas`;
+        }
+
+        // Función para ir a una página específica
+        function goToPage(page) {
+            currentPage = page;
+            renderPersonas();
+        }
+
+        // Función de búsqueda
+        function searchPersonas() {
+            const searchTerm = searchInput.value.toLowerCase();
+            
+            filteredPersonas = personas.filter(persona => 
+                persona.nombre.toLowerCase().includes(searchTerm) ||
+                persona.email.toLowerCase().includes(searchTerm) ||
+                persona.ciudad.toLowerCase().includes(searchTerm) ||
+                persona.profesion.toLowerCase().includes(searchTerm)
+            );
+            
+            currentPage = 1;
+            renderPersonas();
+        }
+
+        // Event Listeners
+        prevPageBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderPersonas();
+            }
+        });
+
+        nextPageBtn.addEventListener('click', () => {
+            const totalPages = Math.ceil(filteredPersonas.length / itemsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderPersonas();
+            }
+        });
+
+        searchInput.addEventListener('input', searchPersonas);
+
+        // Inicializar
+        renderPersonas();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>

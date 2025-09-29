@@ -1,12 +1,13 @@
-const API_URL_Cloudinary = "http://localhost:8080/apiCloudinary";
+const API_URL_Cloudinary = "https://shmsapi-9871bf53b299.herokuapp.com/apiCloudinary";
 
 export async function uploadImage(file) {
     const formData = new FormData();
     formData.append('image', file);
 
-    const res = await fetch(`${IMAGE_API}/uploadImage`, {
+    const res = await fetch(`${API_URL_Cloudinary}/uploadImage`, {
+        credentials: "include",
         method: 'POST',
-        body: formData,
+        body: formData
     });
 
     return res.json();
@@ -17,9 +18,10 @@ export async function uploadImageToFolder(file, folder) {
     formData.append('image', file);
     formData.append('folder', folder);
 
-    const res = await fetch(`${IMAGE_API}/uploadImageToFolder`, {
+    const res = await fetch(`${API_URL_Cloudinary}/uploadImageToFolder`, {
+        credentials: "include",
         method: 'POST',
-        body: formData,
+        body: formData
     });
 
     return res.json();
