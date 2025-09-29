@@ -1,0 +1,61 @@
+:root {
+    --rojo-principal: #dc3545;
+    --rojo-oscuro: #c82333;
+    --rojo-claro: #e4606d;
+    --rojo-suave: #f8d7da;
+    
+    --azul-principal: #007bff;
+    --azul-oscuro: #0056b3;
+    --azul-claro: #4dabf7;
+    --azul-suave: #d1ecf1;
+    
+    --blanco: #ffffff;
+    --blanco-hueso: #f8f9fa;
+    --gris-claro: #e9ecef;
+    --gris-medio: #6c757d;
+    --gris-oscuro: #343a40;
+}
+
+/* Estilos generales */
+.dashboard-coordinador {
+    background-color: var(--blanco-hueso);
+    min-height: 100vh;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Header y navegación */
+.navbar-dark {
+    background: linear-gradient(135deg, #304457 0%, #1e2b38 100%);
+    box-shadow: 0 2px 10px rgba(48, 68, 87, 0.3);
+}
+
+.navbar-brand img {
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover img {
+    transform: scale(1.05);
+}
+
+.nav-link {
+    color: var(--blanco) !important;
+    font-weight: 500;
+    padding: 0.75rem 1rem !important;
+    border-radius: 8px;
+    margin: 0.1rem 0;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateX(5px);
+}
+
+.offcanvas {
+    background: linear-gradient(135deg, #304457 0%, #1e2b38 100%);
+}
+
+.offcanvas-title {
+    color: var(--blanco);
+    font-weight: 600;
+}
