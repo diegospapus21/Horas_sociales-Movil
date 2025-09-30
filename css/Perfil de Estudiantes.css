@@ -1,471 +1,235 @@
 /* Reset y estilos base */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    padding: 20px;
-}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff6b6b 0%, #c0392b 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-/* Contenedor principal */
-.profile-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
+        /* Contenedor principal */
+        .profile-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
 
-/* Header con gradiente */
-.profile-header {
-    background: linear-gradient(135deg, #4e54c8, #8f94fb);
-    padding: 40px 30px 80px;
-    position: relative;
-    text-align: center;
-    color: white;
-}
+        /* Header con gradiente */
+        .profile-header {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            padding: 30px 20px 50px;
+            position: relative;
+            text-align: center;
+            color: white;
+        }
 
-/* Botón de regreso */
-.back-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    color: white;
-    font-size: 1.5rem;
-    text-decoration: none;
-    background: rgba(255, 255, 255, 0.2);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-}
+        /* Botón de regreso */
+        .back-button {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            color: white;
+            font-size: 1.2rem;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.2);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
 
-.back-button:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: translateX(-2px);
-}
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-2px);
+        }
 
-/* Círculos decorativos */
-.decorative-circle {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-}
+        /* Avatar del perfil */
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid white;
+            margin: 0 auto 15px;
+            object-fit: cover;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
 
-.circle-1 {
-    width: 100px;
-    height: 100px;
-    top: 20px;
-    right: 50px;
-}
+        .student-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
 
-.circle-2 {
-    width: 150px;
-    height: 150px;
-    bottom: -75px;
-    left: -75px;
-}
+        .student-code {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
 
-/* Avatar del perfil */
-.profile-avatar {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 4px solid white;
-    margin: 0 auto 15px;
-    object-fit: cover;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
+        /* Contenido principal */
+        .profile-content {
+            padding: 20px;
+            margin-top: -30px;
+            position: relative;
+            z-index: 1;
+        }
 
-.student-name {
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin-bottom: 5px;
-}
+        /* Secciones */
+        .section {
+            margin-bottom: 1.5rem;
+        }
 
-.student-code {
-    font-size: 1rem;
-    opacity: 0.9;
-}
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #c0392b;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f5b7b1;
+        }
 
-/* Contenido principal */
-.profile-content {
-    padding: 30px;
-    margin-top: -40px;
-    position: relative;
-    z-index: 1;
-}
+        /* Grid de información */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
 
-/* Secciones */
-.section {
-    margin-bottom: 2rem;
-}
+        .info-card {
+            background: #fdf2f2;
+            padding: 1.2rem;
+            border-radius: 10px;
+            border-left: 4px solid #e74c3c;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
 
-.section-title {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: #2d3748;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid #e2e8f0;
-}
+        .info-label {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
 
-/* Grid de información */
-.info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-}
+        .info-value {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.25rem;
+        }
 
-.info-card {
-    background: #f8fafc;
-    padding: 1.5rem;
-    border-radius: 12px;
-    border-left: 4px solid #4e54c8;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-}
+        .info-subvalue {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+        }
 
-.info-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
-}
+        /* Tarjeta de horas sociales */
+        .horas-card {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
 
-.info-label {
-    font-size: 0.9rem;
-    color: #718096;
-    font-weight: 500;
-    display: block;
-    margin-bottom: 0.5rem;
-}
+        .horas-card .info-label,
+        .horas-card .info-value,
+        .horas-card .info-subvalue {
+            color: white;
+        }
 
-.info-value {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #2d3748;
-    margin-bottom: 0.25rem;
-}
+        /* Barra de progreso */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
 
-.info-subvalue {
-    font-size: 0.9rem;
-    color: #718096;
-}
+        .progress-fill {
+            height: 100%;
+            background: white;
+            border-radius: 4px;
+            width: 65%; /* Valor de ejemplo */
+        }
 
-/* Badge de especialidad */
-.specialty-badge {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: #4e54c8;
-    color: white;
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 0.7rem;
-    font-weight: 500;
-}
+        /* Tarjeta de comisión */
+        .comision-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #e74c3c;
+        }
 
-/* Tarjeta de calificación */
-.grade-card {
-    background: linear-gradient(135deg, #4e54c8, #8f94fb);
-    color: white;
-}
+        .comision-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0 0 0.5rem 0;
+        }
 
-.grade-card .info-label,
-.grade-card .info-value,
-.grade-card .info-subvalue {
-    color: white;
-}
+        .comision-description {
+            color: #7f8c8d;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+            font-size: 0.9rem;
+        }
 
-/* Barra de progreso */
-.progress-bar {
-    width: 100%;
-    height: 8px;
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 4px;
-    margin: 10px 0;
-    overflow: hidden;
-}
+        .comision-status {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background-color: #e6fffa;
+            color: #234e52;
+            display: inline-block;
+        }
 
-.progress-fill {
-    height: 100%;
-    background: white;
-    border-radius: 4px;
-    transition: width 0.3s ease;
-}
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .profile-header {
+                padding: 20px 15px 40px;
+            }
+            
+            .profile-content {
+                padding: 15px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+        }
 
-/* Grid de comisiones */
-.comisiones-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1rem;
-}
-
-.comision-card {
-    background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-left: 4px solid #4e54c8;
-    transition: transform 0.3s ease;
-}
-
-.comision-card:hover {
-    transform: translateY(-2px);
-}
-
-.comision-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-}
-
-.comision-name {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #2d3748;
-    margin: 0;
-    flex: 1;
-}
-
-.comision-status {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
-}
-
-.comision-status.activo {
-    background-color: #e6fffa;
-    color: #234e52;
-}
-
-.comision-status.inactivo {
-    background-color: #fed7d7;
-    color: #742a2a;
-}
-
-.comision-status.finalizado {
-    background-color: #e6fffa;
-    color: #234e52;
-}
-
-.comision-description {
-    color: #718096;
-    margin-bottom: 1rem;
-    line-height: 1.5;
-    font-size: 0.95rem;
-}
-
-.comision-meta {
-    display: flex;
-    gap: 1rem;
-    font-size: 0.9rem;
-    color: #4a5568;
-}
-
-.comision-meta span {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-/* Lista de actividades */
-.actividades-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.actividad-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: white;
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    border-left: 4px solid #4e54c8;
-    transition: transform 0.3s ease;
-}
-
-.actividad-item:hover {
-    transform: translateX(5px);
-}
-
-.actividad-info {
-    flex: 1;
-}
-
-.actividad-titulo {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #2d3748;
-    margin: 0 0 0.5rem 0;
-}
-
-.actividad-descripcion {
-    color: #718096;
-    margin: 0 0 0.5rem 0;
-    font-size: 0.95rem;
-    line-height: 1.4;
-}
-
-.actividad-meta {
-    display: flex;
-    gap: 1.5rem;
-    font-size: 0.85rem;
-    color: #4a5568;
-}
-
-.actividad-meta span {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.actividad-estado {
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    white-space: nowrap;
-}
-
-.actividad-estado.completado {
-    background-color: #c6f6d5;
-    color: #22543d;
-}
-
-.actividad-estado.en-progreso {
-    background-color: #feebc8;
-    color: #744210;
-}
-
-.actividad-estado.pendiente {
-    background-color: #fed7d7;
-    color: #742a2a;
-}
-
-.actividad-estado.aprobado {
-    background-color: #c6f6d5;
-    color: #22543d;
-}
-
-/* Estados vacíos */
-.empty-state {
-    text-align: center;
-    padding: 3rem 2rem;
-    color: #718096;
-    background: #f8fafc;
-    border-radius: 12px;
-    border: 2px dashed #e2e8f0;
-}
-
-.empty-state i {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    opacity: 0.5;
-}
-
-.empty-state p {
-    font-size: 1.1rem;
-    margin: 0;
-}
-
-/* Mensaje de error */
-.error-message {
-    background-color: #fed7d7;
-    color: #742a2a;
-    padding: 1rem 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    border-left: 4px solid #fc8181;
-}
-
-.error-message i {
-    font-size: 1.2rem;
-}
-
-/* Loading state */
-.loading {
-    opacity: 0.6;
-    pointer-events: none;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    body {
-        padding: 10px;
-    }
-    
-    .profile-header {
-        padding: 30px 20px 60px;
-    }
-    
-    .profile-content {
-        padding: 20px;
-    }
-    
-    .info-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    
-    .comisiones-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .actividad-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-    }
-    
-    .actividad-estado {
-        align-self: flex-end;
-    }
-    
-    .comision-header {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    
-    .comision-status {
-        align-self: flex-start;
-    }
-}
-
-@media (max-width: 480px) {
-    .student-name {
-        font-size: 1.5rem;
-    }
-    
-    .profile-avatar {
-        width: 100px;
-        height: 100px;
-    }
-    
-    .section-title {
-        font-size: 1.2rem;
-    }
-    
-    .info-value {
-        font-size: 1.3rem;
-    }
-}
+        @media (max-width: 480px) {
+            .student-name {
+                font-size: 1.3rem;
+            }
+            
+            .profile-avatar {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .section-title {
+                font-size: 1.1rem;
+            }
+            
+            .info-value {
+                font-size: 1.1rem;
+            }
+        }
