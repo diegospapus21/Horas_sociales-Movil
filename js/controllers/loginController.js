@@ -1,4 +1,4 @@
-import { LoginService } from '../services/loginService.js';
+import { LoginService } from '../services/AuthService.js';
 
 export class LoginController {
     constructor() {
