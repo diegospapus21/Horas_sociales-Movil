@@ -31,7 +31,7 @@
             color: white;
         }
 
-        /* Botón de regreso */
+        /* Botón de regreso modificado */
         .back-button {
             position: absolute;
             top: 15px;
@@ -47,6 +47,8 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
         }
 
         .back-button:hover {

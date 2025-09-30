@@ -9,12 +9,10 @@
 </head>
 <body>
     <div class="profile-container">
-        <!-- Header con gradiente -->
         <header class="profile-header">
-            <!-- Botón de regreso -->
-            <a href="Dashboard - Estudiantes.html" class="back-button" title="Volver al Dashboard">
+            <button class="back-button" title="Volver a la página anterior" onclick="goBack()">
                 <i class="bi bi-arrow-left"></i>
-            </a>
+            </button>
             
             <img src="img/foto de perfil.jpg" alt="Foto del estudiante" class="profile-avatar">
             <h1 class="student-name">María González Pérez</h1>
@@ -56,5 +54,15 @@
             </section>
         </main>
     </div>
+    
+    <script>
+        function goBack() {
+            if (document.referrer && document.referrer !== window.location.href) {
+                window.history.back();
+            } else {
+                window.location.href = "Dashboard - Estudiantes.html";
+            }
+        }
+    </script>
 </body>
 </html>
