@@ -24,10 +24,7 @@ export async function LogInCoordinadores(data) {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         },
-        body: JSON.stringify({
-            correo: data.correo,
-            contrasenia: data.contrasena // ← CORREGIDO: contrasena → contrasenia
-        })
+        body: JSON.stringify(data)
     });
 }
 
@@ -39,10 +36,7 @@ export async function LogInEstudiantes(data) {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         },
-        body: JSON.stringify({
-            correo: data.correo,
-            contrasenia: data.contrasena // ← CORREGIDO: contrasena → contrasenia
-        })
+        body: JSON.stringify(data)
     });
 }
 

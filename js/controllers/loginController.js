@@ -1,4 +1,4 @@
-import { LogInAdministradores, LogInCoordinadores, LogInEstudiantes } from '../services/AuthService.js';
+import { LogInAdministradores, LogInCoordinadores, LogInEstudiantes } from '../Services/AuthService.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('login-form');
@@ -16,57 +16,49 @@ document.addEventListener('DOMContentLoaded', function() {
         const contrasena = contrasenaInput.value;
 
         try {
-            console.log('🔐 Intentando login para:', correo);
-
-            // Intentar login como Administrador
-            console.log('🔄 Intentando como Administrador...');
-            let response = await LogInAdministradores({ correo, contrasena });
-            console.log('📥 Respuesta Admin - Status:', response.status);
-            
-            if (response.ok) {
-                const responseData = await response.text();
-                console.log('✅ Login Admin exitoso:', responseData);
-                window.location.href = 'admin-dashboard.html';
-                return;
-            } else {
-                const errorText = await response.text();
-                console.log('❌ Error Admin:', errorText);
-            }
+            console.log(' Intentando login para:', correo);
 
             // Intentar login como Coordinador
-            console.log('🔄 Intentando como Coordinador...');
-            response = await LogInCoordinadores({ correo, contrasena });
-            console.log('📥 Respuesta Coordinador - Status:', response.status);
+            const coordi = {
+                'correo': correo,
+            'contrasenia': contrasena, 
+            'id_rol': 2
+            }
+            console.log(' Intentando como Coordinador...');
+            const response = await LogInCoordinadores(coordi);
             
             if (response.ok) {
-                const responseData = await response.text();
-                console.log('✅ Login Coordinador exitoso:', responseData);
+                const responseData = await response.json();
+                console.log(' Login Coordinador exitoso:', responseData.result);
                 window.location.href = 'coordinator-dashboard.html';
                 return;
             } else {
-                const errorText = await response.text();
-                console.log('❌ Error Coordinador:', errorText);
+                const errorText = await response.json();
+                console.log(' Error Coordinador:', errorText.result);
             }
 
-            // Intentar login como Estudiante
-            console.log('🔄 Intentando como Estudiante...');
-            response = await LogInEstudiantes({ correo, contrasena });
-            console.log('📥 Respuesta Estudiante - Status:', response.status);
+             const Estudiante = {
+                'correo': correo,
+            'contrasenia': contrasena, 
+            'id_rol': 3
+            }
+            console.log(' Intentando como Estudiante...');
+            const response2 = await LogInEstudiantes(Estudiante);
             
-            if (response.ok) {
-                const responseData = await response.text();
-                console.log('✅ Login Estudiante exitoso:', responseData);
+            if (response2.ok) {
+                const responseData = await response2.json();
+                console.log(' Login Estudiante exitoso:', responseData.result);
                 window.location.href = 'student-dashboard.html';
                 return;
             } else {
-                const errorText = await response.text();
-                console.log('❌ Error Estudiante:', errorText);
+                const errorText = await response2.json();
+                console.log(' Error Estudiante:', errorText.result);
             }
 
             mostrarError('Credenciales incorrectas. Por favor, verifique su correo y contraseña.');
 
         } catch (error) {
-            console.error('❌ Error en el login:', error);
+            console.error(' Error en el login:', error);
             
             if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
                 mostrarError('Error de conexión. Verifique su conexión a internet y que no haya bloqueos de CORS.');
