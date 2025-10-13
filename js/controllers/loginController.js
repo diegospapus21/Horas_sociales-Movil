@@ -1,111 +1,128 @@
-import { LoginService } from '../services/AuthService.js';
+import { LogInAdministradores, LogInCoordinadores, LogInEstudiantes } from '../services/AuthService.js';
 
-export class LoginController {
-    constructor() {
-        this.loginService = new LoginService();
-        this.loginForm = document.getElementById('login-form');
-        this.init();
-    }
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('login-form');
+    const correoInput = document.getElementById('Correo');
+    const contrasenaInput = document.getElementById('Contraseña');
+    const submitBtn = loginForm.querySelector('.btn');
 
-    init() {
-        if (this.loginForm) {
-            this.loginForm.addEventListener('submit', (e) => this.handleLogin(e));
-        }
+    loginForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
         
-        // Verificar si ya hay una sesión activa
-        this.checkExistingSession();
-    }
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Iniciando sesión...';
 
-    async handleLogin(event) {
-        event.preventDefault();
-        
-        const email = document.getElementById('Correo').value;
-        const password = document.getElementById('Contraseña').value;
-
-        // Validación básica
-        if (!this.validateEmail(email)) {
-            this.showError('Por favor ingresa un correo electrónico válido');
-            return;
-        }
-
-        if (!password) {
-            this.showError('Por favor ingresa tu contraseña');
-            return;
-        }
+        const correo = correoInput.value.trim();
+        const contrasena = contrasenaInput.value;
 
         try {
-            // Mostrar loading
-            const submitBtn = this.loginForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Iniciando sesión...';
-            submitBtn.disabled = true;
+            console.log('🔐 Intentando login para:', correo);
 
-            const credentials = {
-                correo: email,
-                contrasenia: password
-            };
-
-            const result = await this.loginService.login(credentials);
+            // Intentar login como Administrador
+            console.log('🔄 Intentando como Administrador...');
+            let response = await LogInAdministradores({ correo, contrasena });
+            console.log('📥 Respuesta Admin - Status:', response.status);
             
-            // Redirigir según el rol del usuario
-            this.redirectByRole(result.user);
+            if (response.ok) {
+                const responseData = await response.text();
+                console.log('✅ Login Admin exitoso:', responseData);
+                window.location.href = 'admin-dashboard.html';
+                return;
+            } else {
+                const errorText = await response.text();
+                console.log('❌ Error Admin:', errorText);
+            }
+
+            // Intentar login como Coordinador
+            console.log('🔄 Intentando como Coordinador...');
+            response = await LogInCoordinadores({ correo, contrasena });
+            console.log('📥 Respuesta Coordinador - Status:', response.status);
+            
+            if (response.ok) {
+                const responseData = await response.text();
+                console.log('✅ Login Coordinador exitoso:', responseData);
+                window.location.href = 'coordinator-dashboard.html';
+                return;
+            } else {
+                const errorText = await response.text();
+                console.log('❌ Error Coordinador:', errorText);
+            }
+
+            // Intentar login como Estudiante
+            console.log('🔄 Intentando como Estudiante...');
+            response = await LogInEstudiantes({ correo, contrasena });
+            console.log('📥 Respuesta Estudiante - Status:', response.status);
+            
+            if (response.ok) {
+                const responseData = await response.text();
+                console.log('✅ Login Estudiante exitoso:', responseData);
+                window.location.href = 'student-dashboard.html';
+                return;
+            } else {
+                const errorText = await response.text();
+                console.log('❌ Error Estudiante:', errorText);
+            }
+
+            mostrarError('Credenciales incorrectas. Por favor, verifique su correo y contraseña.');
 
         } catch (error) {
-            this.showError('Credenciales incorrectas. Por favor verifica tus datos.');
-            console.error('Login error:', error);
+            console.error('❌ Error en el login:', error);
+            
+            if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+                mostrarError('Error de conexión. Verifique su conexión a internet y que no haya bloqueos de CORS.');
+            } else {
+                mostrarError('Error de conexión. Intente nuevamente.');
+            }
         } finally {
-            // Restaurar botón
-            const submitBtn = this.loginForm.querySelector('button[type="submit"]');
-            submitBtn.textContent = 'Iniciar Sesión';
             submitBtn.disabled = false;
+            submitBtn.textContent = 'Iniciar Sesión';
         }
-    }
+    });
 
-    validateEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email) && email.includes('ricaldone.edu.sv');
-    }
-
-    showError(message) {
-        // Remover errores previos
-        const existingError = document.querySelector('.error-message');
-        if (existingError) {
-            existingError.remove();
+    function mostrarError(mensaje) {
+        const errorExistente = document.querySelector('.error-message');
+        if (errorExistente) {
+            errorExistente.remove();
         }
 
-        // Crear y mostrar nuevo error
         const errorDiv = document.createElement('div');
         errorDiv.className = 'error-message alert alert-danger mt-3';
-        errorDiv.textContent = message;
-        
-        this.loginForm.insertBefore(errorDiv, this.loginForm.querySelector('.credits'));
-    }
+        errorDiv.textContent = mensaje;
+        errorDiv.style.cssText = 'padding: 10px; border-radius: 5px; margin-top: 15px;';
 
-    redirectByRole(user) {
-        const role = user.ID_Rol;
-        
-        switch(role) {
-            case 1: // Administrador
-                window.location.href = 'admin-dashboard.html';
-                break;
-            case 2: // Coordinador
-                window.location.href = 'coordinator-dashboard.html';
-                break;
-            case 3: // Estudiante
-                window.location.href = 'student-dashboard.html';
-                break;
-            default:
-                window.location.href = 'dashboard.html';
-        }
-    }
+        loginForm.appendChild(errorDiv);
 
-    async checkExistingSession() {
-        const isValid = await this.loginService.validateSession();
-        if (isValid) {
-            const user = this.loginService.getCurrentUser();
-            if (user) {
-                this.redirectByRole(user);
+        setTimeout(() => {
+            if (errorDiv.parentNode) {
+                errorDiv.remove();
             }
-        }
+        }, 5000);
     }
-}
+
+    // Validación en tiempo real
+    correoInput.addEventListener('input', validarCorreo);
+    contrasenaInput.addEventListener('input', validarFormulario);
+
+    function validarCorreo() {
+        const correo = correoInput.value.trim();
+        const esCorreoValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo);
+        
+        if (correo && !esCorreoValido) {
+            correoInput.style.borderColor = 'var(--rojo-principal)';
+        } else {
+            correoInput.style.borderColor = '';
+        }
+        
+        validarFormulario();
+    }
+
+    function validarFormulario() {
+        const correo = correoInput.value.trim();
+        const contrasena = contrasenaInput.value;
+        const esCorreoValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo);
+        
+        submitBtn.disabled = !(correo && contrasena && esCorreoValido);
+    }
+
+    validarFormulario();
+});
