@@ -1,430 +1,585 @@
-       /* Registro.css - Optimizado para móvil con rojo, azul y blanco */
+/* Registro.css - Optimizado para móvil con rojo, azul y blanco - VERSIÓN COMPLETA */
 
-       :root {
-        --rojo-principal: #dc3545;
-        --rojo-oscuro: #c82333;
-        --rojo-claro: #e4606d;
-        --rojo-suave: #f8d7da;
-        
-        --azul-principal: #007bff;
-        --azul-oscuro: #0056b3;
-        --azul-claro: #4dabf7;
-        --azul-suave: #d1ecf1;
-        
-        --blanco: #ffffff;
-        --blanco-hueso: #f8f9fa;
-        --gris-claro: #e9ecef;
-        --gris-medio: #6c757d;
-        --gris-oscuro: #343a40;
-    }
+:root {
+    --rojo-principal: #dc3545;
+    --rojo-oscuro: #c82333;
+    --rojo-claro: #e4606d;
+    --rojo-suave: #f8d7da;
     
-    /* Reset y estilos base */
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Segoe UI', system-ui, sans-serif;
+    --azul-principal: #007bff;
+    --azul-oscuro: #0056b3;
+    --azul-claro: #4dabf7;
+    --azul-suave: #d1ecf1;
+    
+    --blanco: #ffffff;
+    --blanco-hueso: #f8f9fa;
+    --gris-claro: #e9ecef;
+    --gris-medio: #6c757d;
+    --gris-oscuro: #343a40;
+    
+    --gradiente-principal: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradiente-rojo: linear-gradient(135deg, var(--rojo-principal) 0%, var(--rojo-oscuro) 100%);
+}
+
+/* Reset y estilos base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+    background: var(--gradiente-principal);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 20px 15px;
+}
+
+.card {
+    background: var(--blanco);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    margin: 0 auto;
+    backdrop-filter: blur(10px);
+    animation: fadeInUp 0.8s ease;
+    border: none;
+    /* CORRECCIÓN: Scroll en toda la card, no en el form */
+    max-height: 95vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
     }
-    body {
-        background: #2C4153;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 1rem;
-        overflow: hidden;
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
+}
+
+/* Logo y encabezado */
+.logo {
+    text-align: center;
+    padding: 25px 20px 15px;
+    border-bottom: 1px solid var(--gris-claro);
+    background: var(--gradiente-principal);
+    color: var(--blanco);
+    border-radius: 20px 20px 0 0;
+    margin: -1px -1px 0 -1px;
+    /* Fijo en la parte superior */
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.logo p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-bottom: 0;
+}
+
+/* Formulario responsivo - CORREGIDO */
+#registerForm {
+    padding: 25px 20px;
+    /* ELIMINADO: max-height y overflow-y */
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* Grupos de formulario */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--gris-oscuro);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 2px solid var(--gris-claro);
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: var(--blanco);
+}
+
+.form-control:focus {
+    border-color: var(--azul-principal);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    outline: none;
+    transform: scale(1.02);
+}
+
+.form-control.error {
+    border-color: var(--rojo-principal);
+    background: var(--rojo-suave);
+}
+
+/* Grid responsivo para campos */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -0.5rem;
+}
+
+.form-col {
+    flex: 1 0 100%;
+    padding: 0 0.5rem;
+}
+
+/* Botón principal - CORREGIDO */
+.btn {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    /* CORRECCIÓN: Margen automático para empujar hacia abajo */
+    margin-top: auto;
+    margin-bottom: 1rem;
+}
+
+.btn-primary {
+    background: var(--gradiente-rojo);
+    color: var(--blanco);
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+}
+
+.btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-primary:disabled {
+    background: var(--gris-claro);
+    color: var(--gris-medio);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Mensajes de error */
+.error-message {
+    color: var(--rojo-principal);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    display: none;
+    font-weight: 500;
+}
+
+.error-message.show {
+    display: block;
+}
+
+/* Alertas */
+.alert {
+    border-radius: 12px;
+    border: none;
+    font-size: 0.9rem;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.alert-danger {
+    background: var(--rojo-suave);
+    color: var(--rojo-oscuro);
+    border: 1px solid var(--rojo-claro);
+}
+
+.alert-success {
+    background: var(--azul-suave);
+    color: var(--azul-oscuro);
+    border: 1px solid var(--azul-claro);
+}
+
+/* Enlaces */
+.text-center a {
+    color: var(--azul-principal);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.text-center a:hover {
+    color: var(--azul-oscuro);
+    text-decoration: underline;
+}
+
+/* Footer del formulario - CORREGIDO */
+.form-footer {
+    text-align: center;
+    padding: 1.5rem 20px;
+    border-top: 1px solid var(--gris-claro);
+    color: var(--gris-medio);
+    font-size: 0.9rem;
+    /* Fijo en la parte inferior */
+    position: sticky;
+    bottom: 0;
+    background: var(--blanco);
+    margin-top: auto;
+}
+
+.form-footer p {
+    margin-bottom: 0;
+}
+
+.form-footer a {
+    color: var(--azul-principal);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Scroll personalizado para TODA LA CARD - CORREGIDO */
+.card::-webkit-scrollbar {
+    width: 6px;
+}
+
+.card::-webkit-scrollbar-track {
+    background: var(--gris-claro);
+    border-radius: 3px;
+}
+
+.card::-webkit-scrollbar-thumb {
+    background: var(--rojo-principal);
+    border-radius: 3px;
+}
+
+.card::-webkit-scrollbar-thumb:hover {
+    background: var(--rojo-oscuro);
+}
+
+/* Responsive para tablets */
+@media (min-width: 768px) {
     .container {
-        width: 100%;
-        max-width: 450px;
+        max-width: 600px;
+        padding: 30px 20px;
     }
     
     .card {
-        background: var(--blanco);
-        border-radius: 20px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-        padding: 2.5rem;
-        backdrop-filter: blur(10px);
-        animation: fadeInUp 0.8s ease;
+        max-width: 600px;
     }
     
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    /* Logo y encabezado */
-    .logo {
-        text-align: center;
-        margin-bottom: 2rem;
+    #registerForm {
+        padding: 30px;
     }
     
     .logo h1 {
-        color: var(--azul-oscuro);
-        font-size: 2rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
+        font-size: 1.75rem;
     }
     
     .logo p {
-        color: var(--gris-medio);
         font-size: 1rem;
     }
     
-    /* Grupos de formulario */
-    .form-group {
-        margin-bottom: 1.5rem;
+    /* Layout de 2 columnas en tablets y desktop */
+    .form-col {
+        flex: 1 0 50%;
     }
     
-    .form-group label {
-        display: block;
-        margin-bottom: 0.5rem;
-        color: var(--gris-oscuro);
-        font-weight: 600;
-        font-size: 0.95rem;
+    .form-col-full {
+        flex: 1 0 100%;
+    }
+
+    .form-col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+/* Responsive para móviles */
+@media (max-width: 767px) {
+    body {
+        padding: 0.5rem;
+    }
+    
+    .card {
+        padding: 0;
+        border-radius: 15px;
+        max-height: 90vh;
+    }
+    
+    #registerForm {
+        padding: 2rem 1.5rem;
+    }
+    
+    .logo h1 {
+        font-size: 1.8rem;
     }
     
     .form-control {
-        width: 100%;
-        padding: 1rem 1.25rem;
-        border: 2px solid var(--gris-claro);
-        border-radius: 12px;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-        background: var(--blanco);
+        padding: 0.9rem 1rem;
     }
     
-    .form-control:focus {
-        border-color: var(--azul-principal);
-        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
-        outline: none;
-    }
-    
-    .form-control.error {
-        border-color: var(--rojo-principal);
-        background: var(--rojo-suave);
-    }
-    
-    /* Select personalizado */
-    .custom-select {
-        position: relative;
-        width: 100%;
-        margin: 1.5rem 0;
-    }
-    
-    .select-box {
-        border: 2px solid var(--gris-claro);
-        border-radius: 12px;
-        padding: 1rem 1.25rem;
-        background: var(--blanco);
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        transition: all 0.3s ease;
-    }
-    
-    .select-box:hover {
-        border-color: var(--azul-principal);
-    }
-    
-    .select-box.active {
-        border-color: var(--azul-principal);
-        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
-    }
-    
-    .arrow {
-        transition: transform 0.3s ease;
-        color: var(--gris-medio);
-    }
-    
-    .select-box.active .arrow {
-        transform: rotate(180deg);
-        color: var(--azul-principal);
-    }
-    
-    .dropdown {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: var(--blanco);
-        border: 2px solid var(--azul-principal);
-        border-top: none;
-        border-radius: 0 0 12px 12px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-        display: none;
-        max-height: 200px;
-        overflow-y: auto;
-    }
-    
-    .select-box.active + .dropdown {
-        display: block;
-    }
-    
-    .option {
-        padding: 1rem 1.25rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border-bottom: 1px solid var(--gris-claro);
-    }
-    
-    .option:hover {
-        background: var(--azul-suave);
-        color: var(--azul-oscuro);
-    }
-    
-    .option.selected {
-        background: linear-gradient(135deg, var(--rojo-principal) 0%, var(--rojo-claro) 100%);
-        color: var(--blanco);
-    }
-    
-    .option:last-child {
-        border-bottom: none;
-    }
-    
-    .selected-text {
-        color: var(--gris-oscuro);
-    }
-    
-    /* Botón principal */
     .btn {
-        width: 100%;
-        padding: 1rem 1.5rem;
-        border: none;
-        border-radius: 12px;
-        font-size: 1.1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        margin-top: 1rem;
+        padding: 0.9rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
     }
     
-    .btn-primary {
-        background: linear-gradient(135deg, var(--rojo-principal) 0%, var(--rojo-oscuro) 100%);
-        color: var(--blanco);
-        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+    #registerForm {
+        padding: 1.5rem 1rem;
     }
     
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+    .logo {
+        padding: 20px 15px 10px;
     }
     
-    .btn-primary:active {
-        transform: translateY(0);
+    .logo h1 {
+        font-size: 1.6rem;
     }
     
-    .btn-primary:disabled {
-        background: var(--gris-claro);
-        color: var(--gris-medio);
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
-    }
-    
-    /* Loading spinner */
-    .loading {
-        display: none;
-        text-align: center;
-        margin: 1rem 0;
-    }
-    
-    .loading-spinner {
-        width: 30px;
-        height: 30px;
-        border: 3px solid var(--gris-claro);
-        border-left: 3px solid var(--rojo-principal);
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin: 0 auto;
-    }
-    
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-    
-    /* Mensajes de error */
-    .error-message {
-        color: var(--rojo-principal);
-        font-size: 0.85rem;
-        margin-top: 0.5rem;
-        display: none;
-        font-weight: 500;
-    }
-    
-    /* Mensaje de éxito */
-    .success-message {
-        background: var(--azul-suave);
-        color: var(--azul-oscuro);
-        padding: 1rem;
-        border-radius: 12px;
-        text-align: center;
-        margin: 1rem 0;
-        display: none;
-        border: 1px solid var(--azul-claro);
-    }
-    
-    /* Footer */
-    .footer {
-        text-align: center;
-        margin-top: 2rem;
-        color: var(--gris-medio);
+    .logo p {
         font-size: 0.9rem;
     }
     
-    .footer a {
-        color: var(--azul-principal);
-        text-decoration: none;
-        font-weight: 600;
-        transition: color 0.3s ease;
+    .form-group {
+        margin-bottom: 1.25rem;
     }
     
-    .footer a:hover {
-        color: var(--azul-oscuro);
-        text-decoration: underline;
+    .form-control {
+        padding: 0.8rem;
+        font-size: 0.95rem;
     }
     
-    .credits {
-        margin-top: 1rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--gris-claro);
-        font-size: 0.8rem;
-        opacity: 0.8;
+    .btn {
+        padding: 0.8rem 1.25rem;
     }
     
-    /* Responsive para móviles */
-    @media (max-width: 768px) {
-        body {
-            padding: 0.5rem;
-        }
-        
-        .card {
-            padding: 2rem 1.5rem;
-            border-radius: 15px;
-        }
-        
-        .logo h1 {
-            font-size: 1.8rem;
-        }
-        
-        .form-control {
-            padding: 0.9rem 1rem;
-        }
-        
-        .select-box {
-            padding: 0.9rem 1rem;
-        }
-        
-        .btn {
-            padding: 0.9rem 1.5rem;
-            font-size: 1rem;
-        }
+    .form-footer {
+        padding: 1.5rem 1rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .card {
+        border-radius: 12px;
+        max-height: 85vh;
     }
     
-    @media (max-width: 480px) {
-        .card {
-            padding: 1.5rem 1rem;
-        }
-        
-        .logo h1 {
-            font-size: 1.6rem;
-        }
-        
-        .logo p {
-            font-size: 0.9rem;
-        }
-        
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
-        
-        .form-control {
-            padding: 0.8rem;
-            font-size: 0.95rem;
-        }
-        
-        .select-box {
-            padding: 0.8rem;
-        }
-        
-        .option {
-            padding: 0.8rem 1rem;
-        }
-        
-        .btn {
-            padding: 0.8rem 1.25rem;
-        }
-        
-        .footer {
-            font-size: 0.85rem;
-        }
+    #registerForm {
+        padding: 1.25rem 0.75rem;
     }
     
-    @media (max-width: 360px) {
-        .card {
-            padding: 1.25rem 0.75rem;
-        }
-        
-        .logo h1 {
-            font-size: 1.4rem;
-        }
-        
-        .form-control {
-            padding: 0.7rem;
-            font-size: 0.9rem;
-        }
+    .logo h1 {
+        font-size: 1.4rem;
     }
     
-    /* Scroll personalizado para el dropdown */
-    .dropdown::-webkit-scrollbar {
-        width: 6px;
+    .form-control {
+        padding: 0.7rem;
+        font-size: 0.9rem;
     }
     
-    .dropdown::-webkit-scrollbar-track {
-        background: var(--gris-claro);
-        border-radius: 3px;
+    .btn {
+        padding: 0.7rem 1rem;
+        font-size: 0.95rem;
     }
     
-    .dropdown::-webkit-scrollbar-thumb {
-        background: var(--rojo-principal);
-        border-radius: 3px;
+    .form-footer {
+        padding: 1.25rem 0.75rem;
     }
-    
-    .dropdown::-webkit-scrollbar-thumb:hover {
-        background: var(--rojo-oscuro);
+}
+
+/* Mejoras de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+    .card,
+    .form-control,
+    .btn {
+        transition: none;
+        animation: none;
     }
-    
-    /* Mejoras de accesibilidad */
-    @media (prefers-reduced-motion: reduce) {
-        .card,
-        .form-control,
-        .select-box,
-        .btn,
-        .option {
-            transition: none;
-            animation: none;
-        }
-    }
-    
-    /* Estados de foco para accesibilidad */
-    .form-control:focus-visible,
-    .select-box:focus-visible,
-    .btn:focus-visible {
-        outline: 2px solid var(--azul-principal);
-        outline-offset: 2px;
-    }
-    
-    /* Placeholder styling */
-    .form-control::placeholder {
-        color: var(--gris-medio);
-        opacity: 0.7;
-    }
+}
+
+/* Estados de foco para accesibilidad */
+.form-control:focus-visible,
+.btn:focus-visible {
+    outline: 2px solid var(--azul-principal);
+    outline-offset: 2px;
+}
+
+/* Placeholder styling */
+.form-control::placeholder {
+    color: var(--gris-medio);
+    opacity: 0.7;
+}
+
+/* Loading states mejorados */
+.btn-loading {
+    position: relative;
+    color: transparent;
+}
+
+.btn-loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    border: 2px solid transparent;
+    border-top: 2px solid var(--blanco);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Estilos para selects */
+select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+}
+
+/* Estilos base adicionales para el body */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* Estilos específicos para el container */
+.container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Estilos adicionales para el card */
+.card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    padding: 2rem;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Estilos para labels */
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* Estilos para inputs y selects */
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e9ecef;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+.form-control:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+/* Estilos para el botón primario */
+.btn-primary {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 1rem;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #2980b9;
+}
+
+.btn-primary:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+/* Estilos para el footer del formulario */
+.form-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #ecf0f1;
+}
+
+.form-footer p {
+    margin: 0;
+    color: #7f8c8d;
+}
+
+.form-footer a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
