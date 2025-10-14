@@ -21,6 +21,13 @@ export async function buscarProyectoPorNombre(nombre, page = 0, size = 5) {
     return res.json();
 }
 
+export async function buscarProyectoPorArea(area, page = 0, size = 5) {
+    const res = await fetch(`${API_URL_Proyectos}/getByArea/${area}?page=${page}&size=${size}`, {
+        credentials: "include"
+    });
+    return res.json();
+}
+
 export async function buscarProyecto(id) {
     const res = await fetch(`${API_URL_Proyectos}/getIDProyectos/${id}`, {
         credentials: "include"
@@ -47,7 +54,7 @@ export async function actualizarProyecto(id, data) {
 }
 
 export async function HabilitarProyecto(id) {
-    return await fetch(`${API_URL_Administradores}/ActivarProyecto/${id}`, {
+    return await fetch(`${API_URL_Proyectos}/ActivarProyecto/${id}`, {
         credentials: "include",
         method: 'PATCH',
         headers: {'Content-Type': 'application/json'}
@@ -55,7 +62,7 @@ export async function HabilitarProyecto(id) {
 }
 
 export async function DeshabilitarProyecto(id) {
-    return await fetch(`${API_URL_Administradores}/DesactivarProyecto/${id}`, {
+    return await fetch(`${API_URL_Proyectos}/DesactivarProyecto/${id}`, {
         credentials: "include",
         method: 'PATCH',
         headers: {'Content-Type': 'application/json'}

@@ -14,6 +14,12 @@ export async function obtenerEventosporProyecto(id) {
     return res.json();
 }
 
+export async function obtenerEventosporMes(month, year) {
+    return await fetch(`${API_URL_Eventos}/EventosByMonth/${year}/${month}`, {
+        credentials: "include"
+    });
+}
+
 export async function obtenerRecientes(page = 0, size = 5) {
     const res = await fetch(`${API_URL_Eventos}/getRecients?page=${page}&size=${size}`, {
         credentials: "include"

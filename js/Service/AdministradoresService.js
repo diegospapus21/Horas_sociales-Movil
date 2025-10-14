@@ -14,8 +14,8 @@ export async function getAllAdministradoresActives(page = 0, size = 5) {
     return res.json();
 }
 
-export async function getAllCoordinadores(page = 0, size = 5) {
-    const res = await fetch(`${API_URL_Administradores}/getCoordinadores?page=${page}&size=${size}`, {
+export async function getAllEncargados(page = 0, size = 5) {
+    const res = await fetch(`${API_URL_Administradores}/getEncargado?page=${page}&size=${size}`, {
         credentials: "include"
     });
     return res.json();
@@ -62,6 +62,22 @@ export async function actualizarAdministrador(id, data) {
 
 export async function DeshabilitarAdmin(id) {
     return await fetch(`${API_URL_Administradores}/DeshabilitarAdmin/${id}`, {
+        credentials: "include",
+        method: 'PATCH',
+        headers: {'Content-Type': 'application/json'}
+    });
+}
+
+export async function HabilitarAdmin(id) {
+    return await fetch(`${API_URL_Administradores}/HabilitarAdmin/${id}`, {
+        credentials: "include",
+        method: 'PATCH',
+        headers: {'Content-Type': 'application/json'}
+    });
+}
+
+export async function modificarProyecto(id, idProyecto) {
+    return await fetch(`${API_URL_Administradores}/ModificarProyectoAdmin/${id}/${idProyecto}`, {
         credentials: "include",
         method: 'PATCH',
         headers: {'Content-Type': 'application/json'}

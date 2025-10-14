@@ -4,50 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horas Sociales - Inicio</title>
-    <link rel="stylesheet" href="css/Index.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/Login.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 </head>
-<body class="bodys">
-    <div class="wrapper">
-        <div class="logo-container">
-            <img src="img/logo.png" alt="Logo">
-        </div>
+<body>
+    <div class="login-container">
+        <img class="institution-logo" alt="Logo ITR" id="Icono_Rical">
         
-        <h1>Bienvenidos al Sistema de Gestión de Horas Sociales</h1>
-        <p class="instruction-text">Ingresa tus credenciales para acceder al sistema</p>
+        <h1 class="title">Bienvenido a SHMS</h1>
+        <p class="subtitle">Ingresa tus credenciales para acceder al sistema</p>
         
-        <form id="login-form">
-            <div class="input-box">
-                <input type="text" placeholder="Correo Electrónico Institucional" required id="Correo">
-                <i class="ri-user-fill"></i>
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Correo electrónico institucional</label>
+                <input type="email" id="email" placeholder="ejemplo@ricaldone.edu.sv" required>
             </div>
             
-            <div class="input-box">
-                <input type="password" placeholder="Contraseña" required id="Contraseña">
-                <i class="ri-lock-fill"></i>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" id="password" placeholder="••••••••" required>
             </div>
             
-            <div class="remember-forgot">
-                <label>
-                    <input type="checkbox" id="remember-me">
-                    Recordarme
-                </label>
-                <a href="recuperar-contrasena.html">¿Olvidaste tu contraseña?</a>
-            </div>
-            
-            <button type="submit" class="btn" id="btn-submit">Iniciar Sesión</button>
-            
-            <p class="credits">Creado por los Estudiantes de Segundo año de Desarrollo de Software</p>
-            
+            <button type="submit" id="login-btn" class="login-btn">Iniciar sesión</button>
+
             <div class="register-link">
-                <p>¿No tienes una cuenta? <a href="Registro.html">Regístrate</a></p>
+                <p>¿Eres un estudiante iniciando horas sociales? <a href="Registro.html">Regístrate</a></p>
             </div>
         </form>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="js/controllers/loginController.js"></script>
 </body>
 </html>

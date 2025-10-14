@@ -14,6 +14,13 @@ export async function obtenerLogo() {
     return res.json();
 }
 
+export async function obtenerIcono() {
+    const res = await fetch(`${API_URL_Generalidades}/getIcono`, {
+        credentials: "include"
+    });
+    return res.json();
+}
+
 export async function CargarGeneralidades() {
     const res = await fetch(`${API_URL_Generalidades}/getAllGeneralidades`, {
         credentials: "include"

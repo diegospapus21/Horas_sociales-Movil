@@ -7,8 +7,8 @@ export async function traerServicios(page = 0, size = 5) {
     return res.json();
 }
 
-export async function EncontrarPorProyectos(proyecto, page = 0, size = 5) {
-    const res = await fetch(`${API_URL_Servicios}/getServicioByProyecto/${proyecto}?page=${page}&size=${size}`, {
+export async function EncontrarPorProyectos(idProyecto, page = 0, size = 5) {
+    const res = await fetch(`${API_URL_Servicios}/getServicioByProyecto/${idProyecto}?page=${page}&size=${size}`, {
         credentials: "include"
     });
     return res.json();
@@ -28,8 +28,15 @@ export async function buscarServicio(id) {
     return res.json();
 }
 
+export async function ContarServicios(idProyecto) {
+    const res = await fetch(`${API_URL_Servicios}/ContarServicios/${idProyecto}`, {
+        credentials: "include"
+    });
+    return res.json();
+}
+
 export async function createServicio(data) {
-    await fetch(`${API_URL_Servicios}/postServicios`, {
+    return await fetch(`${API_URL_Servicios}/postServicios`, {
         credentials: "include",
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -38,7 +45,7 @@ export async function createServicio(data) {
 }
 
 export async function updateServicio(id, data) {
-    await fetch(`${API_URL_Servicios}/putServicios/${id}`, {
+    return await fetch(`${API_URL_Servicios}/putServicios/${id}`, {
         credentials: "include",
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
@@ -47,7 +54,7 @@ export async function updateServicio(id, data) {
 }
 
 export async function deleteServicio(id) {
-    await fetch(`${API_URL_Servicios}/deleteServicios/${id}`, {
+    return await fetch(`${API_URL_Servicios}/deleteServicios/${id}`, {
         credentials: "include",
         method: 'DELETE'
     });

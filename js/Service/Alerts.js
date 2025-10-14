@@ -12,11 +12,11 @@ export const AlertEsquina = Swal.mixin({
     }
 });
 
-export const alert_password_change = Swal.mixin({
+export const alert_confirm = Swal.mixin({
     showCancelButton: true,
     theme: "dark",
-    confirmButtonText: "Comprobar",
-    showLoaderOnConfirm: true,
+    confirmButtonText: "Aceptar",
+    cancelButtonText: "Cancelar",
     allowOutsideClick: () => !Swal.isLoading(),
     inputAttributes: {
         autocapitalize: "off",

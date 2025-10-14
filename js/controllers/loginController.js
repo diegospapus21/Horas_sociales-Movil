@@ -1,120 +1,152 @@
-import { LogInAdministradores, LogInCoordinadores, LogInEstudiantes } from '../Services/AuthService.js';
+import {
+    LogInEncargado,
+    LogInEstudiantes
+} from '../Service/AuthService.js';
 
-document.addEventListener('DOMContentLoaded', function() {
-    const loginForm = document.getElementById('login-form');
-    const correoInput = document.getElementById('Correo');
-    const contrasenaInput = document.getElementById('Contraseña');
-    const submitBtn = loginForm.querySelector('.btn');
+import{
+    AlertEsquina
+}from "../Service/Alerts.js"
+
+import{
+    obtenerIcono
+}from "../Service/GeneralidadesService.js"
+
+window.addEventListener('DOMContentLoaded', () => {
+    
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    const loginForm = document.getElementById('loginForm');
+    const email_Box = document.getElementById('email');
+    const password_Box = document.getElementById('password');
+    const login_btn = document.getElementById("login-btn");
+    const Icono_Rical = document.getElementById("Icono_Rical");
+
+    async function Buscar_Encargado(json) {
+        try{
+            const res = await LogInEncargado(json);
+            console.log(res);
+            if(res.ok || res.status == 403){
+                const textResponse = await res.json();
+                console.log(textResponse);
+                if(textResponse.result == "Inicio de sesion exitoso"){
+                    return true;
+                }else{
+                    AlertEsquina.fire({
+                        icon: "error",
+                        title: "¡CREDENCIALES INCORRECTAS!",
+                        html: "No se encontro ningun usuario. Intentalo con otra información.",
+                        willClose: () => {
+                            return false;   
+                        }
+                    });
+                }
+            }
+        } catch(err){
+            console.error('Hubo problemas buscando el usuario', err);
+            AlertEsquina.fire({
+                icon: "error",
+                title: "¡NO SE PUDO CARGAR!",
+                html: "Hubo un problema con la conexion, no se pudieron corroborar los datos.",
+            });
+            throw err;
+        }
+    }
+    async function Buscar_Estudiante(json) {
+        try{
+            const res = await LogInEstudiantes(json);
+            const textResponse = await res.json();
+            if(textResponse.result == "Inicio de sesion exitoso"){
+                return true;
+            }else{
+                return false;
+            }
+        } catch(err){
+            console.error('Hubo problemas buscando el usuario', err);
+            AlertEsquina.fire({
+                icon: "error",
+                title: "¡NO SE PUDO CARGAR!",
+                html: "Hubo un problema con la conexion, no se pudieron corroborar los datos.",
+            });
+            throw err;
+        }
+    }
+    async function ObtenerIcono(){
+        try{
+            const Logo = await obtenerIcono();
+            return Logo.IconoRical;
+        }catch(err){
+            console.error("Hubieron problemas cargando el icono del colegio");
+            AlertEsquina.fire({
+                icon: "error",
+                title: "¡ERROR AL CARGAR DATOS!",
+                html: "Hubieron problemas al cargar la imagen del icono.",
+            });
+            return null;
+        }
+    }
 
     loginForm.addEventListener('submit', async function(e) {
         e.preventDefault();
+        login_btn.disabled = true;
+
+        const email = email_Box.value;
+        const password = password_Box.value;
+
+        const json = {
+            "correo": email,
+            "contrasenia": password,
+            "id_rol": 2
+        }
+
+        const Encargado = await Buscar_Encargado(json);
         
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Iniciando sesión...';
-
-        const correo = correoInput.value.trim();
-        const contrasena = contrasenaInput.value;
-
-        try {
-            console.log(' Intentando login para:', correo);
-
-            // Intentar login como Coordinador
-            const coordi = {
-                'correo': correo,
-            'contrasenia': contrasena, 
-            'id_rol': 2
+        if (Encargado) {
+            AlertEsquina.fire({
+                icon: "success",
+                title: "¡USUARIO CORRECTO!",
+                html: "Bienvenido! Abriendo Dashboard!",
+                willClose: () => {
+                    location.replace("Dashboard - Coordinadores.html");
+                }
+            });
+        }else{
+            const json = {
+                "correo": email,
+                "contrasenia": password,
+                "id_rol": 3
             }
-            console.log(' Intentando como Coordinador...');
-            const response = await LogInCoordinadores(coordi);
+
+            const Estudiante = await Buscar_Estudiante(json);
             
-            if (response.ok) {
-                const responseData = await response.json();
-                console.log(' Login Coordinador exitoso:', responseData.result);
-                window.location.href = 'coordinator-dashboard.html';
-                return;
-            } else {
-                const errorText = await response.json();
-                console.log(' Error Coordinador:', errorText.result);
+            if (Estudiante) {
+                AlertEsquina.fire({
+                    icon: "success",
+                    title: "¡USUARIO CORRECTO!",
+                    html: "¡Bienvenido! ¡Abriendo Dashboard!",
+                    willClose: () => {
+                        location.replace("Dashboard - Estudiantes.html");
+                    }
+                });
+            }else{
+                email_Box.value = '';
+                password_Box.value = '';
+                login_btn.disabled = false;   
             }
-
-             const Estudiante = {
-                'correo': correo,
-            'contrasenia': contrasena, 
-            'id_rol': 3
-            }
-            console.log(' Intentando como Estudiante...');
-            const response2 = await LogInEstudiantes(Estudiante);
-            
-            if (response2.ok) {
-                const responseData = await response2.json();
-                console.log(' Login Estudiante exitoso:', responseData.result);
-                window.location.href = 'student-dashboard.html';
-                return;
-            } else {
-                const errorText = await response2.json();
-                console.log(' Error Estudiante:', errorText.result);
-            }
-
-            mostrarError('Credenciales incorrectas. Por favor, verifique su correo y contraseña.');
-
-        } catch (error) {
-            console.error(' Error en el login:', error);
-            
-            if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
-                mostrarError('Error de conexión. Verifique su conexión a internet y que no haya bloqueos de CORS.');
-            } else {
-                mostrarError('Error de conexión. Intente nuevamente.');
-            }
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Iniciar Sesión';
         }
     });
-
-    function mostrarError(mensaje) {
-        const errorExistente = document.querySelector('.error-message');
-        if (errorExistente) {
-            errorExistente.remove();
+    async function CargarIcono() {
+        const res = await ObtenerIcono();
+        Icono_Rical.src = res;
+    
+        let link = document.querySelector("link[rel~='icon']");
+        if (!link) {
+            link = document.createElement("link");
+            link.rel = "icon";
+            document.head.appendChild(link);
         }
-
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'error-message alert alert-danger mt-3';
-        errorDiv.textContent = mensaje;
-        errorDiv.style.cssText = 'padding: 10px; border-radius: 5px; margin-top: 15px;';
-
-        loginForm.appendChild(errorDiv);
-
-        setTimeout(() => {
-            if (errorDiv.parentNode) {
-                errorDiv.remove();
-            }
-        }, 5000);
+        link.href = res;
     }
 
-    // Validación en tiempo real
-    correoInput.addEventListener('input', validarCorreo);
-    contrasenaInput.addEventListener('input', validarFormulario);
-
-    function validarCorreo() {
-        const correo = correoInput.value.trim();
-        const esCorreoValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo);
-        
-        if (correo && !esCorreoValido) {
-            correoInput.style.borderColor = 'var(--rojo-principal)';
-        } else {
-            correoInput.style.borderColor = '';
-        }
-        
-        validarFormulario();
-    }
-
-    function validarFormulario() {
-        const correo = correoInput.value.trim();
-        const contrasena = contrasenaInput.value;
-        const esCorreoValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo);
-        
-        submitBtn.disabled = !(correo && contrasena && esCorreoValido);
-    }
-
-    validarFormulario();
+    CargarIcono();
 });
