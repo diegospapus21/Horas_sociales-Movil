@@ -1,5 +1,3 @@
-/* Registro.css - Optimizado para móvil con rojo, azul y blanco - VERSIÓN COMPLETA */
-
 :root {
     --rojo-principal: #dc3545;
     --rojo-oscuro: #c82333;
@@ -582,4 +580,138 @@ body {
 
 .form-footer a:hover {
     text-decoration: underline;
+}
+
+/* NUEVOS ESTILOS AGREGADOS PARA CORREGIR PROBLEMAS */
+
+/* Estilos para el texto de ayuda en formularios */
+.form-text {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    color: var(--gris-medio);
+    display: block;
+}
+
+/* Estilos para file inputs */
+input[type="file"].form-control {
+    padding: 0.75rem;
+    background-color: var(--blanco);
+}
+
+/* Estilos específicos para el estado de error en campos */
+.form-control.error + .error-message {
+    display: block;
+}
+
+/* Estilos para el grid responsivo mejorado */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -5px;
+    margin-left: -5px;
+}
+
+.form-col {
+    padding-right: 5px;
+    padding-left: 5px;
+    flex: 1 0 0%;
+}
+
+/* Estilos para el botón en estado loading */
+.btn-loading {
+    opacity: 0.7;
+    pointer-events: none;
+    position: relative;
+}
+
+/* Estilos para las alertas dentro del formulario */
+#registerForm .alert {
+    margin: 1rem 0;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+}
+
+/* Estilos para el scroll en móviles */
+@media (max-width: 767px) {
+    .card {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Estilos para mejorar la legibilidad en inputs */
+.form-control::placeholder {
+    color: #6c757d;
+    opacity: 0.7;
+}
+
+/* Estilos para los grupos de formulario en layout responsivo */
+.form-group:last-child {
+    margin-bottom: 0;
+}
+
+/* Estilos para el contenedor principal en diferentes tamaños */
+@media (max-height: 700px) {
+    .card {
+        max-height: 85vh;
+    }
+}
+
+@media (max-height: 600px) {
+    .card {
+        max-height: 80vh;
+    }
+}
+
+/* Estilos para asegurar la visibilidad de elementos sticky */
+.logo,
+.form-footer {
+    backdrop-filter: blur(10px);
+}
+
+/* Estilos para el texto pequeño en formularios */
+small {
+    font-size: 0.875em;
+}
+
+/* Estilos para los mensajes de error específicos */
+.error-message {
+    display: none;
+    color: var(--rojo-principal);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    font-weight: 500;
+}
+
+/* Estilos para el focus en elementos interactivos */
+.btn:focus,
+.form-control:focus,
+select:focus {
+    outline: 2px solid var(--azul-principal);
+    outline-offset: 2px;
+}
+
+/* Estilos para mejorar el contraste en modo claro/oscuro */
+@media (prefers-color-scheme: dark) {
+    .card {
+        background: var(--gris-oscuro);
+        color: var(--blanco);
+    }
+    
+    .form-group label {
+        color: var(--blanco);
+    }
+    
+    .form-control {
+        background: var(--gris-medio);
+        border-color: var(--gris-claro);
+        color: var(--blanco);
+    }
+}
+
+/* Estilos de respaldo para navegadores antiguos */
+@supports not (backdrop-filter: blur(10px)) {
+    .logo,
+    .form-footer {
+        background: rgba(255, 255, 255, 0.95);
+    }
 }

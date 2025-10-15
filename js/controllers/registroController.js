@@ -1,23 +1,21 @@
-// REEMPLAZA completamente el archivo registroController.js con este código:
-
-import { RegistrarEstudiante } from '../Services/AuthService.js';
+import { RegistrarEstudiante } from '../Service/AuthService.js';
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('✅ Controlador de registro cargado');
+    console.log('Controlador de registro cargado');
     
     const registerForm = document.getElementById('registerForm');
     if (!registerForm) {
-        console.error('❌ No se encontró el formulario con id registerForm');
+        console.error(' No se encontró el formulario con id registerForm');
         return;
     }
 
     const submitBtn = registerForm.querySelector('.btn-primary');
     if (!submitBtn) {
-        console.error('❌ No se encontró el botón de submit');
+        console.error(' No se encontró el botón de submit');
         return;
     }
 
-    console.log('✅ Formulario y botón encontrados correctamente');
+    console.log(' Formulario y botón encontrados correctamente');
 
     // Validación del correo institucional
     function validarCorreoInstitucional(email) {
@@ -72,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const codigo = document.getElementById('codigo').value.trim();
         const nombre = document.getElementById('nombre').value.trim();
         const apellido = document.getElementById('apellido').value.trim();
-        const añoAcademico = document.getElementById('año_academico').value;
+        const añoAcademico = document.getElementById('anio_academico').value;
         const especialidad = document.getElementById('especialidad').value;
         const seccionAcademica = document.getElementById('seccion_academica').value.trim().toUpperCase();
         const foto = document.getElementById('foto').files[0];
@@ -110,13 +108,13 @@ document.addEventListener('DOMContentLoaded', function() {
         return formularioValido;
     }
 
-    // Manejo del formulario de registro - CORREGIDO
+    // Manejo del formulario de registro
     registerForm.addEventListener('submit', async function(e) {
         e.preventDefault();
-        console.log('🔄 Formulario enviado - Iniciando registro...');
+        console.log(' Formulario enviado - Iniciando registro...');
         
         if (!validarFormularioCompleto()) {
-            console.log('❌ Validación fallida - formulario incompleto o inválido');
+            console.log(' Validación fallida - formulario incompleto o inválido');
             return;
         }
 
@@ -125,53 +123,79 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.classList.add('btn-loading');
 
         try {
-            const codigo = parseInt(document.getElementById('codigo').value.trim());
+            const codigo = document.getElementById('codigo').value.trim();
             const nombre = document.getElementById('nombre').value.trim();
             const apellido = document.getElementById('apellido').value.trim();
-            const añoAcademico = document.getElementById('año_academico').value;
-            const especialidad = parseInt(document.getElementById('especialidad').value);
+            const añoAcademico = document.getElementById('anio_academico').value;
+            const especialidad = document.getElementById('especialidad').value;
             const seccionAcademica = document.getElementById('seccion_academica').value.trim().toUpperCase();
             const fotoFile = document.getElementById('foto').files[0];
             const correoElectronico = document.getElementById('correo_electronico').value.trim();
             const contrasenia = document.getElementById('contrasenia').value;
 
-            console.log('📝 Datos capturados:', {
+            console.log('Datos capturados para registro:', {
                 codigo, nombre, apellido, añoAcademico, especialidad, seccionAcademica, correoElectronico
             });
 
-            // Preparar foto (opcional)
-            let fotoBase64 = "";
-            if (fotoFile && validarFoto(fotoFile)) {
-                console.log('🖼️ Convirtiendo foto a Base64...');
-                fotoBase64 = await archivoABase64(fotoFile);
+            // VALIDACIÓN CRÍTICA DE TIPOS DE DATOS
+            if (!añoAcademico || isNaN(añoAcademico)) {
+                throw new Error('Año académico debe ser un número válido');
+            }
+            if (!especialidad || isNaN(especialidad)) {
+                throw new Error('Especialidad debe ser un número válido');
+            }
+            if (!codigo || !validarCodigoEstudiante(codigo)) {
+                throw new Error('Código debe ser numérico de 8 dígitos');
             }
 
-            // ESTRUCTURA CORREGIDA - Nombres exactos que espera la API
+            // Preparar foto (opcional)
+            let fotoBase64 = null;
+            if (fotoFile && validarFoto(fotoFile)) {
+                console.log(' Convirtiendo foto a Base64...');
+                try {
+                    fotoBase64 = await archivoABase64(fotoFile);
+                    console.log(' Foto convertida correctamente');
+                } catch (fotoError) {
+                    console.warn(' Error convirtiendo foto, continuando sin foto:', fotoError);
+                    fotoBase64 = null;
+                }
+            }
+
+            // PREPARAR DATOS CORREGIDOS
             const formData = {
-                codigo: codigo,
+                codigo: Number(codigo),
                 nombre: nombre,
                 apellido: apellido,
-                año_academico: parseInt(añoAcademico, 10), // Sin tilde en "academico"
-                especialidad: especialidad,
-                seccion_academica: seccionAcademica,       // Sin tilde
-                foto: fotoBase64 || "default.jpg",         // Valor por defecto si no hay foto
+                anio_academico: Number(añoAcademico),  // CONVERTIR A NÚMERO
+                especialidad: Number(especialidad),    // CONVERTIR A NÚMERO
+                seccion_academica: seccionAcademica,
                 correo_electronico: correoElectronico,
                 contrasenia: contrasenia,
-                estado: true                               // Campo REQUERIDO
+                estado: true
             };
 
-            console.log('📤 Enviando datos CORREGIDOS al servidor:', {
+            // Agregar foto solo si existe
+            if (fotoBase64) {
+                formData.foto = fotoBase64;
+            }
+
+            console.log(' ENVIANDO DATOS CORREGIDOS AL SERVIDOR:', {
                 ...formData,
-                foto: fotoBase64 ? '(Base64 datos)' : 'default.jpg'
+                foto: formData.foto ? '[Base64 image]' : 'No incluida'
             });
+
+            // VERIFICACIÓN FINAL
+            console.log(' VERIFICACIÓN FINAL:');
+            console.log('- anio_academico:', formData.anio_academico, 'Tipo:', typeof formData.anio_academico);
+            console.log('- especialidad:', formData.especialidad, 'Tipo:', typeof formData.especialidad);
 
             const response = await RegistrarEstudiante(formData);
             
-            console.log('📥 Respuesta recibida - Status:', response.status);
+            console.log(' Respuesta recibida - Status:', response.status);
             
             if (response.ok) {
                 const result = await response.json();
-                console.log('✅ Registro exitoso:', result);
+                console.log(' Registro exitoso:', result);
                 
                 if (result.status === "success" || result.status === "Registro Exitoso") {
                     mostrarExito('¡Cuenta de estudiante creada exitosamente! Redirigiendo al login...');
@@ -191,8 +215,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Manejar diferentes formatos de error
                     if (errorData.message) {
                         manejarErrorRegistro(errorData.message, response.status);
-                    } else if (errorData.errorType) {
-                        manejarErrorRegistro(`${errorData.errorType}: ${errorData.message}`, response.status);
+                    } else if (errorData.error) {
+                        manejarErrorRegistro(errorData.error, response.status);
+                    } else if (errorData.exception) {
+                        manejarErrorRegistro(`Excepción del servidor: ${errorData.exception}`, response.status);
                     } else {
                         mostrarError('Error en el registro: ' + JSON.stringify(errorData));
                     }
@@ -209,8 +235,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
         } catch (error) {
-            console.error('💥 Error en el registro:', error);
-            mostrarError('Error de conexión. Intente nuevamente.');
+            console.error('❌ Error en el registro:', error);
+            mostrarError('Error: ' + error.message);
         } finally {
             submitBtn.disabled = false;
             submitBtn.textContent = 'Registrarse como Estudiante';
@@ -224,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const codigo = document.getElementById('codigo').value.trim();
         const nombre = document.getElementById('nombre').value.trim();
         const apellido = document.getElementById('apellido').value.trim();
-        const añoAcademico = document.getElementById('año_academico').value;
+        const añoAcademico = document.getElementById('anio_academico').value;
         const especialidad = document.getElementById('especialidad').value;
         const seccionAcademica = document.getElementById('seccion_academica').value.trim().toUpperCase();
         const foto = document.getElementById('foto').files[0];
@@ -267,15 +293,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Validar año académico
         if (!añoAcademico) {
-            mostrarErrorCampo('año_academico', 'Por favor selecciona el año académico');
+            mostrarErrorCampo('anio_academico', 'Por favor selecciona el año académico');
+            esValido = false;
+        } else if (isNaN(añoAcademico) || añoAcademico < 1 || añoAcademico > 5) {
+            mostrarErrorCampo('anio_academico', 'Año académico debe ser un número entre 1 y 5');
             esValido = false;
         } else {
-            limpiarErrorCampo('año_academico');
+            limpiarErrorCampo('anio_academico');
         }
 
         // Validar especialidad
         if (!especialidad) {
             mostrarErrorCampo('especialidad', 'Por favor selecciona tu especialidad');
+            esValido = false;
+        } else if (isNaN(especialidad) || especialidad < 1 || especialidad > 5) {
+            mostrarErrorCampo('especialidad', 'Especialidad debe ser válida');
             esValido = false;
         } else {
             limpiarErrorCampo('especialidad');
@@ -419,7 +451,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Event listeners para validación en tiempo real
     const campos = [
-        'codigo', 'nombre', 'apellido', 'año_academico', 'especialidad', 
+        'codigo', 'nombre', 'apellido', 'anio_academico', 'especialidad', 
         'seccion_academica', 'foto', 'correo_electronico', 'contrasenia', 'confirmContrasenia'
     ];
 
@@ -434,5 +466,5 @@ document.addEventListener('DOMContentLoaded', function() {
     // Validación inicial
     validarFormulario();
     
-    console.log('🎉 Controlador de registro completamente inicializado');
+    console.log(' Controlador de registro completamente inicializado');
 });

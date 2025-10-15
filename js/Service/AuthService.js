@@ -47,9 +47,16 @@ export async function LogOut() {
 }
 
 export async function RegistrarEstudiante(data) {
+    console.log('📤 Enviando registro a:', `${API_URL_AUTH}/RegisterEstudiante`);
+    console.log('📦 Datos a enviar:', {
+        ...data,
+        contrasenia: '***', // Ocultar contraseña en logs
+        foto: data.foto ? `[Base64: ${data.foto.length} chars]` : 'No incluida'
+    });
+    
     return await fetch(`${API_URL_AUTH}/RegisterEstudiante`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data)
-    })
+    });
 }

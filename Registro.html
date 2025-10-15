@@ -19,7 +19,7 @@
         <!-- Código de Estudiante -->
         <div class="form-group">
           <label for="codigo">Código de Estudiante</label>
-          <input type="text" id="codigo" class="form-control" placeholder="Ej: 20200078" required>
+          <input type="text" id="codigo" class="form-control" placeholder="Ej: 20240001" required>
           <div class="error-message" id="codigoError"></div>
         </div>
 
@@ -45,8 +45,8 @@
         <div class="form-row">
           <div class="form-col form-col-md-6">
             <div class="form-group">
-              <label for="año_academico">Año Académico</label>
-              <select id="año_academico" class="form-control" required>
+              <label for="anio_academico">Año Académico</label>
+              <select id="anio_academico" class="form-control" required>
                 <option value="">Selecciona año</option>
                 <option value="1">Primer Año</option>
                 <option value="2">Segundo Año</option>
@@ -54,7 +54,7 @@
                 <option value="4">Cuarto Año</option>
                 <option value="5">Quinto Año</option>
               </select>
-              <div class="error-message" id="año_academicoError"></div>
+              <div class="error-message" id="anio_academicoError"></div>
             </div>
           </div>
           <div class="form-col form-col-md-6">
@@ -76,14 +76,14 @@
         <!-- Sección Académica -->
         <div class="form-group">
           <label for="seccion_academica">Sección Académica</label>
-          <input type="text" id="seccion_academica" class="form-control" placeholder="Ej: A, B, C (2 letras)" maxlength="2" required>
+          <input type="text" id="seccion_academica" class="form-control" placeholder="Ej: AA, BB, CC (2 letras)" maxlength="2" required>
           <div class="error-message" id="seccion_academicaError"></div>
         </div>
 
-        <!-- Foto del Estudiante - NUEVO CAMPO -->
+        <!-- Foto del Estudiante -->
         <div class="form-group">
-          <label for="foto">Foto del Estudiante</label>
-          <input type="file" id="foto" class="form-control" accept="image/*" required>
+          <label for="foto">Foto del Estudiante (Opcional)</label>
+          <input type="file" id="foto" class="form-control" accept="image/jpeg,image/jpg,image/png">
           <div class="error-message" id="fotoError"></div>
           <small class="form-text text-muted">Formatos aceptados: JPG, PNG, JPEG. Tamaño máximo: 2MB</small>
         </div>
@@ -124,20 +124,5 @@
   </div>
 
   <script type="module" src="js/controllers/registroController.js"></script>
-  <style>
-    /* Estilos inline para el grid responsivo */
-    @media (min-width: 768px) {
-      .form-col-md-6 {
-        flex: 0 0 50%;
-        max-width: 50%;
-      }
-    }
-
-    .form-text {
-      font-size: 0.875rem;
-      margin-top: 0.25rem;
-      color: #6c757d;
-    }
-  </style>
 </body>
 </html>
