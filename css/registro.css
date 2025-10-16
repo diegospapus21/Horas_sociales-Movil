@@ -15,7 +15,7 @@
     --gris-medio: #6c757d;
     --gris-oscuro: #343a40;
     
-    --gradiente-principal: linear-gradient(135deg, #700404 0%, #000000 100%);
+    --gradiente-principal: linear-gradient(135deg, #700404 100%, #000000 0%);
     --gradiente-rojo: linear-gradient(135deg, var(--rojo-principal) 0%, var(--rojo-oscuro) 100%);
 }
 
@@ -29,7 +29,7 @@
 
 body {
     background: var(--gradiente-rojo);
-    min-height: 100vh;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -39,21 +39,24 @@ body {
 .container {
     width: 100%;
     max-width: 500px;
-    min-height: 100vh;
+    height: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     padding: 20px 15px;
+    border-radius: 50px;
 }
 
 .card {
     background: var(--blanco);
-    border-radius: 20px;
+    border-radius: 50px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    margin: 0 auto;
     backdrop-filter: blur(10px);
     animation: fadeInUp 0.8s ease;
     border: none;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 @keyframes fadeInUp {
@@ -69,13 +72,13 @@ body {
 
 /* Logo y encabezado */
 .logo {
+    width: 100%;
     text-align: center;
     padding: 25px 20px 15px;
     border-bottom: 1px solid var(--gris-claro);
-    background: var(--gradiente-rojo);
+    background: var(--gradiente-principal);
     color: var(--blanco);
-    border-radius: 20px 20px 0 0;
-    margin: -1px -1px 0 -1px;
+    border-radius: 10px 10px 0 0;
 }
 
 .logo h1 {
@@ -92,11 +95,8 @@ body {
 
 /* Formulario responsivo - CORREGIDO */
 #registerForm {
+    height: 100%;
     padding: 25px 20px;
-    /* ELIMINADO: max-height y overflow-y */
-    display: flex;
-    flex-direction: column;
-    flex: 1;
 }
 
 /* Grupos de formulario */
@@ -324,7 +324,6 @@ body {
     .card {
         padding: 0;
         border-radius: 15px;
-        max-height: 90vh;
     }
     
     #registerForm {
@@ -479,17 +478,6 @@ select.form-control {
     align-items: center;
     justify-content: center;
     padding: 20px;
-}
-
-/* Estilos adicionales para el card */
-.card {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.1);
-    padding: 2rem;
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
 }
 
 /* Estilos para labels */
@@ -674,10 +662,6 @@ select:focus {
 
 /* Estilos para mejorar el contraste en modo claro/oscuro */
 @media (prefers-color-scheme: dark) {
-    .card {
-        background: var(--gris-oscuro);
-        color: var(--blanco);
-    }
     
     .form-group label {
         color: var(--blanco);

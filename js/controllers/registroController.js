@@ -1,7 +1,13 @@
 import { RegistrarEstudiante } from '../Service/AuthService.js';
 import{
+    cargarEspecialidades
+}from "../Service/EspecialidadService.js"
+import{
     uploadImageToFolder
 }from "../Service/CloudinaryService.js"
+import{
+    AlertEsquina
+}from "../Service/Alerts.js"
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Controlador de registro cargado');
@@ -54,6 +60,31 @@ document.addEventListener('DOMContentLoaded', function() {
         return tipoValido && tamanoValido;
     }
 
+    async function Llenar_Box(){
+    const proyectos = await cargar_Especialidades();
+    
+    const especialidad = document.getElementById('especialidad');
+
+    especialidad.innerHTML = '';
+    const opt = document.createElement("option");
+    opt.value = "";
+    opt.disabled = true;
+    opt.selected = true;
+    opt.hidden = true;
+    opt.textContent = "Seleccione...";
+    especialidad.appendChild(opt);
+
+    proyectos.forEach(proyecto => {
+
+        const opt = document.createElement("option");
+        opt.value = proyecto.id;
+        opt.textContent = `${proyecto.nombre}`;
+        opt.title = `${proyecto.concepto}`
+        especialidad.appendChild(opt);
+    });
+
+}
+
     // Función de validación en tiempo real
     function validarFormulario() {
         const codigo = document.getElementById('codigo').value.trim();
@@ -96,6 +127,20 @@ document.addEventListener('DOMContentLoaded', function() {
         
         return formularioValido;
     }
+
+    async function cargar_Especialidades() {
+    try{
+        const data = await cargarEspecialidades();
+        return data;
+    }catch(err){
+        console.error("Hubo problemas cargando", err);
+        AlertEsquina.fire({
+            icon: "error",
+            title: "¡ERROR AL CARGAR DATOS!",
+            html: "Hubo problemas intentando cargar la caja de proyectos.",
+        });
+    }
+}
 
     // Manejo del formulario de registro
     registerForm.addEventListener('submit', async function(e) {
@@ -467,6 +512,8 @@ document.addEventListener('DOMContentLoaded', function() {
             campo.addEventListener('change', validarFormulario);
         }
     });
+
+    Llenar_Box();
 
     // Validación inicial
     validarFormulario();
