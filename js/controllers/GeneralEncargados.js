@@ -96,7 +96,7 @@ window.appState = {
                     title: "¡SESION CERRADA!",
                     html: "Sesion cerrada. Regresando al LogIn.",
                     willClose: () => {
-                        location.replace("Login.html");
+                        location.replace("index.html");
                     }
                 });
             }
@@ -107,7 +107,7 @@ window.appState = {
                 title: "¡ERROR CON LA CONEXION!",
                 html: "Hubieron problemas al intentar comprobar la sesion iniciada. Regresando al LogIn",
                 willClose: () => {
-                    location.replace("Login.html");
+                    location.replace("index.html");
                 }
             });
         }
@@ -115,7 +115,7 @@ window.appState = {
     btnLogOut.addEventListener('click', async () => {
         const res = await LogOut();
         if(res.ok){
-            location.replace("Login.html");
+            location.replace("index.html");
         }else{
             AlertEsquina.fire({
                 icon: "error",

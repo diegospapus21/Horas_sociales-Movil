@@ -15,7 +15,7 @@
     --gris-medio: #6c757d;
     --gris-oscuro: #343a40;
     
-    --gradiente-principal: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradiente-principal: linear-gradient(135deg, #700404 0%, #000000 100%);
     --gradiente-rojo: linear-gradient(135deg, var(--rojo-principal) 0%, var(--rojo-oscuro) 100%);
 }
 
@@ -28,7 +28,7 @@
 }
 
 body {
-    background: var(--gradiente-principal);
+    background: var(--gradiente-rojo);
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -54,11 +54,6 @@ body {
     backdrop-filter: blur(10px);
     animation: fadeInUp 0.8s ease;
     border: none;
-    /* CORRECCIÓN: Scroll en toda la card, no en el form */
-    max-height: 95vh;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
 }
 
 @keyframes fadeInUp {
@@ -77,14 +72,10 @@ body {
     text-align: center;
     padding: 25px 20px 15px;
     border-bottom: 1px solid var(--gris-claro);
-    background: var(--gradiente-principal);
+    background: var(--gradiente-rojo);
     color: var(--blanco);
     border-radius: 20px 20px 0 0;
     margin: -1px -1px 0 -1px;
-    /* Fijo en la parte superior */
-    position: sticky;
-    top: 0;
-    z-index: 10;
 }
 
 .logo h1 {
@@ -479,15 +470,6 @@ select.form-control {
     background-repeat: no-repeat;
     background-size: 1.5em 1.5em;
     padding-right: 2.5rem;
-}
-
-/* Estilos base adicionales para el body */
-body {
-    background-color: #f8f9fa;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
 }
 
 /* Estilos específicos para el container */

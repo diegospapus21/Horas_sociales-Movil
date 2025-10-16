@@ -85,7 +85,7 @@ window.appState = {
                     html: "La sesion iniciada no pertenece a un Estudiante. Regresando al Login",
                     willClose: async() => {
                         await LogOut;
-                        location.replace("Login.html");
+                        location.replace("index.html");
                     }
                 });
             }else{
@@ -96,7 +96,7 @@ window.appState = {
                     title: "¡SESION CERRADA!",
                     html: "Sesion cerrada. Regresando al LogIn.",
                     willClose: () => {
-                        location.replace("Login.html");
+                        location.replace("index.html");
                     }
                 });
             }
@@ -107,7 +107,7 @@ window.appState = {
                 title: "¡ERROR CON LA CONEXION!",
                 html: "Hubieron problemas al intentar comprobar la sesion iniciada. Regresando al LogIn",
                 willClose: () => {
-                    location.replace("Login.html");
+                    location.replace("index.html");
                 }
             });
         }

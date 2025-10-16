@@ -1,4 +1,7 @@
 import { RegistrarEstudiante } from '../Service/AuthService.js';
+import{
+    uploadImageToFolder
+}from "../Service/CloudinaryService.js"
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Controlador de registro cargado');
@@ -49,20 +52,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const tamanoValido = file.size <= tamanoMaximo;
         
         return tipoValido && tamanoValido;
-    }
-
-    // Convertir archivo a Base64 (solo la parte de datos)
-    function archivoABase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => {
-                // Extraer solo la parte de datos Base64 (sin el prefijo data:image/...)
-                const base64 = reader.result.split(',')[1];
-                resolve(base64);
-            };
-            reader.onerror = error => reject(error);
-        });
     }
 
     // Función de validación en tiempo real
@@ -149,35 +138,51 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Preparar foto (opcional)
-            let fotoBase64 = null;
-            if (fotoFile && validarFoto(fotoFile)) {
-                console.log(' Convirtiendo foto a Base64...');
-                try {
-                    fotoBase64 = await archivoABase64(fotoFile);
-                    console.log(' Foto convertida correctamente');
-                } catch (fotoError) {
-                    console.warn(' Error convirtiendo foto, continuando sin foto:', fotoError);
-                    fotoBase64 = null;
-                }
+            let UpdatedFoto;
+    const file = fotoFile?.files?.[0];
+    if(file){
+        try{
+            const response = await uploadImageToFolder(file, "Foto_Perfil_Estudiante");
+            if(response && response.data) {
+                UpdatedFoto = response.data;
+            } else {
+                AlertEsquina.fire({
+                    icon: "error",
+                    title: "¡ERROR AL SUBIR LA FOTO!",
+                    html: "Hubo problemas intentando subir la foto de perfil a la nube.",
+                    willClose: () => {
+                        NewButton.disabled = false;
+                    }
+                });
+                return;
             }
+        }catch(err){
+            console.error("Error al subir imagen", err);
+            AlertEsquina.fire({
+                icon: "error",
+                title: "¡ERROR AL SUBIR LA FOTO!",
+                html: "Hubo problemas intentando subir la foto de perfil a la nube.",
+                willClose: () => {
+                    NewButton.disabled = false;
+                }
+            });
+            return;
+        }
+    }
 
             // PREPARAR DATOS CORREGIDOS
             const formData = {
                 codigo: Number(codigo),
                 nombre: nombre,
                 apellido: apellido,
-                anio_academico: Number(añoAcademico),  // CONVERTIR A NÚMERO
-                especialidad: Number(especialidad),    // CONVERTIR A NÚMERO
+                anio_academico:añoAcademico, 
+                especialidad: especialidad,    // CONVERTIR A NÚMERO
                 seccion_academica: seccionAcademica,
                 correo_electronico: correoElectronico,
                 contrasenia: contrasenia,
-                estado: true
+                estado: true,
+                foto:UpdatedFoto
             };
-
-            // Agregar foto solo si existe
-            if (fotoBase64) {
-                formData.foto = fotoBase64;
-            }
 
             console.log(' ENVIANDO DATOS CORREGIDOS AL SERVIDOR:', {
                 ...formData,
