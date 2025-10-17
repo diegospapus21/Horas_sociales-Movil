@@ -16,100 +16,78 @@
       </div>
 
       <form id="registerForm">
+
         <!-- Código de Estudiante -->
-        <div class="form-group">
+        <div class="mb-3 divs_inputs">
           <label for="codigo">Código de Estudiante</label>
           <input type="text" id="codigo" class="form-control" placeholder="Ej: 20240001" required>
-          <div class="error-message" id="codigoError"></div>
         </div>
 
         <!-- Nombre y Apellido en fila en desktop -->
-        <div class="form-row">
-          <div class="form-col form-col-md-6">
-            <div class="form-group">
-              <label for="nombre">Nombre</label>
-              <input type="text" id="nombre" class="form-control" placeholder="Tu nombre (mín. 4 letras)" required>
-              <div class="error-message" id="nombreError"></div>
-            </div>
-          </div>
-          <div class="form-col form-col-md-6">
-            <div class="form-group">
-              <label for="apellido">Apellido</label>
+        <div class="mb-3 divs_inputs">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" class="form-control" placeholder="Tu nombre (mín. 4 letras)" required>
+        </div>
+
+        <div class="mb-3 divs_inputs">
+          <label for="apellido">Apellido</label>
               <input type="text" id="apellido" class="form-control" placeholder="Tu apellido (mín. 4 letras)" required>
-              <div class="error-message" id="apellidoError"></div>
-            </div>
-          </div>
+        </div>
+
+        <div class="mb-3 divs_inputs">
+          <label for="anio_academico">Año Académico</label>
+          <select id="anio_academico" class="form-control" required>
+            <option value="">Selecciona año</option>
+            <option value="Primer Año">Primer Año</option>
+            <option value="Segundo Año">Segundo Año</option>
+          </select>
         </div>
 
         <!-- Año Académico y Especialidad en fila en desktop -->
-        <div class="form-row">
-          <div class="form-col form-col-md-6">
-            <div class="form-group">
-              <label for="anio_academico">Año Académico</label>
-              <select id="anio_academico" class="form-control" required>
-                <option value="">Selecciona año</option>
-                <option value="1">Primer Año</option>
-                <option value="2">Segundo Año</option>
-              </select>
-              <div class="error-message" id="anio_academicoError"></div>
-            </div>
-          </div>
-          <div class="form-col form-col-md-6">
-            <div class="form-group">
-              <label for="especialidad">Especialidad</label>
-              <select id="especialidad" class="form-control" required>
-              </select>
-              <div class="error-message" id="especialidadError"></div>
-            </div>
-          </div>
+        <div class="mb-3 divs_inputs">
+          <label for="especialidad">Especialidad</label>
+          <select id="especialidad" class="form-control" required>
+          </select>
         </div>
 
         <!-- Sección Académica -->
-        <div class="form-group">
+        <div class="mb-3 divs_inputs">
           <label for="seccion_academica">Sección Académica</label>
           <input type="text" id="seccion_academica" class="form-control" placeholder="Ej: AA, BB, CC (2 letras)" maxlength="2" required>
-          <div class="error-message" id="seccion_academicaError"></div>
         </div>
 
         <!-- Foto del Estudiante -->
-        <div class="form-group">
-          <label for="foto">Foto del Estudiante (Opcional)</label>
-          <input type="file" id="foto" class="form-control" accept="image/jpeg,image/jpg,image/png">
-          <div class="error-message" id="fotoError"></div>
-          <small class="form-text text-muted">Formatos aceptados: JPG, PNG, JPEG. Tamaño máximo: 2MB</small>
-        </div>
+         <div class="mb-3 divs_inputs">
+            <label for="Foto" class="form-label">Imagen de perfil<span style="color:red">*</span></label>
+            <input type="file" class="form-control" id="Foto" accept="image/*"/>
+            <div class="mt-2">
+              <img id="ImagePreview" class="img-preview" src="" />
+            </div>
+          </div>
 
         <!-- Correo Electrónico -->
-        <div class="form-group">
+        <div class="mb-3 divs_inputs">
           <label for="correo_electronico">Correo Electrónico Institucional</label>
-          <input type="email" id="correo_electronico" class="form-control" 
-                 placeholder="usuario@ricaldone.edu.sv" required>
-          <div class="error-message" id="correo_electronicoError"></div>
+          <input type="email" id="correo_electronico" class="form-control" placeholder="usuario@ricaldone.edu.sv" required>
         </div>
 
         <!-- Contraseñas en fila en desktop -->
-        <div class="form-row">
-          <div class="form-col form-col-md-6">
-            <div class="form-group">
-              <label for="contrasenia">Contraseña</label>
-              <input type="password" id="contrasenia" class="form-control" placeholder="Mínimo 4 caracteres" required>
-              <div class="error-message" id="contraseniaError"></div>
-            </div>
-          </div>
-          <div class="form-col form-col-md-6">
-            <div class="form-group">
-              <label for="confirmContrasenia">Confirmar Contraseña</label>
-              <input type="password" id="confirmContrasenia" class="form-control" placeholder="Confirma tu contraseña" required>
-              <div class="error-message" id="confirmContraseniaError"></div>
-            </div>
-          </div>
+        <div class="mb-3 divs_inputs">
+          <label for="contrasenia">Contraseña</label>
+          <input type="password" id="contrasenia" class="form-control" placeholder="Mínimo 4 caracteres" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Registrarse como Estudiante</button>
+        <div class="mb-3 divs_inputss">
+          <label for="confirmContrasenia">Confirmar Contraseña</label>
+          <input type="password" id="confirmContrasenia" class="form-control" placeholder="Confirma tu contraseña" required>
+        </div>
+
+        <button type="submit" id="btnSubmit" class="btn btn-primary">Registrarse como Estudiante</button>
+
       </form>
       
       <div class="form-footer">
-        <p>¿Ya tienes cuenta? <a href="Login.html">Inicia sesión aquí</a></p>
+        <p>¿Ya tienes cuenta? <a href="index.html">Inicia sesión aquí</a></p>
       </div>
     </div>
   </div>

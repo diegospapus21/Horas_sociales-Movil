@@ -16,7 +16,7 @@
     --gris-oscuro: #343a40;
     
     --gradiente-principal: linear-gradient(135deg, #700404 100%, #000000 0%);
-    --gradiente-rojo: linear-gradient(135deg, var(--rojo-principal) 0%, var(--rojo-oscuro) 100%);
+    --gradiente-rojo: linear-gradient(135deg, var(--rojo-principal) 100%, var(--rojo-oscuro) 100%);
 }
 
 /* Reset y estilos base */
@@ -36,27 +36,27 @@ body {
     padding: 1rem;
 }
 
+/* Contenedor principal */
 .container {
+    min-height: 100vh;
     width: 100%;
-    max-width: 500px;
-    height: 100%;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    padding: 20px 15px;
-    border-radius: 50px;
+    padding: 1rem;
 }
 
+/* Card principal */
 .card {
     background: var(--blanco);
     border-radius: 50px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(10px);
     animation: fadeInUp 0.8s ease;
-    border: none;
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
 }
 
 @keyframes fadeInUp {
@@ -78,7 +78,7 @@ body {
     border-bottom: 1px solid var(--gris-claro);
     background: var(--gradiente-principal);
     color: var(--blanco);
-    border-radius: 10px 10px 0 0;
+    border-radius: 20px 20px 0 0;
 }
 
 .logo h1 {
@@ -93,10 +93,12 @@ body {
     margin-bottom: 0;
 }
 
-/* Formulario responsivo - CORREGIDO */
+/* Formulario */
 #registerForm {
-    height: 100%;
+    flex: 1;
     padding: 25px 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Grupos de formulario */
@@ -126,7 +128,6 @@ body {
     border-color: var(--azul-principal);
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
     outline: none;
-    transform: scale(1.02);
 }
 
 .form-control.error {
@@ -146,7 +147,7 @@ body {
     padding: 0 0.5rem;
 }
 
-/* Botón principal - CORREGIDO */
+/* Botón principal */
 .btn {
     width: 100%;
     padding: 1rem 1.5rem;
@@ -156,7 +157,6 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    /* CORRECCIÓN: Margen automático para empujar hacia abajo */
     margin-top: auto;
     margin-bottom: 1rem;
 }
@@ -182,6 +182,38 @@ body {
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
+}
+
+/* Vista previa de imagen */
+.img-preview {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--gris-claro);
+    display: block;
+}
+
+/* Estilos específicos para el div de la imagen */
+.divs_inputs {
+    margin-bottom: 1.5rem;
+}
+
+.divs_inputs .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--gris-oscuro);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.divs_inputs .form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--gris-claro);
+    border-radius: 12px;
+    font-size: 1rem;
+    background: var(--blanco);
 }
 
 /* Mensajes de error */
@@ -219,62 +251,33 @@ body {
 }
 
 /* Enlaces */
-.text-center a {
+.text-center a,
+.form-footer a {
     color: var(--azul-principal);
     text-decoration: none;
     font-weight: 500;
 }
 
-.text-center a:hover {
+.text-center a:hover,
+.form-footer a:hover {
     color: var(--azul-oscuro);
     text-decoration: underline;
 }
 
-/* Footer del formulario - CORREGIDO */
+/* Footer del formulario */
 .form-footer {
     text-align: center;
     padding: 1.5rem 20px;
     border-top: 1px solid var(--gris-claro);
     color: var(--gris-medio);
     font-size: 0.9rem;
-    /* Fijo en la parte inferior */
-    position: sticky;
-    bottom: 0;
     background: var(--blanco);
     margin-top: auto;
+    border-radius: 0 0 50px 50px;
 }
 
 .form-footer p {
     margin-bottom: 0;
-}
-
-.form-footer a {
-    color: var(--azul-principal);
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.form-footer a:hover {
-    text-decoration: underline;
-}
-
-/* Scroll personalizado para TODA LA CARD - CORREGIDO */
-.card::-webkit-scrollbar {
-    width: 6px;
-}
-
-.card::-webkit-scrollbar-track {
-    background: var(--gris-claro);
-    border-radius: 3px;
-}
-
-.card::-webkit-scrollbar-thumb {
-    background: var(--rojo-principal);
-    border-radius: 3px;
-}
-
-.card::-webkit-scrollbar-thumb:hover {
-    background: var(--rojo-oscuro);
 }
 
 /* Responsive para tablets */
@@ -305,10 +308,6 @@ body {
         flex: 1 0 50%;
     }
     
-    .form-col-full {
-        flex: 1 0 100%;
-    }
-
     .form-col-md-6 {
         flex: 0 0 50%;
         max-width: 50%;
@@ -318,20 +317,32 @@ body {
 /* Responsive para móviles */
 @media (max-width: 767px) {
     body {
-        padding: 0.5rem;
+        padding: 0;
+        background: var(--gradiente-rojo);
+    }
+    
+    .container {
+        padding: 0;
+        align-items: stretch;
     }
     
     .card {
-        padding: 0;
-        border-radius: 15px;
+        border-radius: 20px;
+        margin: 1rem;
+        min-height: calc(100vh - 2rem);
     }
     
     #registerForm {
-        padding: 2rem 1.5rem;
+        padding: 20px 15px;
+    }
+    
+    .logo {
+        border-radius: 20px 20px 0 0;
+        padding: 20px 15px 10px;
     }
     
     .logo h1 {
-        font-size: 1.8rem;
+        font-size: 1.4rem;
     }
     
     .form-control {
@@ -342,27 +353,35 @@ body {
         padding: 0.9rem 1.5rem;
         font-size: 1rem;
     }
+    
+    .form-footer {
+        border-radius: 0 0 20px 20px;
+        padding: 1.25rem 15px;
+    }
 }
 
 @media (max-width: 480px) {
-    .container {
-        padding: 10px;
+    .card {
+        margin: 0.5rem;
+        min-height: calc(100vh - 1rem);
+        border-radius: 15px;
     }
     
     #registerForm {
-        padding: 1.5rem 1rem;
+        padding: 15px 10px;
     }
     
     .logo {
-        padding: 20px 15px 10px;
+        padding: 15px 10px 8px;
+        border-radius: 15px 15px 0 0;
     }
     
     .logo h1 {
-        font-size: 1.6rem;
+        font-size: 1.3rem;
     }
     
     .logo p {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
     
     .form-group {
@@ -379,22 +398,33 @@ body {
     }
     
     .form-footer {
-        padding: 1.5rem 1rem;
+        padding: 1rem 10px;
+        border-radius: 0 0 15px 15px;
     }
 }
 
 @media (max-width: 360px) {
     .card {
         border-radius: 12px;
-        max-height: 85vh;
+        margin: 0.25rem;
+        min-height: calc(100vh - 0.5rem);
     }
     
     #registerForm {
-        padding: 1.25rem 0.75rem;
+        padding: 12px 8px;
+    }
+    
+    .logo {
+        padding: 12px 8px 6px;
+        border-radius: 12px 12px 0 0;
     }
     
     .logo h1 {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
+    }
+    
+    .logo p {
+        font-size: 0.8rem;
     }
     
     .form-control {
@@ -408,7 +438,8 @@ body {
     }
     
     .form-footer {
-        padding: 1.25rem 0.75rem;
+        padding: 0.8rem 8px;
+        border-radius: 0 0 12px 12px;
     }
 }
 
@@ -435,10 +466,12 @@ body {
     opacity: 0.7;
 }
 
-/* Loading states mejorados */
+/* Loading states */
 .btn-loading {
     position: relative;
     color: transparent;
+    opacity: 0.7;
+    pointer-events: none;
 }
 
 .btn-loading::after {
@@ -471,90 +504,14 @@ select.form-control {
     padding-right: 2.5rem;
 }
 
-/* Estilos específicos para el container */
-.container {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-/* Estilos para labels */
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: #2c3e50;
-}
-
-/* Estilos para inputs y selects */
-.form-control {
-    width: 100%;
+/* Estilos para file inputs */
+input[type="file"].form-control {
     padding: 0.75rem;
-    border: 2px solid #e9ecef;
-    border-radius: 5px;
-    font-size: 1rem;
-    transition: border-color 0.3s;
-    box-sizing: border-box;
-}
-
-.form-control:focus {
-    border-color: #3498db;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-}
-
-/* Estilos para el botón primario */
-.btn-primary {
-    width: 100%;
-    padding: 0.75rem;
-    background-color: #3498db;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 1.1rem;
-    font-weight: 600;
+    background-color: var(--blanco);
     cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 1rem;
 }
 
-.btn-primary:hover:not(:disabled) {
-    background-color: #2980b9;
-}
-
-.btn-primary:disabled {
-    background-color: #bdc3c7;
-    cursor: not-allowed;
-}
-
-/* Estilos para el footer del formulario */
-.form-footer {
-    text-align: center;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid #ecf0f1;
-}
-
-.form-footer p {
-    margin: 0;
-    color: #7f8c8d;
-}
-
-.form-footer a {
-    color: #3498db;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.form-footer a:hover {
-    text-decoration: underline;
-}
-
-/* NUEVOS ESTILOS AGREGADOS PARA CORREGIR PROBLEMAS */
-
-/* Estilos para el texto de ayuda en formularios */
+/* Texto de ayuda en formularios */
 .form-text {
     font-size: 0.875rem;
     margin-top: 0.25rem;
@@ -562,122 +519,26 @@ select.form-control {
     display: block;
 }
 
-/* Estilos para file inputs */
-input[type="file"].form-control {
-    padding: 0.75rem;
-    background-color: var(--blanco);
-}
-
-/* Estilos específicos para el estado de error en campos */
+/* Estilos para el estado de error */
 .form-control.error + .error-message {
     display: block;
 }
 
-/* Estilos para el grid responsivo mejorado */
-.form-row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-right: -5px;
-    margin-left: -5px;
-}
-
-.form-col {
-    padding-right: 5px;
-    padding-left: 5px;
-    flex: 1 0 0%;
-}
-
-/* Estilos para el botón en estado loading */
-.btn-loading {
-    opacity: 0.7;
-    pointer-events: none;
-    position: relative;
-}
-
-/* Estilos para las alertas dentro del formulario */
-#registerForm .alert {
-    margin: 1rem 0;
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
-}
-
-/* Estilos para el scroll en móviles */
-@media (max-width: 767px) {
-    .card {
-        -webkit-overflow-scrolling: touch;
-    }
-}
-
-/* Estilos para mejorar la legibilidad en inputs */
-.form-control::placeholder {
-    color: #6c757d;
-    opacity: 0.7;
-}
-
-/* Estilos para los grupos de formulario en layout responsivo */
-.form-group:last-child {
-    margin-bottom: 0;
-}
-
-/* Estilos para el contenedor principal en diferentes tamaños */
-@media (max-height: 700px) {
-    .card {
-        max-height: 85vh;
-    }
-}
-
-@media (max-height: 600px) {
-    .card {
-        max-height: 80vh;
-    }
-}
-
-/* Estilos para asegurar la visibilidad de elementos sticky */
-.logo,
-.form-footer {
-    backdrop-filter: blur(10px);
-}
-
-/* Estilos para el texto pequeño en formularios */
-small {
-    font-size: 0.875em;
-}
-
-/* Estilos para los mensajes de error específicos */
-.error-message {
-    display: none;
-    color: var(--rojo-principal);
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-    font-weight: 500;
-}
-
-/* Estilos para el focus en elementos interactivos */
-.btn:focus,
-.form-control:focus,
-select:focus {
-    outline: 2px solid var(--azul-principal);
-    outline-offset: 2px;
-}
-
-/* Estilos para mejorar el contraste en modo claro/oscuro */
+/* Mejorar contraste en modo oscuro */
 @media (prefers-color-scheme: dark) {
-    
     .form-group label {
-        color: var(--blanco);
-    }
-    
-    .form-control {
-        background: var(--gris-medio);
-        border-color: var(--gris-claro);
-        color: var(--blanco);
+        color: var(--gris-oscuro);
     }
 }
 
 /* Estilos de respaldo para navegadores antiguos */
 @supports not (backdrop-filter: blur(10px)) {
-    .logo,
-    .form-footer {
-        background: rgba(255, 255, 255, 0.95);
+    .logo {
+        background: #700404;
     }
+}
+
+/* Asegurar que el último elemento del formulario tenga espacio adecuado */
+#registerForm .form-group:last-of-type {
+    margin-bottom: 0;
 }
