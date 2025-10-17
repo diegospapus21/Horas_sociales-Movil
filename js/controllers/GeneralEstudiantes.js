@@ -115,7 +115,7 @@ window.appState = {
     btnLogOut.addEventListener('click', async () => {
         const res = await LogOut();
         if(res.ok){
-            location.replace("Login.html");
+            location.replace("index.html");
         }else{
             AlertEsquina.fire({
                 icon: "error",

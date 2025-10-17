@@ -146,6 +146,8 @@ async function CargarIcono() {
 function validarCampos(){
     if(codigoInput.value == '' || nombreInput.value == '' || apellidoInput.value == '' || seccion_academicaInput.value == '' || correo_electronicoInput.value == '' || contraseniaInput.value == '' || confirmContrasenia.value == '' || FotoInput.value == '' || ImagePreview.src == ''){
         return "No puedes dejar campos vacios";
+    }else if(correo_electronicoInput.value.trim() !== `${codigoInput.value.trim()}@ricaldone.edu.sv`){
+        return "El correo al que se ancle la cuenta debe ser tu correo institucional.";
     }else if(contraseniaInput.value !== confirmContrasenia.value){
         return "La contraseña y la confirmación no coinciden";
     }else if(anio_academicoSelect.value !== "Primer Año" && anio_academicoSelect.value !== "Segundo Año"){

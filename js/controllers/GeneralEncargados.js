@@ -85,7 +85,7 @@ window.appState = {
                     html: "La sesion iniciada no pertenece a un Encargado. Regresando al Login",
                     willClose: async() => {
                         await LogOut;
-                        location.replace("Login.html");
+                        location.replace("index.html");
                     }
                 });
             }else{
