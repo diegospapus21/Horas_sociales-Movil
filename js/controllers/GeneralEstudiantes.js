@@ -23,6 +23,8 @@ window.appState = {
 
     const img_Logo = document.getElementById("img_Logo");
     const btnLogOut = document.getElementById("logout-btn");
+    const UserName = document.getElementById('user-name');
+    const UserRole = document.getElementById('user-role');
 
     //Metodos del Service
     async function ObtenerLogo(){
@@ -56,8 +58,8 @@ window.appState = {
     async function CargarProfile(id) {
         try{
             const data = await buscarEstudiante(id);
-            document.getElementById('user-name').textContent = `${data.nombre} ${data.apellido}`;
-            document.getElementById('user-role').textContent = "Estudiante";
+            UserName.textContent = `${data.nombre} ${data.apellido}`;
+            UserRole.textContent = data.rol;
         } catch(err){
             console.error('Error al cargar datos' , err);
             AlertEsquina.fire({
@@ -75,7 +77,9 @@ window.appState = {
             const auth = await res.json();
 
             if(auth.authenticated && auth.user.rol == 'Estudiante'){
-                CargarProfile(auth.user.id);
+                if(UserName && UserRole){
+                    CargarProfile(auth.user.id);
+                }
             }else if(auth.authenticated && auth.user.rol != 'Estudiante'){
                 window.appState.isBlocked = true;
                 window.appState.allowedOperations = false;
@@ -112,7 +116,8 @@ window.appState = {
             });
         }
     }
-    btnLogOut.addEventListener('click', async () => {
+    if(btnLogOut){
+        btnLogOut.addEventListener('click', async () => {
         const res = await LogOut();
         if(res.ok){
             location.replace("index.html");
@@ -124,6 +129,7 @@ window.appState = {
             });
         }
     });
+    }
 
     //Metodos para cargar las imagenes
     async function CargarLogo(){

@@ -44,7 +44,6 @@ async function HorasSociales() {
     let estudianteId;
 
     if(auth.authenticated && auth.user){
-        console.log(auth.user);
         estudianteId = auth.user.id;
     }else{
         AlertEsquina.fire({
@@ -61,28 +60,26 @@ async function HorasSociales() {
     const limiteHoras = await ObtenerLimitHoras();
 
     const horas = Horas.horas || 0;
-        let horasFaltantes;
-        let porcentaje;
-        let Horasrequeridas;
+    let horasFaltantes;
+    let porcentaje;
+    let Horasrequeridas;
 
-        porcentaje = (horas / limiteHoras) * 100.00 || 0;
-            Horasrequeridas = limiteHoras;
-            horasFaltantes = limiteHoras - horas;
+    porcentaje = (horas / limiteHoras) * 100.00 || 0;
+    Horasrequeridas = limiteHoras;
+    horasFaltantes = limiteHoras - horas;
 
-        HorasSociales = Horas.horas;
+    document.getElementById('horas-completadas').textContent = horas;
+    document.getElementById('horas-faltantes').textContent = horasFaltantes;
+    document.getElementById('Horasrequeridas').textContent = Horasrequeridas;
+    document.getElementById("percentage-text").textContent = `${porcentaje.toFixed(1)}%`;
 
-        document.getElementById('horas-completadas').textContent = horas;
-        document.getElementById('horas-faltantes').textContent = horasFaltantes;
-        document.getElementById('Horasrequeridas').textContent = Horasrequeridas;
-        document.getElementById("percentage-text").textContent = `${porcentaje.toFixed(1)}%`;
+    const progressBar = document.getElementById('progress-bar');
+    progressBar.style.width = `${porcentaje}%`;
+    progressBar.setAttribute('aria-valuenow', porcentaje);
+    progressBar.textContent = `${porcentaje.toFixed(1)}%`;
 
-        const progressBar = document.getElementById('progress-bar');
-        progressBar.style.width = `${porcentaje}%`;
-        progressBar.setAttribute('aria-valuenow', porcentaje);
-        progressBar.textContent = `${porcentaje.toFixed(1)}%`;
-
-        const progress_pie = document.getElementById("progress-pie");
-        progress_pie.style = `--percentage: ${porcentaje}%`;
+    const progress_pie = document.getElementById("progress-pie");
+    progress_pie.style = `--percentage: ${porcentaje}%`;
 
 }
 
